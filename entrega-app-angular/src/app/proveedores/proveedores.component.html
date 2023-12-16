@@ -1,0 +1,39 @@
+<h1 class="h2">Gestión de proveedores</h1>
+<p-button class="buttonAdd" label="Agregar proveedor" [raised]="true"></p-button>
+<br>
+<div class="card">
+
+    <p-table [value]="productos" styleClass="p-datatable-striped"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Email</th>
+                <th>Rubro</th>
+                <th>Dirección</th>
+                <th>CUIT</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-proveedor>
+            <tr>
+                <td>{{ proveedor.email }}</td>
+                <td>{{ proveedor.rubro }}</td>
+                <td>{{ proveedor.direccion }}</td>
+                <td>{{ proveedor.cuit }}</td>
+                <td>{{ proveedor.nombreCompleto }}</td>
+                <td>{{ proveedor.telefono }}</td>
+                <td class="editarEliminar">
+                    <p-button
+                        class="p-button-rounded button " severity="success"
+                        (click)="editProduct(proveedor)">Editar</p-button>
+                    <p-button
+                        class="p-button-rounded button"
+                        severity="danger"
+                        (click)="deleteProduct(proveedor)">Eliminar</p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

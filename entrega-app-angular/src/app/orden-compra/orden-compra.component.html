@@ -1,0 +1,41 @@
+<h1 class="h2">Gestion de ordenes de compra</h1>
+<p-button class="buttonAdd" label="Agregar orden de compra" [raised]="true"></p-button>
+<br>
+<div class="card">
+
+    <p-table [value]="productos" styleClass="p-datatable-striped"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Orden N°</th>
+                <th>Fecha de entrega</th>
+                <th>Dirección</th>
+                <th>Proveedor</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-orden>
+            <tr>
+                <td>{{ orden.numeroOrden }}</td>
+                <td>{{ orden.fechaEntrega }}</td>
+                <td>{{ orden.direccion }}</td>
+                <td>{{ orden.proveedor }}</td>
+                <td>{{ orden.producto }}</td>
+                <td>{{ orden.cantidad }}</td>
+                <td>${{ orden.total }}</td>
+                <td class="editarEliminar">
+                    <p-button
+                        class="p-button-rounded button " severity="success"
+                        (click)="editProduct(orden)">Editar</p-button>
+                    <p-button
+                        class="p-button-rounded button"
+                        severity="danger"
+                        (click)="deleteProduct(orden)">Eliminar</p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
