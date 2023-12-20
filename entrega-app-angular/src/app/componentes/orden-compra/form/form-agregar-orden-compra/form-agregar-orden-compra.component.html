@@ -1,0 +1,53 @@
+
+<div class="container">
+    <h1 class="h2">Agregar una orden de compra</h1>
+    <button routerLink="/orden-compra"
+        class="buttonAdd btn btn-primary buttonAgregar">Volver</button>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col">
+                <input type="date" class="form-control" id="fechaEntrega"
+                    name="fechaEntrega" [(ngModel)]="fechaEntrega"
+                    placeholder="Fecha de Entrega">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="direccion"
+                    name="direccion"
+                    [(ngModel)]="direccion" placeholder="Direccion">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" id="proveedor"
+                    name="proveedor"
+                    [(ngModel)]="proveedor" placeholder="Proveedor">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="producto"
+                    name="producto"
+                    required
+                    [(ngModel)]="producto" placeholder="Producto">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <input type="number" class="form-control" id="cantidad"
+                    name="cantidad" [(ngModel)]="cantidad"
+                    placeholder="Cantidad">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" id="total"
+                    name="total"
+                    [(ngModel)]="total" placeholder="total">
+            </div>
+        </div>
+        <br>
+
+        <button type="button" class="btn button btn-primary" (click)="enviar()">Submit</button>
+        <!-- Otros campos del formulario -->
+
+    </div>
+</div>

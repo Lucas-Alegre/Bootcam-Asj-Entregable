@@ -1,0 +1,45 @@
+<div class="container">
+    <h1 class="h2">Gestión de productos</h1>
+    <button routerLink="/agregar-producto"
+        class="buttonAdd btn btn-primary buttonAgregar">Agregar
+        productos</button>
+    <br>
+    <div class="card">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Imagen</th>
+                    <th>Proveedor</th>
+                    <th>Categoría</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let product of productos; index as i">
+                <tr>
+                    <td>{{ product.nameProducto }}</td>
+                    <td>
+                        <img
+                            src="{{product.imagen}}"
+                            [alt]="product.nameProducto" width="100"
+                            class="shadow-4" />
+                    </td>
+                    <td>{{ product.proveedor }}</td>
+                    <td>{{ product.categoria }}</td>
+                    <td>{{ product.descripcion }}</td>
+                    <td>${{ product.precio }}</td>
+                    <td class="editarEliminar">
+                        <button
+                            class="btn button btn-warning"
+                            [routerLink]="['/editar-producto', product.id]">Editar</button>
+                        <button
+                            class="btn button btn-danger"
+                            (click)="eliminar(product)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

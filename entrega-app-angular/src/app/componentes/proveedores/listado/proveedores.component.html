@@ -1,0 +1,39 @@
+<div class="container">
+    <h1 class="h2">Gestión de proveedores</h1>
+    <button routerLink="/agregar-proveedor"
+        class="buttonAdd btn btn-primary buttonAgregar">Agregar proveedor</button>
+    <br>
+    <div class="card">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Rubro</th>
+                    <th>Dirección</th>
+                    <th>CUIT</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let proveedor of proveedor; index as i">
+                <tr>
+                    <td>{{ proveedor.email }}</td>
+                    <td>{{ proveedor.rubro }}</td>
+                    <td>{{ proveedor.direccion }}</td>
+                    <td>{{ proveedor.cuit }}</td>
+                    <td>{{ proveedor.nombreCompleto }}</td>
+                    <td>{{ proveedor.telefono }}</td>
+                    <td class="editarEliminar">
+                        <button
+                            class="btn button btn-warning"
+                            [routerLink]="['/editar-proveedor', proveedor.id]">Editar</button>
+                        <button
+                            class="btn button btn-danger"
+                            (click)="eliminar(proveedor)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
