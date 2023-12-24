@@ -8,35 +8,40 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Producto</th>
                     <th>Imagen</th>
-                    <th>Proveedor</th>
+                    <th>Producto</th>
                     <th>Categoría</th>
-                    <th>Descripción</th>
+                    <th>Proveedor</th>
+                    <th>Razon Sociál</th>
                     <th>Precio</th>
                     <th> </th>
                 </tr>
             </thead>
             <tbody *ngFor="let product of productos; index as i">
                 <tr>
-                    <td>{{ product.nameProducto }}</td>
                     <td>
                         <img
                             src="{{product.imagen}}"
                             [alt]="product.nameProducto" width="100"
                             class="shadow-4" />
                     </td>
-                    <td>{{ product.proveedor }}</td>
+                    <td>{{ product.nameProducto }}</td>
                     <td>{{ product.categoria }}</td>
-                    <td>{{ product.descripcion }}</td>
-                    <td>${{ product.precio }}</td>
+                    <td>{{ product.proveedor }}</td>
+                    <td>Razon social</td>
+                    <td>{{ product.precio | currency:'U$S ' }}</td>
                     <td class="editarEliminar">
                         <button
+                            class="btn button btn-primary"
+                            [routerLink]="['/', product.id]">Ver más</button>
+                        <button
                             class="btn button btn-warning"
-                            [routerLink]="['/editar-producto', product.id]">Editar</button>
+                            [routerLink]="['/editar-producto', product.id]"><i
+                                class="bi bi-pencil-fill"></i></button>
                         <button
                             class="btn button btn-danger"
-                            (click)="eliminar(product)">Eliminar</button>
+                            (click)="eliminar(product)"><i
+                                class="bi bi-trash3-fill"></i></button>
                     </td>
                 </tr>
             </tbody>

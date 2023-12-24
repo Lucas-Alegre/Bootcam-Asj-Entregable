@@ -1,47 +1,137 @@
 <div class="container">
-  <h1 class="h2">Agregar un producto</h1>
   <button routerLink="/productos"
     class="buttonAdd btn btn-primary buttonAgregar">Volver</button>
   <br>
-  <div class="card">
+  <h3 class="mt-3">Agregar un producto</h3>
+  <hr>
+  <form [formGroup]="form" (ngSubmit)="guardar()">
     <div class="row">
-      <div class="col">
-        <input type="text" class="form-control" id="nombreProducto"
-          name="nombreProducto" [(ngModel)]="nombreProducto"
-          placeholder="Nombre del producto">
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" id="proveedor" name="proveedor"
-          [(ngModel)]="proveedor" placeholder="Proveedor">
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col">
-        <input type="text" class="form-control" id="categoria" name="categoria"
-          [(ngModel)]="categoria" placeholder="Categoría">
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" id="imagen" name="imagen"
-          required
-          [(ngModel)]="imagen" placeholder="Url Imagen">
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col">
-        <input type="text" class="form-control" id="descripcion"
-          name="descripcion" [(ngModel)]="descripcion" placeholder="Descripción">
-      </div>
-      <div class="col">
-        <input type="number" class="form-control" id="precio" name="precio"
-          [(ngModel)]="precio" placeholder="Precio">
-      </div>
-    </div>
-    <br>
+      <div class="col-6">
+        <div>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Producto</label>
+            <div class="col-8">
+              <input type="text"
+                class="form-control"
+                id="nombreProducto"
+                name="nombreProducto"
+                formControlName="nombreProductoForm"
+                [class.is-invalid]="nombreProductoValido"
+                placeholder="Nombre del producto">
+              <small *ngIf="nombreProductoValido" class="text-danger">Ingrese un
+                nombre de producto valido. </small>
 
-    <button type="button" class="btn button btn-primary" (click)="enviar()">Submit</button>
-    <!-- Otros campos del formulario -->
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Proveedor</label>
+            <div class="col-8">
+              <input type="text"
+                class="form-control"
+                id="proveedor"
+                name="proveedor"
+                formControlName="proveedorForm"
+                [class.is-invalid]="proveedorValido"
+                placeholder="Proveedor">
+              <small *ngIf="proveedorValido" class="text-danger">Ingrese un
+                nombre de proveedor valido. </small>
+              <small *ngIf="proveedorStringValido" class="text-danger">Ingrese
+                un
+                nombre sin números</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Categoría</label>
+            <div class="col-md-8">
+              <select type="text"
+                class="form-control custom-select"
+                id="categoria"
+                name="categoria"
+                formControlName="categoriaForm"
+                [class.is-invalid]="categoriaValido"
+                placeholder="Seleccione una categoría">
+                <option value disabled>Seleccione una categoría</option>
+                <option value={{item}}
+                  *ngFor="let item of listaCategorias">{{item}}</option>
+              </select>
+              <small *ngIf="categoriaValido" class="text-danger">Ingrese una
+                categoría</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Imagen</label>
+            <div class="col-md-8">
+              <input type="text"
+                class="form-control"
+                id="imagen"
+                name="imagen"
+                formControlName="imagenForm"
+                [class.is-invalid]="imagenValida"
+                placeholder="Url Imagen">
+              <small *ngIf="imagenValida" class="text-danger">La imagen
+                es requerida. </small>
+              <small *ngIf="imagenValidaFormato" class="text-danger">La imagen
+                debe tener un formato valido</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Descripción</label>
+            <div class="col-md-8">
+              <input type="text"
+                class="form-control"
+                id="descripcion"
+                name="descripcion"
+                formControlName="descripcionForm"
+                [class.is-invalid]="descriptionValida"
+                placeholder="Descripción">
+              <small *ngIf="descriptionValida" class="text-danger">Ingrese una
+                descripción minima de 10 caracteres</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <label class="col-2 col-form-label">Precio</label>
+            <div class="col-md-8">
+              <input type="number"
+                class="form-control"
+                id="precio" name="precio"
+                formControlName="precioForm"
+                [class.is-invalid]="precioValido"
+                placeholder="Precio">
+              <small *ngIf="precioValido" class="text-danger">Ingrese un precio
+                mayor a $1. </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">&nbsp;</label>
+      <div class="input-group col-md-8">
+        <button type="submit"
+          class="btn btn-outline-primary mr-2">
+          Enviar
+        </button>
+        <button *ngIf="formInvalido" type="button" disabled
+          class="btn btn-outline-danger"
+          (click)="limpiar()">
+          Limpiar
+        </button>
+        <button *ngIf="!formInvalido" type="button"
+          class="btn btn-outline-danger"
+          (click)="limpiar()">
+          Limpiar
+        </button>
+      </div>
+    </div>
 
-  </div>
+  </form>
 </div>

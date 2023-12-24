@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './pages/body/body.component';
@@ -12,7 +12,7 @@ import { ProveedoresComponent } from './componentes/proveedores/listado/proveedo
 import { OrdenCompraComponent } from './componentes/orden-compra/listado/orden-compra.component';
 import { FormAgregarProductoComponent } from './componentes/productos/form/form-agregar/form-agregar-producto.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductosService } from './services/producto/productos.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormEditarComponent } from './componentes/productos/form/form-editar/form-editar.component';
@@ -46,7 +46,10 @@ import { SidenavComponent } from './pages/sidenav/sidenav.component';
     BrowserAnimationsModule,
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [ProductosService,ProveedoresService,OrdenCompraService],
   bootstrap: [AppComponent]

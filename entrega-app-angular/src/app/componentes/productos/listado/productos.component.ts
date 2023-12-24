@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 
@@ -7,13 +7,30 @@ import { ProductosService } from 'src/app/services/producto/productos.service';
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css']
 })
-export class ProductosComponent {
+export class ProductosComponent implements OnInit {
+  productos: any = []
+  listadoProveedores:any=[];
+
   constructor(private servicesProducto: ProductosService,
     private route: Router) { }
-  productos = this.servicesProducto.get();
 
-  
+  ngOnInit(): void {
+    this.getProductos()
+  }
+
+  getProductos() {
+    this.servicesProducto.get().subscribe((data) => {
+      this.productos = data
+    });
+  }
+
+  getProveedores(){
+    
+  }
+
   eliminar(product: any) {
-    this.productos = this.servicesProducto.delete(product)
+    this.servicesProducto.delete(product.id).subscribe(res=>{
+      this.getProductos()
+    })
   }
 }

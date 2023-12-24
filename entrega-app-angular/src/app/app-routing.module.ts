@@ -21,6 +21,8 @@ const routes: Routes = [
   { path: 'editar-proveedor/:id', component:  FormEditarProveedorComponent},
   { path: 'agregar-orden-compra', component:  FormAgregarOrdenCompraComponent},
   { path: 'editar-orden-compra/:id', component:  FormEditarOrdenCompraComponent},
+  { path: 'editar-orden-compra/:valor', component:  FormEditarOrdenCompraComponent},
+  { path: 'editar-orden-compra/:valorprecio', component:  FormEditarOrdenCompraComponent},
 ];
 
 @NgModule({
