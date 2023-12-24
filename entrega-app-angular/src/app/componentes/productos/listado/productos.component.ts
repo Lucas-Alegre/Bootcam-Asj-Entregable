@@ -9,7 +9,7 @@ import { ProductosService } from 'src/app/services/producto/productos.service';
 })
 export class ProductosComponent implements OnInit {
   productos: any = []
-  listadoProveedores:any=[];
+  listadoProveedores: any = [];
 
   constructor(private servicesProducto: ProductosService,
     private route: Router) { }
@@ -18,18 +18,27 @@ export class ProductosComponent implements OnInit {
     this.getProductos()
   }
 
+
   getProductos() {
     this.servicesProducto.get().subscribe((data) => {
       this.productos = data
+      this.productos.sort(this.sortFunc)
     });
+
   }
 
-  getProveedores(){
-    
+  sortFunc(a: any, b: any) {
+    if (a.nameProducto < b.nameProducto) {
+      return -1;
+    }
+    if (a.nameProducto > b.nameProducto) {
+      return 1;
+    }
+    return 0;
   }
 
   eliminar(product: any) {
-    this.servicesProducto.delete(product.id).subscribe(res=>{
+    this.servicesProducto.delete(product.id).subscribe(res => {
       this.getProductos()
     })
   }

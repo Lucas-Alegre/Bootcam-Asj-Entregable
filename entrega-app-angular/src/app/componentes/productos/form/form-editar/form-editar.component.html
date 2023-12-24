@@ -4,7 +4,7 @@
   <br>
   <h3 class="mt-3">Editar el: {{producto.id}}</h3>
   <hr>
-  <form [formGroup]="form" (ngSubmit)="guardar()">
+  <form [formGroup]="form" (ngSubmit)="enviar()">
     <div class="row">
       <div class="col-6">
         <div>
@@ -15,7 +15,6 @@
                 class="form-control"
                 id="nombreProducto"
                 name="nombreProducto"
-                value="{{producto.nameProducto}}"
                 formControlName="nombreProductoForm"
                 [class.is-invalid]="nombreProductoValido">
               <small *ngIf="nombreProductoValido" class="text-danger">Ingrese un
@@ -32,7 +31,6 @@
                 id="proveedor"
                 name="proveedor"
                 formControlName="proveedorForm"
-                value="{{producto.proveedor}}"
                 [class.is-invalid]="proveedorValido">
               <small *ngIf="proveedorValido" class="text-danger">Ingrese un
                 nombre de proveedor valido. </small>
@@ -50,9 +48,7 @@
                 id="categoria"
                 name="categoria"
                 formControlName="categoriaForm"
-                value="{{producto.categoria}}"
-                [class.is-invalid]="categoriaValido"
-                >
+                [class.is-invalid]="categoriaValido">
                 <option value disabled>Seleccione una categoría</option>
                 <option value={{item}}
                   *ngFor="let item of listaCategorias">{{item}}</option>
@@ -72,11 +68,8 @@
                 class="form-control"
                 id="imagen"
                 name="imagen"
-                value="{{producto.imagen}}"
                 formControlName="imagenForm"
-                
-                [class.is-invalid]="imagenValida"
-                >
+                [class.is-invalid]="imagenValida">
               <small *ngIf="imagenValida" class="text-danger">La imagen
                 es requerida. </small>
               <small *ngIf="imagenValidaFormato" class="text-danger">La imagen
@@ -92,8 +85,7 @@
                 id="descripcion"
                 name="descripcion"
                 formControlName="descripcionForm"
-                [class.is-invalid]="descriptionValida"
-                value="{{producto.descripcion}}">
+                [class.is-invalid]="descriptionValida">
               <small *ngIf="descriptionValida" class="text-danger">Ingrese una
                 descripción minima de 10 caracteres</small>
             </div>
@@ -106,8 +98,7 @@
                 class="form-control"
                 id="precio" name="precio"
                 formControlName="precioForm"
-                [class.is-invalid]="precioValido"
-                value="{{producto.precio}}">
+                [class.is-invalid]="precioValido">
               <small *ngIf="precioValido" class="text-danger">Ingrese un precio
                 mayor a $1. </small>
             </div>
@@ -134,6 +125,8 @@
           Limpiar
         </button>
       </div>
+      <p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
+        producto, si no realiza ningún cambio</p>
     </div>
 
   </form>

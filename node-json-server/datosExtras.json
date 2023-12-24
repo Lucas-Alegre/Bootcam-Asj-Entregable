@@ -1,0 +1,188 @@
+{
+    "productos": [
+        {
+            "id": 1,
+            "nameProducto": "Smartphone",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_816025-MLU72748491987_112023-F.webp",
+            "proveedor": "Lucas Alegre",
+            "categoria": "Tecnológico",
+            "descripcion": "Samsung Galaxy S23 Ultra 512gb Sm-s918bzkvaro Color Phantom black",
+            "precio": 1000
+        },
+        {
+            "id": 2,
+            "nameProducto": "Heladera",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
+            "proveedor": "Ayelen Vega",
+            "categoria": "Hogar y mueble",
+            "descripcion": "Heladera Drean HDR280F00 blanca con freezer 264L 220V",
+            "precio": 1500
+        },
+        {
+            "id": 3,
+            "nameProducto": "Cocina",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_879176-MLU72562532671_102023-F.webp",
+            "proveedor": "Ayelen Vega",
+            "categoria": "Hogar y mueble",
+            "descripcion": "Cocina A Gas Longvie 12331g 56cm Grafito Cajón Parrilla Tipo de conexión Multigas",
+            "precio": 2500
+        },
+        {
+            "id": 4,
+            "nameProducto": "Monitor",
+            "imagen": "https://www.infinitonline.com.ar/images/000000000000132860760MONI.jpg",
+            "proveedor": "Lucas Alegre",
+            "categoria": "Tecnológico",
+            "descripcion": "Monitor gamer curvo ViewSonic Vx2718-pc-mhd led 27 negro 100V/220V",
+            "precio": 1250
+        },
+        {
+            "id": 5,
+            "nameProducto": "Short",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_839889-MLA72646235143_112023-F.webp",
+            "proveedor": "Diana Garcia",
+            "categoria": "Moda",
+            "descripcion": "Short H Relax Dayne De Jean Mujer 47 Street",
+            "precio": 225
+        },
+        {
+            "id": 6,
+            "nameProducto": "Remera manga corta",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
+            "proveedor": "Diana Garcia",
+            "categoria": "Moda",
+            "descripcion": "Remera Manga Corta Billabong All Day Hombre",
+            "precio": 200
+        },
+        {
+            "id": 7,
+            "nameProducto": "Auto Fiat",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_697273-MLA73493493170_122023-F.webp",
+            "proveedor": "Emilio Olivieri",
+            "categoria": "Vehiculo",
+            "descripcion": "Fiat Grand Siena 1.4 Attractive 87cv",
+            "precio": 4500
+        },
+        {
+            "id": 8,
+            "nameProducto": "Auto Bmw",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_847930-MLA73087622579_112023-F.webp",
+            "proveedor": "Emilio Olivieri",
+            "categoria": "Vehiculo",
+            "descripcion": "BMW Serie M 3.0 M2",
+            "precio": 90000
+        }
+    ],
+    "proveedor": [
+        {
+            "id": 1,
+            "codigo": "asjk",
+            "razonSocial": "Asj Solutions",
+            "rubro": "Tecnológico",
+            "sitioWev": "https://facebook.com",
+            "condicionIva": "IVA Responsable no Inscripto",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
+            "localidad": "Concordia",
+            "provincia": "Entre Ríos",
+            "pais": "Argentina",
+            "calle": "Diamante",
+            "numerocalle": 4703,
+            "CP": 3200,
+            "cuit": "20-42736541-8",
+            "telefono": 3454200071,
+            "email": "lucasalegre.web@gmail.com",
+            "nombre": "Lucas",
+            "apellido": "Alegre",
+            "rol": "admin"
+        },
+        {
+            "id": 3,
+            "codigo": "asjk",
+            "razonSocial": "Asj Solutions",
+            "rubro": "Tecnológico",
+            "sitioWev": "https://facebook.com",
+            "condicionIva": "IVA Responsable no Inscripto",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
+            "localidad": "Concordia",
+            "provincia": "Entre Ríos",
+            "pais": "Argentina",
+            "calle": "Diamante",
+            "numerocalle": 4703,
+            "CP": 3200,
+            "cuit": "20-42736541-8",
+            "telefono": 3454200071,
+            "email": "lucasalegre.web@gmail.com",
+            "nombre": "Lucas",
+            "apellido": "Alegre",
+            "rol": "admin"
+        },
+        {
+            "id": 3,
+            "codigo": "asjk",
+            "razonSocial": "Asj Solutions",
+            "rubro": "Tecnológico",
+            "sitioWev": "https://facebook.com",
+            "condicionIva": "IVA Responsable no Inscripto",
+            "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
+            "localidad": "Concordia",
+            "provincia": "Entre Ríos",
+            "pais": "Argentina",
+            "calle": "Diamante",
+            "numerocalle": 4703,
+            "CP": 3200,
+            "cuit": "20-42736541-8",
+            "telefono": 3454200071,
+            "email": "lucasalegre.web@gmail.com",
+            "nombre": "Lucas",
+            "apellido": "Alegre",
+            "rol": "admin"
+        }
+    ],
+    "ordenDeCompra": [
+        {
+            "id": 1,
+            "fechaEntrega": "2023-12-25",
+            "direccion": "Diamante 4703",
+            "proveedor": "Lucas Alegre",
+            "producto": "Celular",
+            "cantidad": 82,
+            "total": 6000
+        },
+        {
+            "id": 2,
+            "fechaEntrega": "2024-04-20",
+            "direccion": "Diamante 4703",
+            "proveedor": "Lucas Alegre",
+            "producto": "Celular",
+            "cantidad": 2,
+            "total": 100000
+        },
+        {
+            "id": 3,
+            "fechaEntrega": "2023-12-25",
+            "direccion": "Diamante 4703",
+            "proveedor": "Lucas Alegre",
+            "producto": "Celular",
+            "cantidad": 2,
+            "total": 100000
+        },
+        {
+            "id": 4,
+            "fechaEntrega": "2023-12-25",
+            "direccion": "Diamante 4703",
+            "proveedor": "Lucas Alegre",
+            "producto": "Celular",
+            "cantidad": 2,
+            "total": 100000
+        },
+        {
+            "id": 5,
+            "fechaEntrega": "2023-12-25",
+            "direccion": "Diamante 4703",
+            "proveedor": "Lucas Alegre",
+            "producto": "Celular",
+            "cantidad": 2,
+            "total": 100000
+        }
+    ]
+}

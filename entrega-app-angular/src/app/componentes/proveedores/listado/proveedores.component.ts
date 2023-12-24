@@ -8,15 +8,38 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./proveedores.component.css']
 })
 export class ProveedoresComponent {
-  constructor(
-    private serviceProveedor: ProveedoresService,
+  proveedor: any = []
+
+  constructor(private servicesProveedor: ProveedoresService,
     private route: Router) { }
 
-  proveedor = this.serviceProveedor.get()
+  ngOnInit(): void {
+    this.getProveedor()
+  }
 
+
+  getProveedor() {
+    this.servicesProveedor.get().subscribe((data) => {
+      this.proveedor = data
+      this.proveedor.sort(this.sortFunc)
+    });
+
+  }
+
+  sortFunc(a: any, b: any) {
+    if (a.nombreCompleto < b.nombreCompleto) {
+      return -1;
+    }
+    if (a.nombreCompleto > b.nombreCompleto) {
+      return 1;
+    }
+    return 0;
+  }
 
   eliminar(proveedor: any) {
-    this.proveedor = this.serviceProveedor.delete(proveedor)
+    this.servicesProveedor.delete(proveedor.id).subscribe(res => {
+      this.getProveedor()
+    })
   }
 
 }

@@ -11,16 +11,18 @@ import { ProductosService } from 'src/app/services/producto/productos.service';
 })
 export class FormEditarComponent {
   listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
-  producto: any = {};
-  productoId: any;
+  editarInvalido: boolean = false;
   nombreProducto = "";
+  productoId: any;
+  producto: any = {};
+  descripcion = "";
   proveedor = "";
   categoria = "";
   imagen = "";
-  descripcion = "";
   precio = "";
   idNuevo = 0;
   public form!: FormGroup
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,30 +32,31 @@ export class FormEditarComponent {
 
   ngOnInit(): void {
     this.productoId = this._activateRoute.snapshot.paramMap.get('id');
-    this.serviceProduct.getById(this.productoId).subscribe(data => {
-      this.producto = data;
-      console.log(this.producto)
-    })
-    this.form = this.formBuilder.group({
-      nombreProductoForm: ["", [Validators.required, Validators.minLength(3)]],
-      proveedorForm: ["", [Validators.required, Validators.minLength(1)]],
-      categoriaForm: ["", [Validators.required]],
-      imagenForm: ["", [Validators.required, Validators.minLength(5)]],
-      descripcionForm: ["", [Validators.required, Validators.minLength(10)]],
-      precioForm: ["", [Validators.required, Validators.minLength(1)]]
+    this.getProductos()
+  }
+
+  getProductos() {
+    this.serviceProduct.getById(this.productoId).subscribe(res => {
+      this.producto = res;
+      this.form = this.formBuilder.group({
+        nombreProductoForm: [`${this.producto.nameProducto}`, [Validators.required, Validators.minLength(3)]],
+        proveedorForm: [`${this.producto.proveedor}`, [Validators.required, Validators.minLength(1)]],
+        categoriaForm: [`${this.producto.categoria}`, [Validators.required]],
+        imagenForm: [`${this.producto.imagen}`, [Validators.required, Validators.minLength(5)]],
+        descripcionForm: [`${this.producto.descripcion}`, [Validators.required, Validators.minLength(10)]],
+        precioForm: [`${this.producto.precio}`, [Validators.required, Validators.minLength(1)]]
+      })
     })
   }
 
+//Validaciones personalizadas para los inputs
   get nombreProductoValido() {
     return this.form.get('nombreProductoForm')?.invalid && this.form.get('nombreProductoForm')?.touched;
   }
 
   get proveedorStringValido() {
     let nombreProveedor = this.form.get('proveedorForm')?.value;
-    if (nombreProveedor.replace(/[^0-9]/g, "").length) {
-      return true
-    }
-    return false
+    return nombreProveedor.replace(/[^0-9]/g, "").length
   }
 
   get imagenValida() {
@@ -61,16 +64,13 @@ export class FormEditarComponent {
   }
   get imagenValidaFormato() {
     let nombreProveedor = this.form.get('imagenForm')?.value;
-    if (nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
-      return true
-    }
-    return false
+    return nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")
   }
-
 
   get proveedorValido() {
     return this.form.get('proveedorForm')?.invalid && this.form.get('proveedorForm')?.touched;
   }
+
   get categoriaValido() {
     return this.form.get('categoriaForm')?.invalid && this.form.get('categoriaForm')?.touched;
   }
@@ -81,11 +81,7 @@ export class FormEditarComponent {
 
   get precioValido() {
     let precio = this.form.get('precioForm')?.value;
-
-    if (precio == 0) {
-      return true
-    }
-    if (precio < 0) {
+    if (precio <= 0) {
       return true
     }
     return this.form.get('precioForm')?.invalid && this.form.get('precioForm')?.touched;
@@ -93,34 +89,16 @@ export class FormEditarComponent {
 
   get formInvalido() {
     let formularioToValidar = this.form.invalid;
-    if (formularioToValidar) {
-      return true
-    }
-    return false
+    return formularioToValidar
   }
 
-  guardar() {/*
-    let productoAdd = {
-      id: this.idNuevo + 2,
-      nameProducto: this.nombreProducto,
-      imagen: this.imagen,
-      proveedor: this.proveedor,
-      categoria: this.categoria,
-      descripcion: this.descripcion,
-      precio: this.precio,
-    }
-
-    this.serviceProduct.post(productoAdd).subscribe(res => {
-      //alert("Se agrego un producto" + res)
-    });
-
-    this.route.navigate(['/', 'productos'])*/
-    console.log(this.form.value)
+//Funciones de botones Enviar y Limpiar
+  enviar() {
     if (this.form.invalid) {
       return Object.values(this.form.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
-    } else {
+    } else { //Se compara si hay cambios.
       let productoAdd = {
         id: this.productoId,
         nameProducto: this.form.get('nombreProductoForm')?.value,
@@ -130,16 +108,28 @@ export class FormEditarComponent {
         descripcion: this.form.get('descripcionForm')?.value,
         precio: this.form.get('precioForm')?.value,
       }
-      this.serviceProduct.put(productoAdd, this.productoId).subscribe(res => {
-        console.log("Se agrego un producto" + res)
-      });
-      this.route.navigate(['/', 'productos'])
-    }
+      let productoCompare = {
+        id: this.productoId,
+        nameProducto: this.producto.nameProducto,
+        imagen: this.producto.imagen,
+        proveedor: this.producto.proveedor,
+        categoria: this.producto.categoria,
+        descripcion: this.producto.descripcion,
+        precio: this.producto.precio,
+      }
 
+      if (JSON.stringify(productoAdd) == JSON.stringify(productoCompare)) {
+        this.editarInvalido = true;
+      } else {
+        this.serviceProduct.put(productoAdd, this.productoId).subscribe(res => {
+          console.log("Se editó un producto" + res)
+          this.route.navigate(['/', 'productos'])
+        });
+      }
+    }
   }
 
   limpiar() {
-    this.form.reset()
-    this.ngOnInit()
+    this.form.setValue({ nombreProductoForm: "", proveedorForm: "", categoriaForm: "", imagenForm: "", descripcionForm: "", precioForm: "1" })
   }
 }

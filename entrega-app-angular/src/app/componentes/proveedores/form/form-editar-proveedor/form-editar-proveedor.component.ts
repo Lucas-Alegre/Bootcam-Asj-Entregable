@@ -32,7 +32,7 @@ export class FormEditarProveedorComponent {
       nombreCompleto: this.nombreCompleto,
       telefono: this.telefono,
     }
-    console.log(this.serviceProveedor.put(proveedorAdd));
+   // console.log(this.serviceProveedor.put(proveedorAdd));
     this.route.navigate(['/', 'proveedores'])
   }
 }

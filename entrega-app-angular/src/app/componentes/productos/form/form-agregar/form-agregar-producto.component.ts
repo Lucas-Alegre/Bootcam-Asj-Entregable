@@ -94,22 +94,7 @@ export class FormAgregarProductoComponent implements OnInit {
     return false
   }
 
-  guardar() {/*
-    let productoAdd = {
-      id: this.idNuevo + 2,
-      nameProducto: this.nombreProducto,
-      imagen: this.imagen,
-      proveedor: this.proveedor,
-      categoria: this.categoria,
-      descripcion: this.descripcion,
-      precio: this.precio,
-    }
-
-    this.serviceProduct.post(productoAdd).subscribe(res => {
-      //alert("Se agrego un producto" + res)
-    });
-
-    this.route.navigate(['/', 'productos'])*/
+  guardar() {
     console.log(this.form.value)
     if (this.form.invalid) {
       return Object.values(this.form.controls).forEach(controls => {
@@ -127,8 +112,9 @@ export class FormAgregarProductoComponent implements OnInit {
       }
       this.serviceProduct.post(productoAdd).subscribe(res => {
         console.log("Se agrego un producto" + res)
+        this.route.navigate(['/', 'productos'])
       });
-      this.route.navigate(['/', 'productos'])
+      
     }
 
   }
