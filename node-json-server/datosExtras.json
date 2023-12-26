@@ -2,6 +2,7 @@
     "productos": [
         {
             "id": 1,
+            "codigoSKU": "RMK122",
             "nameProducto": "Smartphone",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_816025-MLU72748491987_112023-F.webp",
             "proveedor": "Lucas Alegre",
@@ -11,6 +12,7 @@
         },
         {
             "id": 2,
+            "codigoSKU": "KMR244",
             "nameProducto": "Heladera",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
             "proveedor": "Ayelen Vega",
@@ -20,6 +22,7 @@
         },
         {
             "id": 3,
+            "codigoSKU": "YMP2913",
             "nameProducto": "Cocina",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_879176-MLU72562532671_102023-F.webp",
             "proveedor": "Ayelen Vega",
@@ -29,6 +32,7 @@
         },
         {
             "id": 4,
+            "codigoSKU": "IQM737",
             "nameProducto": "Monitor",
             "imagen": "https://www.infinitonline.com.ar/images/000000000000132860760MONI.jpg",
             "proveedor": "Lucas Alegre",
@@ -38,6 +42,7 @@
         },
         {
             "id": 5,
+            "codigoSKU": "PZE710",
             "nameProducto": "Short",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_839889-MLA72646235143_112023-F.webp",
             "proveedor": "Diana Garcia",
@@ -47,6 +52,7 @@
         },
         {
             "id": 6,
+            "codigoSKU": "BEM261",
             "nameProducto": "Remera manga corta",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
             "proveedor": "Diana Garcia",
@@ -56,6 +62,7 @@
         },
         {
             "id": 7,
+            "codigoSKU": "KAL835",
             "nameProducto": "Auto Fiat",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_697273-MLA73493493170_122023-F.webp",
             "proveedor": "Emilio Olivieri",
@@ -65,6 +72,7 @@
         },
         {
             "id": 8,
+            "codigoSKU": "MNB344",
             "nameProducto": "Auto Bmw",
             "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_847930-MLA73087622579_112023-F.webp",
             "proveedor": "Emilio Olivieri",

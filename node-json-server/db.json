@@ -2,30 +2,43 @@
   "productos": [
     {
       "id": 1,
+      "codigoSKU": "RMK125",
       "nameProducto": "Smartphone",
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_816025-MLU72748491987_112023-F.webp",
       "proveedor": "Lucas Alegre",
       "categoria": "Tecnológico",
       "descripcion": "Samsung Galaxy S23 Ultra 512gb Sm-s918bzkvaro Color Phantom black",
-      "precio": 1000
+      "precio": "1000"
     },
     {
       "id": 2,
+      "codigoSKU": "KMR244",
       "nameProducto": "Heladera",
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
       "proveedor": "Ayelen Vega",
       "categoria": "Hogar y mueble",
       "descripcion": "Heladera Drean HDR280F00 blanca con freezer 264L 220V",
-      "precio": 1500
+      "precio": "1500"
     },
     {
       "id": 3,
+      "codigoSKU": "YMP2913",
       "nameProducto": "Cocina",
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_879176-MLU72562532671_102023-F.webp",
       "proveedor": "Ayelen Vega",
       "categoria": "Hogar y mueble",
       "descripcion": "Cocina A Gas Longvie 12331g 56cm Grafito Cajón Parrilla Tipo de conexión Multigas",
       "precio": 2500
+    },
+    {
+      "id": 5,
+      "codigoSKU": "IQM737",
+      "nameProducto": "Mate",
+      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
+      "proveedor": "EmilioOliveri",
+      "categoria": "Hogar y mueble",
+      "descripcion": "El mejor mate amargo",
+      "precio": 15
     }
   ],
   "proveedor": [
@@ -175,6 +188,27 @@
       "nombre": "Lucas",
       "apellido": "Alegre",
       "rol": "usuario"
+    },
+    {
+      "id": 9,
+      "codigo": "asjk",
+      "razonSocial": "Asj Solutions",
+      "rubro": "Vehículo",
+      "sitioWeb": "https://facebook.com",
+      "condicionIva": "Sujeto no Categorizado",
+      "imagen": "https://media.istockphoto.com/id/1328088056/es/foto/t%C3%ADpico-mate-argentino-sobre-tela-de-arpillera-con-detalles-de-guardias-gauchos-bebida.jpg?s=2048x2048&w=is&k=20&c=d-4h7DbfJTbMC92gcWnvO8O05-BxUcSpNkYPXnehhqo=",
+      "localidad": "Paso de los Libres",
+      "provincia": "Corrientes",
+      "pais": "Argentina",
+      "calle": "Diamante",
+      "numerocalle": 12,
+      "CP": 15,
+      "cuit": "20-42736541-8",
+      "telefono": 444444444,
+      "email": "lucasalegre.extra@gmail.com",
+      "nombre": "Ayelen",
+      "apellido": "Vega",
+      "rol": "admin"
     }
   ],
   "ordenDeCompra": [

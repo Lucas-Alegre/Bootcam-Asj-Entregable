@@ -119,55 +119,69 @@
                 <div>
                     <div class="form-group row">
                         <div class="col-12">
-                            <input type="text"
-                                class="form-control"
+                            <select type="text"
+                                class="form-control custom-select"
+                                id="pais"
+                                name="pais"
+                                formControlName="paisForm"
+                                [class.is-invalid]="paisValido"
+                                placeholder="Seleccione un Pais">
+                                <option value disabled>Seleccione el
+                                    pais</option>
+                                <option value={{item}}
+                                    *ngFor="let item of countryNameAux">{{item}}</option>
+                            </select>
+                            <small *ngIf="paisValido"
+                                class="text-danger">Ingrese un
+                                Pais</small>
+                            <small *ngIf="paisValido2"
+                                class="text-danger">Ingrese un pais sin números.
+                            </small>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <select type="text"
+                                class="form-control custom-select"
+                                id="provincia"
+                                name="provincia"
+                                formControlName="provinciaForm"
+                                [class.is-invalid]="provinciaValida"
+                                placeholder="Seleccione una provincia">
+                                <option value disabled>Seleccione la
+                                    provincia</option>
+                                <option value={{item}}
+                                    *ngFor="let item of stateToCountryName">{{item}}</option>
+                            </select>
+                            <small *ngIf="provinciaValida"
+                                class="text-danger">Ingrese un
+                                Provincia</small>
+                            <small *ngIf="provinciaValida2"
+                                class="text-danger">Ingrese una provincia.
+                            </small>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <select type="text"
+                                class="form-control custom-select"
                                 id="localidad"
                                 name="localidad"
                                 formControlName="localidadForm"
                                 [class.is-invalid]="localidadValida"
                                 placeholder="Localidad">
+                                <option value disabled>Seleccione una
+                                    Localidad</option>
+                                <option value={{item}}
+                                    *ngFor="let item of citieToStateByName">{{item}}</option>
+                            </select>
                             <small *ngIf="localidadValida"
-                                class="text-danger">Ingrese una Localidad.
-                            </small>
+                                class="text-danger">Ingrese una
+                                localidad.</small>
                             <small *ngIf="localidadValida2"
-                                class="text-danger">Ingrese una Localidad sin
-                                números.
-                            </small>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-12">
-                            <input type="text"
-                                class="form-control"
-                                id="provincia"
-                                name="provincia"
-                                formControlName="provinciaForm"
-                                [class.is-invalid]="provinciaValida"
-                                placeholder="Provincia">
-                            <small *ngIf="provinciaValida"
-                                class="text-danger">Ingrese una provincia.
-                            </small>
-                            <small *ngIf="provinciaValida2"
-                                class="text-danger">Ingrese una provincia sin
-                                números.
-                            </small>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group row">
-                        <div class="col-12">
-                            <input type="text"
-                                class="form-control"
-                                id="pais"
-                                name="pais"
-                                formControlName="paisForm"
-                                [class.is-invalid]="paisValido"
-                                placeholder="Pais">
-                            <small *ngIf="paisValido"
-                                class="text-danger">Ingrese un pais. </small>
-                            <small *ngIf="paisValido2"
-                                class="text-danger">Ingrese un pais sin números.
+                                class="text-danger">Ingrese una localidad.
                             </small>
                         </div>
                     </div>
@@ -285,8 +299,9 @@
                                 placeholder="Nombre">
                             <small *ngIf="nombreValido"
                                 class="text-danger">Ingrese un nombre. </small>
-                                <small *ngIf="nombreValido2"
-                                class="text-danger">Ingrese un nombre sin números. </small>
+                            <small *ngIf="nombreValido2"
+                                class="text-danger">Ingrese un nombre sin
+                                números. </small>
                         </div>
                     </div>
                     <br>
@@ -303,7 +318,8 @@
                                 class="text-danger">Ingrese un apellido.
                             </small>
                             <small *ngIf="apellidoValido2"
-                                class="text-danger">Ingrese un apellido sin números.
+                                class="text-danger">Ingrese un apellido sin
+                                números.
                             </small>
                         </div>
                     </div>

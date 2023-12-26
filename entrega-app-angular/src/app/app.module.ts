@@ -24,6 +24,7 @@ import { OrdenCompraService } from './services/orden-de-compra/orden-compra.serv
 import { FormAgregarOrdenCompraComponent } from './componentes/orden-compra/form/form-agregar-orden-compra/form-agregar-orden-compra.component';
 import { FormEditarOrdenCompraComponent } from './componentes/orden-compra/form/form-editar-orden-compra/form-editar-orden-compra.component';
 import { SidenavComponent } from './pages/sidenav/sidenav.component';
+import { CountryService } from './services/country/country.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { SidenavComponent } from './pages/sidenav/sidenav.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ProductosService,ProveedoresService,OrdenCompraService],
+  providers: [ProductosService,ProveedoresService,OrdenCompraService,CountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

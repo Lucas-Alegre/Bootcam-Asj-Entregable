@@ -18,6 +18,8 @@ export class FormAgregarProductoComponent implements OnInit {
   precio = "";
   idNuevo = 0;
   public form!: FormGroup
+  productosSKU: any = []
+  codigoSku: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,10 +28,11 @@ export class FormAgregarProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.serviceProduct.get().subscribe(data => {
-      this.idNuevo = data.length
-      console.log(this.idNuevo + "idnuevo")
+      this.idNuevo = data.length;
+      this.productosSKU = data.map((item: any) => item.codigoSKU);
     });
     this.form = this.formBuilder.group({
+      codigoSkuForm: ['', [Validators.required, Validators.minLength(4)]],
       nombreProductoForm: ['', [Validators.required, Validators.minLength(3)]],
       proveedorForm: ['', [Validators.required, Validators.minLength(1)]],
       categoriaForm: ['', [Validators.required]],
@@ -37,6 +40,17 @@ export class FormAgregarProductoComponent implements OnInit {
       descripcionForm: ['', [Validators.required, Validators.minLength(10)]],
       precioForm: ['1', [Validators.required, Validators.minLength(1)]]
     })
+
+    this.form.controls['codigoSkuForm'].valueChanges.subscribe(value => {
+      this.codigoSku = this.productosSKU.includes(value);
+    })
+  }
+
+  get codigoSkuValido2() {
+    return this.codigoSku;
+  }
+  get codigoSkuValido() {
+    return this.form.get('codigoSkuForm')?.invalid && this.form.get('codigoSkuForm')?.touched;
   }
 
   get nombreProductoValido() {
@@ -103,6 +117,7 @@ export class FormAgregarProductoComponent implements OnInit {
     } else {
       let productoAdd = {
         id: this.idNuevo + 2,
+        codigoSKU: this.form.get('codigoSkuForm')?.value,
         nameProducto: this.form.get('nombreProductoForm')?.value,
         imagen: this.form.get('imagenForm')?.value,
         proveedor: this.form.get('proveedorForm')?.value,
@@ -114,7 +129,7 @@ export class FormAgregarProductoComponent implements OnInit {
         console.log("Se agrego un producto" + res)
         this.route.navigate(['/', 'productos'])
       });
-      
+
     }
 
   }

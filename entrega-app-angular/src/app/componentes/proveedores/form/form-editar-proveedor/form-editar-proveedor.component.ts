@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CountryService } from 'src/app/services/country/country.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
@@ -26,6 +27,13 @@ export class FormEditarProveedorComponent {
   proveedorId: any;
   cuitAux: string = "";
   proveedorObjet: any = {};
+  country: any = []
+  countryName = []
+  countryNameAux = []
+  stateToCountry = []
+  stateToCountryName: any = []
+  citieToState: any = []
+  citieToStateByName: any = []
 
   public form!: FormGroup
 
@@ -33,13 +41,16 @@ export class FormEditarProveedorComponent {
     private formBuilder: FormBuilder,
     private serviceProveedor: ProveedoresService,
     private route: Router,
-    private _activateRoute: ActivatedRoute) { }
+    private _activateRoute: ActivatedRoute,
+    private servicesCountry: CountryService) { }
+
 
   ngOnInit(): void {
     this.proveedorId = this._activateRoute.snapshot.paramMap.get('id');
     this.serviceProveedor.getById(this.proveedorId).subscribe(data => {
       this.proveedorObjet = data;
-       console.log(this.proveedorObjet)
+
+      console.log(this.proveedorObjet)
       this.form = this.formBuilder.group({
         codigoForm: [`${this.proveedorObjet.codigo}`, [Validators.required, Validators.minLength(4)]],
         razonSocialForm: [`${this.proveedorObjet.razonSocial}`, [Validators.required, Validators.minLength(2)]],
@@ -62,6 +73,23 @@ export class FormEditarProveedorComponent {
         apellidoForm: [`${this.proveedorObjet.apellido}`, [Validators.required, Validators.minLength(2)]],
         rolForm: [`${this.proveedorObjet.rol}`, [Validators.required]]
       })
+
+
+      this.getCountry()
+      this.form.controls['paisForm'].valueChanges.subscribe(value => {
+        this.stateToCountry = this.country.filter((item: any) => item.country == value)
+        this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
+        const stateToCountryConstName = new Set(this.stateToCountryName);
+        this.stateToCountryName = [...stateToCountryConstName]
+      })
+
+      this.form.controls['provinciaForm'].valueChanges.subscribe(value => {
+        this.citieToState = this.stateToCountry.filter((item: any) => item.subcountry == value)
+        this.citieToStateByName = this.citieToState.map((item: any) => item.name);
+        const citieToStateConstName = new Set(this.citieToStateByName);
+        this.citieToStateByName = [...citieToStateConstName]
+      })
+
     });
 
 
@@ -79,6 +107,27 @@ export class FormEditarProveedorComponent {
       }
     })*/
   }
+  getCountry() {
+    this.servicesCountry.get().subscribe((data) => {
+      this.country = data
+      this.countryName = this.country.map((item: any) => item.country)
+      const countryNameConstAux = new Set(this.countryName);
+      this.countryNameAux = [...countryNameConstAux]
+
+      this.stateToCountry = this.country.filter((item: any) => item.country == this.proveedorObjet.pais)
+      this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
+      const stateToCountryConstName = new Set(this.stateToCountryName);
+      this.stateToCountryName = [...stateToCountryConstName]
+
+      this.citieToState = this.stateToCountry.filter((item: any) => item.subcountry == this.proveedorObjet.provincia)
+      this.citieToStateByName = this.citieToState.map((item: any) => item.name);
+      const citieToStateConstName = new Set(this.citieToStateByName);
+      this.citieToStateByName = [...citieToStateConstName]
+    });
+
+  }
+
+
 
   //primer from
   get codigoProveedorValido() {

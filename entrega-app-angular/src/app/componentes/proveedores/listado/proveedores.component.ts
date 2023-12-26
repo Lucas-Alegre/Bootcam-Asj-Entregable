@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CountryService } from 'src/app/services/country/country.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
@@ -9,8 +10,10 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
 })
 export class ProveedoresComponent {
   proveedor: any = []
+ 
 
-  constructor(private servicesProveedor: ProveedoresService,
+  constructor(
+    private servicesProveedor: ProveedoresService,
     private route: Router) { }
 
   ngOnInit(): void {
@@ -23,7 +26,6 @@ export class ProveedoresComponent {
       this.proveedor = data
       this.proveedor.sort(this.sortFunc)
     });
-
   }
 
   sortFunc(a: any, b: any) {
@@ -35,6 +37,8 @@ export class ProveedoresComponent {
     }
     return 0;
   }
+
+  
 
   eliminar(proveedor: any) {
     this.servicesProveedor.delete(proveedor.id).subscribe(res => {

@@ -1,10 +1,7 @@
 .button{
+    margin: 5px 15px 0px 0px;
     padding-right: 15px;
     padding-left: 15px;
-}
-.editarEliminar{
-    display: flex;
-    justify-content: space-evenly;
 }
 .buttonAdd , .h2{
     margin-left: 20px;

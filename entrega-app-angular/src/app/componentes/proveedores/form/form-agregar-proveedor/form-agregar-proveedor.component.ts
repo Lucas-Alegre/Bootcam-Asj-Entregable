@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CountryService } from 'src/app/services/country/country.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
@@ -23,12 +24,20 @@ export class FormAgregarProveedorComponent {
   precio = "";
   idNuevo = 0;
   cuitAux: string = "";
+  country: any = []
+  countryName = []
+  countryNameAux = []
+  stateToCountry = []
+  stateToCountryName: any = []
+  citieToState: any = []
+  citieToStateByName: any = []
 
   public form!: FormGroup
 
   constructor(
     private formBuilder: FormBuilder,
     private serviceProveedor: ProveedoresService,
+    private servicesCountry: CountryService,
     private route: Router) { }
 
   ngOnInit(): void {
@@ -58,6 +67,20 @@ export class FormAgregarProveedorComponent {
       apellidoForm: ['', [Validators.required, Validators.minLength(2)]],
       rolForm: ['', [Validators.required]]
     })
+    this.getCountry()
+    this.form.controls['paisForm'].valueChanges.subscribe(value => {
+      this.stateToCountry = this.country.filter((item: any) => item.country == value)
+      this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
+      const stateToCountryConstName = new Set(this.stateToCountryName);
+      this.stateToCountryName = [...stateToCountryConstName]
+    })
+
+    this.form.controls['provinciaForm'].valueChanges.subscribe(value => {
+      this.citieToState = this.stateToCountry.filter((item: any) => item.subcountry == value)
+      this.citieToStateByName = this.citieToState.map((item: any) => item.name);
+      const citieToStateConstName = new Set(this.citieToStateByName);
+      this.citieToStateByName = [...citieToStateConstName]
+    })
 
     /*Para probar esto colocar el input en text-despues faltaria aplicarle un regex
     this.form.controls['cuitForm'].valueChanges.subscribe(value => {
@@ -71,7 +94,21 @@ export class FormAgregarProveedorComponent {
         this.form.controls['cuitForm'].setValue(this.cuitAux)
       }
     })*/
+    
   }
+
+  getCountry() {
+    this.servicesCountry.get().subscribe((data) => {
+      this.country = data
+      this.countryName = this.country.map((item: any) => item.country)
+      const countryNameConstAux = new Set(this.countryName);
+      this.countryNameAux = [...countryNameConstAux]
+    });
+
+  }
+
+
+
 
   //primer from
   get codigoProveedorValido() {
