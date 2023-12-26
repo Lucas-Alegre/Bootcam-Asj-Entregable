@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
@@ -15,12 +15,15 @@ export class FormAgregarProveedorComponent {
     "Condumidor Final", "Responsable Monotributo", "Sujeto no Categorizado", "Proveedor del Exterior", "Cliente del Exterior",
     "IVA Liberado", "Agente de Percepción", "Pequeño Contribuyente Eventual", "Monotributista Social", "Pequeño Contribuyente Eventual Social"]
   nombreProducto = "";
+  nombre: string = '';
   proveedor = "";
   categoria = "";
   imagen = "";
   descripcion = "";
   precio = "";
   idNuevo = 0;
+  cuitAux: string = "";
+
   public form!: FormGroup
 
   constructor(
@@ -37,7 +40,7 @@ export class FormAgregarProveedorComponent {
       codigoForm: ['', [Validators.required, Validators.minLength(4)]],
       razonSocialForm: ['', [Validators.required, Validators.minLength(2)]],
       rubroForm: ['', [Validators.required]],
-      sitioWebForm: ['', [Validators.required, Validators.minLength(4)]],
+      sitioWebForm: ['', [Validators.required, Validators.minLength(12)]],
       condicionIvaForm: ['', [Validators.required]],
       imagenForm: ['', [Validators.required, Validators.minLength(5)]],
 
@@ -45,17 +48,31 @@ export class FormAgregarProveedorComponent {
       provinciaForm: ['', [Validators.required, Validators.minLength(2)]],
       paisForm: ['', [Validators.required, Validators.minLength(3)]],
       calleForm: ['', [Validators.required, Validators.minLength(3)]],
-      numeroCalleForm: ['', [Validators.required, Validators.minLength(1)]],
-      codigoPostalForm: ['', [Validators.required, Validators.minLength(2)]],
+      numeroCalleForm: ['1', [Validators.required, Validators.minLength(1)]],
+      codigoPostalForm: ['1', [Validators.required, Validators.minLength(2)]],
 
       cuitForm: ['', [Validators.required, Validators.minLength(10)]],
       telefonoForm: ['', [Validators.required, Validators.minLength(6)]],
       emailForm: ['', [Validators.required, Validators.minLength(3)]],
-      nombreForm: ['', [Validators.required, Validators.minLength(1)]],
+      nombreForm: ['', [Validators.required, Validators.minLength(2)]],
       apellidoForm: ['', [Validators.required, Validators.minLength(2)]],
       rolForm: ['', [Validators.required]]
     })
+
+    /*Para probar esto colocar el input en text-despues faltaria aplicarle un regex
+    this.form.controls['cuitForm'].valueChanges.subscribe(value => {
+      let cuit = value
+      if (cuit.length == 2) {
+        this.cuitAux = cuit + "-";
+        this.form.controls['cuitForm'].setValue(this.cuitAux)
+      }
+      if (cuit.length == 9) {
+        this.cuitAux += cuit.slice(3,8) + "-";
+        this.form.controls['cuitForm'].setValue(this.cuitAux)
+      }
+    })*/
   }
+
   //primer from
   get codigoProveedorValido() {
     return this.form.get('codigoForm')?.invalid && this.form.get('codigoForm')?.touched;
@@ -72,6 +89,11 @@ export class FormAgregarProveedorComponent {
   get sitioWebValido() {
     return this.form.get('sitioWebForm')?.invalid && this.form.get('sitioWebForm')?.touched;
   }
+  get sitioWebValido2() {
+    let sitioweb = this.form.get('sitioWebForm')?.value;
+    return sitioweb.replace(/(https?|ftp):\/\/[^\s/$.?#].[^\s].*(.com|.ar|.net|.br|web|=)$/g, "")
+  }
+
 
   get condicionIvaValido() {
     return this.form.get('condicionIvaForm')?.invalid && this.form.get('condicionIvaForm')?.touched;
@@ -93,13 +115,25 @@ export class FormAgregarProveedorComponent {
   get localidadValida() {
     return this.form.get('localidadForm')?.invalid && this.form.get('localidadForm')?.touched;
   }
+  get localidadValida2() {
+    let nombreLocalidad = this.form.get('localidadForm')?.value;
+    return nombreLocalidad.replace(/[^0-9]/g, "").length
+  }
 
   get provinciaValida() {
     return this.form.get('provinciaForm')?.invalid && this.form.get('provinciaForm')?.touched;
   }
+  get provinciaValida2() {
+    let nombreProvincia = this.form.get('provinciaForm')?.value;
+    return nombreProvincia.replace(/[^0-9]/g, "").length
+  }
 
   get paisValido() {
     return this.form.get('paisForm')?.invalid && this.form.get('paisForm')?.touched;
+  }
+  get paisValido2() {
+    let nombrePais = this.form.get('paisForm')?.value;
+    return nombrePais.replace(/[^0-9]/g, "").length
   }
 
   get calleValida() {
@@ -109,11 +143,18 @@ export class FormAgregarProveedorComponent {
   get numeroCalleValido() {
     return this.form.get('numeroCalleForm')?.invalid && this.form.get('numeroCalleForm')?.touched;
   }
+  get numeroCalleValido2() {
+    let numeroCalle = this.form.get('numeroCalleForm')?.value;
+    return numeroCalle <= 0
+  }
 
   get codigoPostalValido() {
     return this.form.get('codigoPostalForm')?.invalid && this.form.get('codigoPostalForm')?.touched;
   }
-
+  get codigoPostalValido2() {
+    let codigoPostal = this.form.get('codigoPostalForm')?.value;
+    return codigoPostal <= 0
+  }
 
 
   //Tercero from
@@ -128,13 +169,25 @@ export class FormAgregarProveedorComponent {
   get emailValido() {
     return this.form.get('emailForm')?.invalid && this.form.get('emailForm')?.touched;
   }
+  get emailValido2() {
+    let email = this.form.get('emailForm')?.value;
+    return email.replace(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/g, "").length
+  }
 
   get nombreValido() {
     return this.form.get('nombreForm')?.invalid && this.form.get('nombreForm')?.touched;
   }
+  get nombreValido2() {
+    let nombrePais = this.form.get('nombreForm')?.value;
+    return nombrePais.replace(/[^0-9]/g, "").length
+  }
 
   get apellidoValido() {
     return this.form.get('apellidoForm')?.invalid && this.form.get('apellidoForm')?.touched;
+  }
+  get apellidoValido2() {
+    let nombrePais = this.form.get('apellidoForm')?.value;
+    return nombrePais.replace(/[^0-9]/g, "").length
   }
 
   get rolValido() {
@@ -161,7 +214,7 @@ export class FormAgregarProveedorComponent {
         codigo: this.form.get('codigoForm')?.value,
         razonSocial: this.form.get('razonSocialForm')?.value,
         rubro: this.form.get('rubroForm')?.value,
-        sitioWev: this.form.get('sitioWebForm')?.value,
+        sitioWeb: this.form.get('sitioWebForm')?.value,
         condicionIva: this.form.get('condicionIvaForm')?.value,
         imagen: this.form.get('imagenForm')?.value,
         localidad: this.form.get('localidadForm')?.value,
