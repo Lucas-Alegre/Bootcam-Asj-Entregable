@@ -39,11 +39,17 @@
           <div class="form-group row">
             <label class="col-2 col-form-label">Proveedor</label>
             <div class="col-8">
-              <input type="text"
-                class="form-control"
+
+              <select type="text"
+                class="form-control custom-select"
                 id="proveedor"
                 name="proveedorForm"
-                formControlName="proveedorForm">
+                formControlName="proveedorForm"
+                value="{{producto.proveedor}}">
+                <option value disabled>Seleccione una categoría</option>
+                <option value={{item}}
+                  *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+              </select>
               <small
                 *ngIf="myFormReactivo.get('proveedorForm')?.hasError('required')">Proveedor
                 es requerido.</small>

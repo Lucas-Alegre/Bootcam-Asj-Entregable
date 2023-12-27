@@ -1,18 +1,6 @@
 {
   "productos": [
     {
-      "id": 22,
-      "codigoSKU": "RMK125",
-      "nameProducto": "Mate",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_735297-MLA54428940668_032023-F.webp",
-      "proveedor": "Olivieri Emilio",
-      "categoria": "Hogar y mueble",
-      "descripcion": "El mejor mate amargo",
-      "precio": "12",
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
-    },
-    {
       "id": 1,
       "codigoSKU": "RMK122",
       "nameProducto": "Smartphone",
@@ -21,18 +9,6 @@
       "categoria": "Tecnológico",
       "descripcion": "Samsung Galaxy S23 Ultra 512gb Sm-s918bzkvaro Color Phantom black",
       "precio": 1000,
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
-    },
-    {
-      "id": 2,
-      "codigoSKU": "KMR244",
-      "nameProducto": "Heladera",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
-      "proveedor": "Vega Ayelen",
-      "categoria": "Hogar y mueble",
-      "descripcion": "Heladera Drean HDR280F00 blanca con freezer 264L 220V",
-      "precio": 1500,
       "idProveedor": 7,
       "razonSocial": "razon socio"
     },
@@ -49,30 +25,6 @@
       "razonSocial": "razon socio"
     },
     {
-      "id": 4,
-      "codigoSKU": "IQM737",
-      "nameProducto": "Monitor",
-      "imagen": "https://www.infinitonline.com.ar/images/000000000000132860760MONI.jpg",
-      "proveedor": "Alegre Lucas",
-      "categoria": "Tecnológico",
-      "descripcion": "Monitor gamer curvo ViewSonic Vx2718-pc-mhd led 27 negro 100V/220V",
-      "precio": "1250",
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
-    },
-    {
-      "id": 5,
-      "codigoSKU": "PZE710",
-      "nameProducto": "Short",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_839889-MLA72646235143_112023-F.webp",
-      "proveedor": "Diana Garcia",
-      "categoria": "Moda",
-      "descripcion": "Short H Relax Dayne De Jean Mujer 47 Street",
-      "precio": 225,
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
-    },
-    {
       "id": 6,
       "codigoSKU": "BEM261",
       "nameProducto": "Remera manga corta",
@@ -85,28 +37,15 @@
       "razonSocial": "razon socio"
     },
     {
-      "id": 7,
-      "codigoSKU": "KAL835",
-      "nameProducto": "Auto Fiat",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_697273-MLA73493493170_122023-F.webp",
-      "proveedor": "Emilio Olivieri",
-      "categoria": "Vehiculo",
-      "descripcion": "Fiat Grand Siena 1.4 Attractive 87cv",
-      "precio": 4500,
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
-    },
-    {
       "id": 8,
       "codigoSKU": "MNB344",
       "nameProducto": "Auto Bmw",
       "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_847930-MLA73087622579_112023-F.webp",
-      "proveedor": "Emilio Olivieri",
-      "categoria": "Vehiculo",
+      "proveedor": "Alegre Lucas",
+      "categoria": "Vehículo",
       "descripcion": "BMW Serie M 3.0 M2",
-      "precio": 90000,
-      "idProveedor": 7,
-      "razonSocial": "razon socio"
+      "precio": "90000",
+      "razonSocial": "Asj Solutions"
     }
   ],
   "proveedor": [

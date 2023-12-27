@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductosService } from 'src/app/services/producto/productos.service';
+import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 
 @Component({
@@ -14,6 +15,10 @@ export class FormEditarComponent {
   editarInvalido: boolean = false;
   productoId: any;
   producto: any = {};
+  listadoProveedores: any = [];
+  listadoNombresJoinApellidoRzonSocial: any = []
+  listadoNombresJoinApellido: any = []
+  proveedorEncontrado:any=[]
 
   myFormReactivo: FormGroup = new FormGroup({});
   productosSKU: any = []
@@ -21,7 +26,8 @@ export class FormEditarComponent {
   isDisabled = true;
 
   constructor(private fb: FormBuilder, private serviceProduct: ProductosService,
-    private route: Router, private _activateRoute: ActivatedRoute) {
+    private route: Router, private _activateRoute: ActivatedRoute,
+    private serviceProveedor: ProveedoresService) {
     /* ;*/
   }
 
@@ -31,6 +37,29 @@ export class FormEditarComponent {
       this.getProductoByid()
     })
     console.log(this.myFormReactivo.value)
+    this.getListadProveedores()
+  }
+
+  getListadProveedores() {
+    this.serviceProveedor.get().subscribe((data: any) => {
+      this.listadoProveedores = data
+
+      for (let i = 0; i < this.listadoProveedores.length; i++) {
+        let join = this.listadoProveedores[i].apellido + " " + this.listadoProveedores[i].nombre;
+        this.listadoNombresJoinApellidoRzonSocial.push({ union: join, razonSocial: this.listadoProveedores[i].razonSocial, id: this.listadoProveedores[i].id })
+      }
+
+      const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
+      this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
+      console.log(this.listadoNombresJoinApellidoRzonSocial)
+      this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
+        item.union
+      )
+
+      const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
+      this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
+      console.log(this.listadoNombresJoinApellido)
+    });
   }
 
   //
@@ -71,6 +100,8 @@ export class FormEditarComponent {
         controls.markAllAsTouched()
       })
     } else { //Se compara si hay cambios.
+      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.myFormReactivo.get('proveedorForm')?.value)
+      console.log(this.proveedorEncontrado)
       let productoAdd = {
         id: this.productoId,
         codigoSKU: this.myFormReactivo.get('codigoSkuForm')?.value,
@@ -80,10 +111,10 @@ export class FormEditarComponent {
         categoria: this.myFormReactivo.get('categoriaForm')?.value,
         descripcion: this.myFormReactivo.get('descripcionForm')?.value,
         precio: this.myFormReactivo.get('precioForm')?.value,
-        idProveedor: this.producto.idProveedor,
-        razonSocial: this.producto.razonSocial
-
+        idProveedor: this.proveedorEncontrado[0].idProveedor,
+        razonSocial: this.proveedorEncontrado[0].razonSocial
       }
+
       let productoCompare = {
         id: this.productoId,
         codigoSKU: this.producto.codigoSKU,
@@ -99,6 +130,7 @@ export class FormEditarComponent {
 
       if (JSON.stringify(productoAdd) == JSON.stringify(productoCompare)) {
         this.editarInvalido = true;
+        alert("Son  igualeas")
       } else {
         this.serviceProduct.put(productoAdd, this.productoId).subscribe(res => {
           console.log("Se editó un producto" + res)
