@@ -20,8 +20,8 @@
                 placeholder="Ingrese un codido SKU">
               <small *ngIf="codigoSkuValido" class="text-danger">Ingrese un
                 codigo SKU minimo de 4 caracteres. </small>
-                <small *ngIf="codigoSkuValido2" class="text-danger">Este
-                  codigo SKU ya existe. Por favor ingrese uno diferente. </small>
+              <small *ngIf="codigoSkuValido2" class="text-danger">Este
+                codigo SKU ya existe. Por favor ingrese uno diferente. </small>
             </div>
           </div>
           <br>
@@ -44,13 +44,17 @@
           <div class="form-group row">
             <label class="col-2 col-form-label">Proveedor</label>
             <div class="col-8">
-              <input type="text"
-                class="form-control"
+              <select type="text"
+                class="form-control custom-select"
                 id="proveedor"
                 name="proveedor"
                 formControlName="proveedorForm"
                 [class.is-invalid]="proveedorValido"
                 placeholder="Proveedor">
+                <option value disabled>Seleccione un proveedor</option>
+                <option value={{item}}
+                  *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+              </select>
               <small *ngIf="proveedorValido" class="text-danger">Ingrese un
                 nombre de proveedor valido. </small>
               <small *ngIf="proveedorStringValido" class="text-danger">Ingrese
@@ -148,6 +152,8 @@
           Limpiar
         </button>
       </div>
+      <p *ngIf="codigoSku" class="text-danger mt-3">Por favor complete bien los
+        campos requeridos!</p>
     </div>
 
   </form>

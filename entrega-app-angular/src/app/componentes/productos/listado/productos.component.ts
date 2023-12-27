@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductosService } from 'src/app/services/producto/productos.service';
+import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
   selector: 'app-productos',
@@ -9,10 +10,13 @@ import { ProductosService } from 'src/app/services/producto/productos.service';
 })
 export class ProductosComponent implements OnInit {
   productos: any = []
-  listadoProveedores: any = [];
+  productos2: any = []
+  listadoProveedores: any = []
+  listadoNombreApellidoProveedores: any = []
 
   constructor(private servicesProducto: ProductosService,
-    private route: Router) { }
+    private route: Router,
+    private serviceProveedor: ProveedoresService) { }
 
   ngOnInit(): void {
     this.getProductos()
@@ -24,7 +28,6 @@ export class ProductosComponent implements OnInit {
       this.productos = data
       this.productos.sort(this.sortFunc)
     });
-
   }
 
   sortFunc(a: any, b: any) {
@@ -36,6 +39,7 @@ export class ProductosComponent implements OnInit {
     }
     return 0;
   }
+
 
   eliminar(product: any) {
     this.servicesProducto.delete(product.id).subscribe(res => {

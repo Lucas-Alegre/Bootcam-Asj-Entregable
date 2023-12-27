@@ -12,110 +12,89 @@ import { ProductosService } from 'src/app/services/producto/productos.service';
 export class FormEditarComponent {
   listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
   editarInvalido: boolean = false;
-  nombreProducto = "";
   productoId: any;
   producto: any = {};
-  descripcion = "";
-  proveedor = "";
-  categoria = "";
-  imagen = "";
-  precio = "";
-  idNuevo = 0;
-  public form!: FormGroup
 
+  myFormReactivo: FormGroup = new FormGroup({});
+  productosSKU: any = []
+  codigoSku: boolean = false;
+  isDisabled = true;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private serviceProduct: ProductosService,
-    private route: Router,
-    private _activateRoute: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.productoId = this._activateRoute.snapshot.paramMap.get('id');
-    this.getProductos()
+  constructor(private fb: FormBuilder, private serviceProduct: ProductosService,
+    private route: Router, private _activateRoute: ActivatedRoute) {
+    /* ;*/
   }
 
-  getProductos() {
+  ngOnInit(): void {
+    this._activateRoute.paramMap.subscribe(data => {
+      this.productoId = data.get('id');
+      this.getProductoByid()
+    })
+    console.log(this.myFormReactivo.value)
+  }
+
+  //
+  getProductoByid() {
     this.serviceProduct.getById(this.productoId).subscribe(res => {
       this.producto = res;
-      this.form = this.formBuilder.group({
+      console.log(this.producto)
+      this.myFormReactivo = this.fb.group({
+        codigoSkuForm: [`${this.producto.codigoSKU}`],
         nombreProductoForm: [`${this.producto.nameProducto}`, [Validators.required, Validators.minLength(3)]],
         proveedorForm: [`${this.producto.proveedor}`, [Validators.required, Validators.minLength(1)]],
         categoriaForm: [`${this.producto.categoria}`, [Validators.required]],
         imagenForm: [`${this.producto.imagen}`, [Validators.required, Validators.minLength(5)]],
         descripcionForm: [`${this.producto.descripcion}`, [Validators.required, Validators.minLength(10)]],
         precioForm: [`${this.producto.precio}`, [Validators.required, Validators.minLength(1)]]
+        // cuit: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
       })
     })
+    /* this.serviceProduct.get().subscribe(data => {
+       this.productosSKU = data.map((item: any) => item.codigoSKU);
+     });
+ 
+     this.form.controls['codigoSkuForm'].valueChanges.subscribe(value => {
+       this.codigoSku = this.productosSKU.includes(value);
+     })*/
   }
 
-//Validaciones personalizadas para los inputs
-  get nombreProductoValido() {
-    return this.form.get('nombreProductoForm')?.invalid && this.form.get('nombreProductoForm')?.touched;
-  }
-
-  get proveedorStringValido() {
-    let nombreProveedor = this.form.get('proveedorForm')?.value;
-    return nombreProveedor.replace(/[^0-9]/g, "").length
-  }
-
-  get imagenValida() {
-    return this.form.get('imagenForm')?.invalid && this.form.get('imagenForm')?.touched;
-  }
-  get imagenValidaFormato() {
-    let nombreProveedor = this.form.get('imagenForm')?.value;
-    return nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")
-  }
-
-  get proveedorValido() {
-    return this.form.get('proveedorForm')?.invalid && this.form.get('proveedorForm')?.touched;
-  }
-
-  get categoriaValido() {
-    return this.form.get('categoriaForm')?.invalid && this.form.get('categoriaForm')?.touched;
-  }
-
-  get descriptionValida() {
-    return this.form.get('descripcionForm')?.invalid && this.form.get('descripcionForm')?.touched;
-  }
-
-  get precioValido() {
-    let precio = this.form.get('precioForm')?.value;
-    if (precio <= 0) {
-      return true
-    }
-    return this.form.get('precioForm')?.invalid && this.form.get('precioForm')?.touched;
-  }
 
   get formInvalido() {
-    let formularioToValidar = this.form.invalid;
+    let formularioToValidar = this.myFormReactivo.invalid;
     return formularioToValidar
   }
 
-//Funciones de botones Enviar y Limpiar
+  //Funciones de botones Enviar y Limpiar
   enviar() {
-    if (this.form.invalid) {
-      return Object.values(this.form.controls).forEach(controls => {
+    if (this.myFormReactivo.invalid) {
+      return Object.values(this.myFormReactivo.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
     } else { //Se compara si hay cambios.
       let productoAdd = {
         id: this.productoId,
-        nameProducto: this.form.get('nombreProductoForm')?.value,
-        imagen: this.form.get('imagenForm')?.value,
-        proveedor: this.form.get('proveedorForm')?.value,
-        categoria: this.form.get('categoriaForm')?.value,
-        descripcion: this.form.get('descripcionForm')?.value,
-        precio: this.form.get('precioForm')?.value,
+        codigoSKU: this.myFormReactivo.get('codigoSkuForm')?.value,
+        nameProducto: this.myFormReactivo.get('nombreProductoForm')?.value,
+        imagen: this.myFormReactivo.get('imagenForm')?.value,
+        proveedor: this.myFormReactivo.get('proveedorForm')?.value,
+        categoria: this.myFormReactivo.get('categoriaForm')?.value,
+        descripcion: this.myFormReactivo.get('descripcionForm')?.value,
+        precio: this.myFormReactivo.get('precioForm')?.value,
+        idProveedor: this.producto.idProveedor,
+        razonSocial: this.producto.razonSocial
+
       }
       let productoCompare = {
         id: this.productoId,
+        codigoSKU: this.producto.codigoSKU,
         nameProducto: this.producto.nameProducto,
         imagen: this.producto.imagen,
         proveedor: this.producto.proveedor,
         categoria: this.producto.categoria,
         descripcion: this.producto.descripcion,
         precio: this.producto.precio,
+        idProveedor: this.producto.idProveedor,
+        razonSocial: this.producto.razonSocial
       }
 
       if (JSON.stringify(productoAdd) == JSON.stringify(productoCompare)) {
@@ -130,6 +109,6 @@ export class FormEditarComponent {
   }
 
   limpiar() {
-    this.form.setValue({ nombreProductoForm: "", proveedorForm: "", categoriaForm: "", imagenForm: "", descripcionForm: "", precioForm: "1" })
+    this.myFormReactivo.setValue({ codigoSkuForm: "", nombreProductoForm: "", proveedorForm: "", categoriaForm: "", imagenForm: "", descripcionForm: "", precioForm: "1" })
   }
 }

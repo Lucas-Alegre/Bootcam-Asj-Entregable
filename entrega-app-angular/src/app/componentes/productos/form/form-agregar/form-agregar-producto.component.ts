@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductosService } from 'src/app/services/producto/productos.service';
+import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
   selector: 'app-form-agregar-producto',
@@ -20,11 +21,18 @@ export class FormAgregarProductoComponent implements OnInit {
   public form!: FormGroup
   productosSKU: any = []
   codigoSku: boolean = false;
+  listadoProveedores: any = []
+  listadoProveedoresNombre: any = [];
+  listadoProveedoresApellido: any = [];
+  listadoNombresJoinApellidoRzonSocial: any = []
+  listadoNombresJoinApellido: any = []
+  proveedorEncontrado: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private serviceProduct: ProductosService,
-    private route: Router) { }
+    private route: Router,
+    private serviceProveedor: ProveedoresService,) { }
 
   ngOnInit(): void {
     this.serviceProduct.get().subscribe(data => {
@@ -44,6 +52,34 @@ export class FormAgregarProductoComponent implements OnInit {
     this.form.controls['codigoSkuForm'].valueChanges.subscribe(value => {
       this.codigoSku = this.productosSKU.includes(value);
     })
+    this.getListadProveedores()
+
+    this.form.controls[' proveedorForm'].valueChanges.subscribe(value => {
+      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == value)
+      if (this.proveedorEncontrado) console.log(this.proveedorEncontrado)
+    })
+  }
+
+  getListadProveedores() {
+    this.serviceProveedor.get().subscribe((data: any) => {
+      this.listadoProveedores = data
+
+      for (let i = 0; i < this.listadoProveedores.length; i++) {
+        let join = this.listadoProveedores[i].apellido + " " + this.listadoProveedores[i].nombre;
+        this.listadoNombresJoinApellidoRzonSocial.push({ union: join, razonSocial: this.listadoProveedores[i].razonSocial, id: this.listadoProveedores[i].id })
+      }
+
+      const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
+      this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
+      console.log(this.listadoNombresJoinApellidoRzonSocial)
+      this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
+        item.union
+      )
+
+      const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
+      this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
+      console.log(this.listadoNombresJoinApellido)
+    });
   }
 
   get codigoSkuValido2() {
@@ -114,7 +150,16 @@ export class FormAgregarProductoComponent implements OnInit {
       return Object.values(this.form.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
-    } else {
+    } if (this.codigoSku) {
+      console.log("Por favor complete bien el campo requerido")
+    }
+    else {
+
+      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.form.get('proveedorForm')?.value)
+
+      console.log("Soy encontrado" + this.proveedorEncontrado[0].id)
+
+
       let productoAdd = {
         id: this.idNuevo + 2,
         codigoSKU: this.form.get('codigoSkuForm')?.value,
@@ -124,6 +169,9 @@ export class FormAgregarProductoComponent implements OnInit {
         categoria: this.form.get('categoriaForm')?.value,
         descripcion: this.form.get('descripcionForm')?.value,
         precio: this.form.get('precioForm')?.value,
+        idProveedor: this.proveedorEncontrado[0].id,
+        razonSocial: this.proveedorEncontrado[0].razonSocial
+
       }
       this.serviceProduct.post(productoAdd).subscribe(res => {
         console.log("Se agrego un producto" + res)
