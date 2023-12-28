@@ -2,7 +2,8 @@
   <button routerLink="/productos"
     class="buttonAdd btn btn-primary buttonAgregar">Volver</button>
   <br>
-  <h3 class="mt-3">Editar el: {{producto.id}}</h3>
+  <h3 class="mt-3">Editar el producto de codigo:
+    <small class="text-success"> {{producto.codigoSKU}}</small></h3>
   <hr>
   <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
     <div class="row">
@@ -16,10 +17,13 @@
                 id="codigoSku"
                 name="codigoSku"
                 disabled
-                [(ngModel)]="codigoSku">
-              <!--<small
-                *ngIf="myFormReactivo.get('codigoSkuForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+                [(ngModel)]="codigoSku"
+                (ngModelChange)="cambiaEstadoValidado($event)">
+              <small class="text-danger"
+                *ngIf="codigoSkuvalidado">El codigo Sku es requerido.</small>
+              <small class="text-danger"
+                *ngIf="codigoSkuRepetidovalidado">Este codigo ya existe. Por
+                favor ingese uno diferente.</small>
             </div>
           </div>
           <br>
@@ -31,10 +35,11 @@
                 id="nombreProducto"
                 name="nombreProducto"
                 placeholder="Nombre del producto"
-                [(ngModel)]="nombreProducto">
-              <!--<small
-                *ngIf="myFormReactivo.get('nombreProductoForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+                [(ngModel)]="nombreProducto"
+                (ngModelChange)="cambiaNombreProductoValidado($event)">
+              <small class="text-danger"
+                *ngIf="nombreProductoValido">Nombre de Producto
+                es requerido con mayor a 3 digitos.</small>
             </div>
           </div>
           <br>
@@ -46,14 +51,15 @@
                 id="proveedor"
                 name="proveedor"
                 placeholder="Proveedor"
-                [(ngModel)]="proveedor">
+                [(ngModel)]="proveedor"
+                (ngModelChange)="cambiaProveedorValidado($event)">
                 <option value disabled>Seleccione una categoría</option>
                 <option value={{item}}
                   *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
               </select>
-              <!--<small
-                *ngIf="myFormReactivo.get('proveedorForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+              <small class="text-danger"
+                *ngIf="nombreProveedorValido">Proveedor
+                es requerida.</small>
             </div>
           </div>
           <br>
@@ -64,14 +70,15 @@
                 class="form-control custom-select"
                 id="categoria"
                 name="categoria"
-                [(ngModel)]="categoria">
+                [(ngModel)]="categoria"
+                (ngModelChange)="cambiaCategoriaValidado($event)">
                 <option value disabled>Seleccione una categoría</option>
                 <option value={{item}}
                   *ngFor="let item of listaCategorias">{{item}}</option>
               </select>
-              <!--<small
-                *ngIf="myFormReactivo.get('categoriaForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+              <small class="text-danger"
+                *ngIf="nombreCategoriaValido">Categoria
+                es requerido.</small>
             </div>
           </div>
         </div>
@@ -86,10 +93,13 @@
                 id="imagen"
                 name="imagen"
                 placeholder="Imagen"
-                [(ngModel)]="imagen">
-              <!--<small
-                *ngIf="myFormReactivo.get('imagenForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+                [(ngModel)]="imagen"
+                (ngModelChange)="cambiaImagenValidado($event)">
+              <small class="text-danger"
+                *ngIf="nombreImagenValido">La imagen es requerid con su formato
+                url + png, jpg, jpeg, webp.</small>
+              <small class="text-danger"
+                *ngIf="nombreLengthImagenValido">La imagen es requerida.</small>
             </div>
           </div>
           <br>
@@ -101,10 +111,11 @@
                 id="descripcion"
                 name="descripcion"
                 placeholder="Descripción"
-                [(ngModel)]="descripcion">
-              <!--<small
-                *ngIf="myFormReactivo.get('descripcionForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+                [(ngModel)]="descripcion"
+                (ngModelChange)="cambiaNombreDescripcionValidado($event)">
+              <small class="text-danger"
+                *ngIf="nombreDescripcionValido">Descripción
+                es requerida con mayor a 10 caracteres.</small>
             </div>
           </div>
           <br>
@@ -116,10 +127,11 @@
                 id="precio"
                 name="precio"
                 placeholder="Precio"
-                [(ngModel)]="precio">
-              <!--<small
-                *ngIf="myFormReactivo.get('precioForm')?.hasError('required')">Proveedor
-                es requerido.</small>-->
+                [(ngModel)]="precio"
+                (ngModelChange)="cambiaNombrePrecioValidado($event)">
+              <small class="text-danger"
+                *ngIf="nombrePrecioValido">Precio
+                es requerido y mayor a 0.</small>
             </div>
           </div>
         </div>
@@ -133,14 +145,14 @@
           class="btn btn-outline-primary mr-2">
           Enviar
         </button>
-        <button  type="button" 
+        <button type="button"
           class="btn btn-outline-danger"
           (click)="limpiar()">
           Limpiar
         </button>
       </div>
-      <!--<p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
-        producto, si no realiza ningún cambio</p>-->
+      <p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
+        producto, si no realiza ningún cambio</p>
     </div>
   </form>
 </div>

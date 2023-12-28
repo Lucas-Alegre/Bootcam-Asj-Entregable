@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compra.service';
 
@@ -7,16 +7,25 @@ import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compr
   templateUrl: './orden-compra.component.html',
   styleUrls: ['./orden-compra.component.css']
 })
-export class OrdenCompraComponent {
+export class OrdenCompraComponent implements OnInit {
+  ordenDeCompra: any = [];
   constructor(private ordenService: OrdenCompraService,
     private route: Router) { }
 
-  ordenDeCompra = this.ordenService.get();
+  ngOnInit(): void {
 
-
+    this.getOrdenCompra()
+  }
+  getOrdenCompra() {
+    this.ordenService.get().subscribe((data: any) => {
+      this.ordenDeCompra = data;
+    });
+  }
 
   eliminar(orden: any) {
-    this.ordenDeCompra = this.ordenService.delete(orden)
+    this.ordenService.delete(orden.id).subscribe((data: any) => {
+      alert("Orden de compra eliminado");
+      this.getOrdenCompra()
+    })
   }
-  
 }

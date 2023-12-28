@@ -31,7 +31,13 @@ export class FormAgregarProductoComponent implements OnInit {
 
   codigoSkuvalidado: boolean = false;
   codigoSkuRepetidovalidado: boolean = false;
-  nombreProductoValido:boolean=false;
+  nombreProductoValido: boolean = false;
+  nombreProveedorValido: boolean = false;
+  nombreCategoriaValido: boolean = false;
+  nombreImagenValido: boolean = false;
+  nombreLengthImagenValido: boolean = false;
+  nombreDescripcionValido: boolean = false;
+  nombrePrecioValido:boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,14 +64,12 @@ export class FormAgregarProductoComponent implements OnInit {
 
       const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
-      //console.log(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
         item.union
       )
 
       const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
       this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
-      //console.log(this.listadoNombresJoinApellido)
     });
   }
 
@@ -87,12 +91,68 @@ export class FormAgregarProductoComponent implements OnInit {
 
   cambiaNombreProductoValidado(valor: any) {
     if (valor.length <= 2) {
-      this.codigoSkuvalidado = true;
+      this.nombreProductoValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreProductoValido = false;
     }
   }
 
+  cambiaProveedorValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.nombreProveedorValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreProveedorValido = false;
+    }
+  }
+
+  cambiaCategoriaValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.nombreCategoriaValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreCategoriaValido = false;
+    }
+  }
+  cambiaImagenValidado(valor: any) {
+    if (valor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      this.nombreImagenValido = true;
+    }
+    if (!valor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      this.nombreImagenValido = false;
+    }
+    if (valor.length <= 5) {
+      this.nombreLengthImagenValido = true;
+    }
+    if (valor.length > 5) {
+      this.nombreLengthImagenValido = false;
+    }
+  }
+
+  cambiaNombreDescripcionValidado(valor: any) {
+    if (valor.length <= 10) {
+      this.nombreDescripcionValido = true;
+    }
+    if (valor.length > 10) {
+      this.nombreDescripcionValido = false;
+    }
+  }
+
+  cambiaNombrePrecioValidado(valor: any){
+    let price=parseInt(valor)
+    if (price <= 0) {
+      this.nombrePrecioValido = true;
+    }
+    if (price > 0) {
+      this.nombrePrecioValido = false;
+    }
+  }
+
+
   private validarFormulario(): boolean {
     let skuValidate = this.productosSKU.filter((item: any) => item == this.codigoSku)
+    let price=parseInt(this.precio)
     //let proveedorContieneNumeros = this.proveedor.replace(/[^0-9]/g,"").length;
     if (skuValidate[0]) {
       this.codigoSkuRepetidovalidado = true;
@@ -103,101 +163,37 @@ export class FormAgregarProductoComponent implements OnInit {
       return false;
     }
     if (!this.nombreProducto || this.nombreProducto.length < 2) {
-      alert('Nombre producto es requerido, y debe tener al menos 2 caracteres.');
-      this.nombreProductoValido=true;
-      //Quede en validacion esta
+      this.nombreProductoValido = true;
       return false;
     }
     if (!this.proveedor) {
-      alert('Proveedor es requerido.');
+      this.nombreProveedorValido = true;
       return false;
     }
     if (!this.categoria) {
-      alert('Categoria es requerida.');
+      this.nombreCategoriaValido = true;
       return false;
     }
     if (!this.imagen) {
-      alert('Imagen es requerida.');
+      this.nombreImagenValido = true;
       return false;
     }
     if (this.imagen.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
-      alert('Imagen debe cumplir con formato url + .png .web .jpeg.');
+      this.nombreImagenValido = true;
       return false;
     }
     if (!this.descripcion || this.descripcion.length < 10) {
-      alert('La descripción es requerida, y debe tener al menos 10 caracteres.');
+      this.nombreDescripcionValido = true;
       return false;
     }
-    if (!this.precio || this.precio.length > 15) {
-      alert('Precio es requerido y debe tener un máximo de 15 cdigitos.');
+    if (!this.precio || price<=0) {
+      this.nombrePrecioValido = true;
       return false;
     }
     return true;
   }
 
-  /*
-    get codigoSkuValido2() {
-      return this.codigoSku;
-    }
-    get codigoSkuValido() {
-      return this.form.get('codigoSkuForm')?.invalid && this.form.get('codigoSkuForm')?.touched;
-    }
   
-    get nombreProductoValido() {
-      return this.form.get('nombreProductoForm')?.invalid && this.form.get('nombreProductoForm')?.touched;
-    }
-  
-    get proveedorStringValido() {
-      let nombreProveedor = this.form.get('proveedorForm')?.value;
-      if (nombreProveedor.replace(/[^0-9]/g, "").length) {
-        return true
-      }
-      return false
-    }
-  
-    get imagenValida() {
-      return this.form.get('imagenForm')?.invalid && this.form.get('imagenForm')?.touched;
-    }
-    get imagenValidaFormato() {
-      let nombreProveedor = this.form.get('imagenForm')?.value;
-      if (nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
-        return true
-      }
-      return false
-    }
-  
-  
-    get proveedorValido() {
-      return this.form.get('proveedorForm')?.invalid && this.form.get('proveedorForm')?.touched;
-    }
-    get categoriaValido() {
-      return this.form.get('categoriaForm')?.invalid && this.form.get('categoriaForm')?.touched;
-    }
-  
-    get descriptionValida() {
-      return this.form.get('descripcionForm')?.invalid && this.form.get('descripcionForm')?.touched;
-    }
-  
-    get precioValido() {
-      let precio = this.form.get('precioForm')?.value;
-  
-      if (precio == 0) {
-        return true
-      }
-      if (precio < 0) {
-        return true
-      }
-      return this.form.get('precioForm')?.invalid && this.form.get('precioForm')?.touched;
-    }
-  
-    get formInvalido() {
-      let formularioToValidar = this.form.invalid;
-      if (formularioToValidar) {
-        return true
-      }
-      return false
-    }
-  */
   enviar(form: any): void {
     if (this.validarFormulario()) {
       this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)

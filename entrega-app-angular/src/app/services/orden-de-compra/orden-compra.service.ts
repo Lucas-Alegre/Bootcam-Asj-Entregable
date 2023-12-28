@@ -1,36 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ordenDeCompra } from 'src/app/data/ordenCompra';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdenCompraService {
-
+  url: string = 'http://localhost:3000/ordenDeCompra';
   ordenCompra: any = ordenDeCompra;
 
   constructor(private http: HttpClient) { }
-  get() {
-    return this.ordenCompra;
+
+  get(): Observable<any> {
+    return this.http.get(this.url)
   }
 
-  post(orden: any) {
-    this.ordenCompra.push(orden);
+  getById(id: any): Observable<any> {
+    return this.http.get(this.url + "/" + id)
   }
 
-  put(orden: any) {
-    for (let i = 0; i < this.ordenCompra.length; i++) {
-      if (this.ordenCompra[i].id == orden.id) {
-        this.ordenCompra[i] = orden;
-      }
-    }
-    return this.ordenCompra;
+  post(producto: any): Observable<any> {
+    return this.http.post(this.url, producto);
   }
 
-  delete(orden: any) {
-    let ordenEliminada = this.ordenCompra.filter((ord: any) => ord.id !== orden.id)
-    this.ordenCompra = ordenEliminada;
-    return this.ordenCompra;
+  put(producto: any, id: any): Observable<any> {
+    return this.http.put(this.url + "/" + id, producto);
+  }
+
+  delete(id: any): Observable<any> {
+    return this.http.delete(this.url + "/" + id);
   }
 
 }

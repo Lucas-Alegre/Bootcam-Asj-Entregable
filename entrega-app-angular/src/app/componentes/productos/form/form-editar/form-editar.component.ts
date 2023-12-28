@@ -22,7 +22,6 @@ export class FormEditarComponent {
 
   productosSKU: any = []
   isDisabled = true;
-
   codigoSku: string = '';
   nombreProducto: string = '';
   proveedor: string = '';
@@ -30,6 +29,17 @@ export class FormEditarComponent {
   imagen: string = '';
   descripcion: string = '';
   precio: string = '';
+
+  codigoSkuvalidado: boolean = false;
+  codigoSkuRepetidovalidado: boolean = false;
+  nombreProductoValido: boolean = false;
+  nombreProveedorValido: boolean = false;
+  nombreCategoriaValido: boolean = false;
+  nombreImagenValido: boolean = false;
+  nombreLengthImagenValido: boolean = false;
+  nombreDescripcionValido: boolean = false;
+  nombrePrecioValido: boolean = false;
+
 
   constructor(private serviceProduct: ProductosService,
     private route: Router, private _activateRoute: ActivatedRoute,
@@ -53,17 +63,6 @@ export class FormEditarComponent {
       this.precio = this.producto.precio;
     })
 
-    /*this.myFormReactivo = this.fb.group({
-      codigoSkuForm: [""],
-      nombreProductoForm: ["   ", [Validators.required, Validators.minLength(3)]],
-      proveedorForm: [`${this.producto.proveedor}`, [Validators.required, Validators.minLength(1)]],
-      categoriaForm: [`${this.producto.categoria}`, [Validators.required]],
-      imagenForm: [`${this.producto.imagen}`, [Validators.required, Validators.minLength(5)]],
-      descripcionForm: [`${this.producto.descripcion}`, [Validators.required, Validators.minLength(10)]],
-      precioForm: [`${this.producto.precio}`, [Validators.required, Validators.minLength(1)]]
-      // cuit: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]],
-    })*/
-
     this.getListadProveedores()
   }
 
@@ -78,97 +77,142 @@ export class FormEditarComponent {
 
       const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
-      //console.log(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
         item.union
       )
 
       const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
       this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
-      //console.log(this.listadoNombresJoinApellido)
     });
   }
 
 
-  /*get formInvalido() {
-    let formularioToValidar = this.myFormReactivo.invalid;
-    return formularioToValidar
-  }*/
+  cambiaEstadoValidado(valor: any) {
+    if (valor.length > 2) {
+      this.codigoSkuvalidado = false;
+    }
+    if (valor.length <= 2) {
+      this.codigoSkuvalidado = true;
+    }
+    let skuValidate = this.productosSKU.filter((item: any) => item == valor)
+    if (skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = true;
+    }
+    if (!skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = false;
+    }
+  }
+
+  cambiaNombreProductoValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.nombreProductoValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreProductoValido = false;
+    }
+  }
+
+  cambiaProveedorValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.nombreProveedorValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreProveedorValido = false;
+    }
+  }
+
+  cambiaCategoriaValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.nombreCategoriaValido = true;
+    }
+    if (valor.length > 2) {
+      this.nombreCategoriaValido = false;
+    }
+  }
+  cambiaImagenValidado(valor: any) {
+    if (valor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      this.nombreImagenValido = true;
+    }
+    if (!valor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      this.nombreImagenValido = false;
+    }
+    if (valor.length <= 5) {
+      this.nombreLengthImagenValido = true;
+    }
+    if (valor.length > 5) {
+      this.nombreLengthImagenValido = false;
+    }
+  }
+
+  cambiaNombreDescripcionValidado(valor: any) {
+    if (valor.length <= 10) {
+      this.nombreDescripcionValido = true;
+    }
+    if (valor.length > 10) {
+      this.nombreDescripcionValido = false;
+    }
+  }
+
+  cambiaNombrePrecioValidado(valor: any) {
+    let price = parseInt(valor)
+    if (price <= 0) {
+      this.nombrePrecioValido = true;
+    }
+    if (price > 0) {
+      this.nombrePrecioValido = false;
+    }
+  }
+
+
+
   private validarFormulario(): boolean {
+    let skuValidate = this.productosSKU.filter((item: any) => item == this.codigoSku)
+    let price = parseInt(this.precio)
+    //let proveedorContieneNumeros = this.proveedor.replace(/[^0-9]/g,"").length;
+    if (skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = true;
+      return false;
+    }
+    if (!this.codigoSku) {
+      this.codigoSkuvalidado = true;
+      return false;
+    }
     if (!this.nombreProducto || this.nombreProducto.length < 2) {
-      alert('Nombre producto es requerido, y debe tener al menos 2 caracteres.');
+      this.nombreProductoValido = true;
       return false;
     }
-    if (!this.proveedor ) {
-      alert('Proveedor es requerido.');
+    if (!this.proveedor) {
+      this.nombreProveedorValido = true;
       return false;
     }
-    if (!this.categoria ) {
-      alert('Categoria es requerida.');
+    if (!this.categoria) {
+      this.nombreCategoriaValido = true;
       return false;
     }
-    if (!this.imagen ) {
-      alert('Imagen es requerida.');
+    if (!this.imagen) {
+      this.nombreImagenValido = true;
       return false;
     }
-    if (this.imagen.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "") ) {
-      alert('Imagen debe cumplir con formato url + .png .web .jpeg.');
+    if (this.imagen.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      this.nombreImagenValido = true;
       return false;
     }
     if (!this.descripcion || this.descripcion.length < 10) {
-      alert('La descripción es requerida, y debe tener al menos 10 caracteres.');
+      this.nombreDescripcionValido = true;
       return false;
     }
-    if (!this.precio || this.precio.length > 15) {
-      alert('Precio es requerido y debe tener un máximo de 15 cdigitos.');
+    if (!this.precio || price <= 0) {
+      this.nombrePrecioValido = true;
       return false;
     }
     return true;
   }
+
+
+
   //Funciones de botones Enviar y Limpiar
   enviar(form: any): void {
-    /*if (this.myFormReactivo.invalid) {
-      return Object.values(this.myFormReactivo.controls).forEach(controls => {
-        controls.markAllAsTouched()
-      })
-    } else { //Se compara si hay cambios.
-      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.myFormReactivo.get('proveedorForm')?.value)
-      console.log(this.proveedorEncontrado)
-      let productoAdd = {
-        id: this.productoId,
-        codigoSKU: this.myFormReactivo.get('codigoSkuForm')?.value,
-        nameProducto: this.myFormReactivo.get('nombreProductoForm')?.value,
-        imagen: this.myFormReactivo.get('imagenForm')?.value,
-        proveedor: this.myFormReactivo.get('proveedorForm')?.value,
-        categoria: this.myFormReactivo.get('categoriaForm')?.value,
-        descripcion: this.myFormReactivo.get('descripcionForm')?.value,
-        precio: this.myFormReactivo.get('precioForm')?.value,
-        idProveedor: this.proveedorEncontrado[0].idProveedor,
-        razonSocial: this.proveedorEncontrado[0].razonSocial
-      }
-      console.log(productoAdd)
-      let productoCompare = {
-        id: this.productoId,
-        codigoSKU: this.producto.codigoSKU,
-        nameProducto: this.producto.nameProducto,
-        imagen: this.producto.imagen,
-        proveedor: this.producto.proveedor,
-        categoria: this.producto.categoria,
-        descripcion: this.producto.descripcion,
-        precio: this.producto.precio,
-        idProveedor: this.producto.idProveedor,
-        razonSocial: this.producto.razonSocial
-      }
-
-      if (JSON.stringify(productoAdd) == JSON.stringify(productoCompare)) {
-        this.editarInvalido = true;
-        alert("Son  igualeas")
-      } else {
-        this.serviceProduct.put(productoAdd, this.productoId).subscribe(res => {
-          //console.log("Se editó un producto" + res)
-          this.route.navigate(['/', 'productos'])
-        });
-      }*/
+    
     if (this.validarFormulario()) {
       this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)
       const formData = {
@@ -197,8 +241,9 @@ export class FormEditarComponent {
       }
       if (JSON.stringify(formData) == JSON.stringify(productoCompare)) {
         this.editarInvalido = true;
-        alert("Son  igualeas")
+
       } else {
+        this.editarInvalido = false;
         this.serviceProduct.put(formData, this.productoId).subscribe(res => {
           console.log(res)
           this.route.navigate(['/', 'productos'])

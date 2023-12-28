@@ -4,50 +4,87 @@
     <button routerLink="/orden-compra"
         class="buttonAdd btn btn-primary buttonAgregar">Volver</button>
     <br>
-    <div class="card">
+    <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
         <div class="row">
             <div class="col">
-                <input type="date" class="form-control" id="fechaEntrega"
-                    name="fechaEntrega" [(ngModel)]="fechaEntrega"
+                <input type="date"
+                    class="form-control"
+                    id="fechaEntrega"
+                    name="fechaEntrega"
+                    [(ngModel)]="fechaEntrega"
                     placeholder="Fecha de Entrega">
             </div>
             <div class="col">
-                <input type="text" class="form-control" id="direccion"
+                <input type="text"
+                    class="form-control"
+                    id="direccion"
                     name="direccion"
-                    [(ngModel)]="direccion" placeholder="Direccion">
+                    [(ngModel)]="direccion"
+                    placeholder="Direccion">
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col">
-                <input type="text" class="form-control" id="proveedor"
+                <select type="text"
+                    class="form-control custom-select"
+                    id="proveedor"
                     name="proveedor"
-                    [(ngModel)]="proveedor" placeholder="Proveedor">
+                    placeholder="Proveedor"
+                    [(ngModel)]="proveedor"
+                    (ngModelChange)="proveedorChange($event)">
+                    <option value disabled>Seleccione un proveedor</option>
+                    <option value={{item}}
+                        *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+                </select>
+
             </div>
             <div class="col">
-                <input type="text" class="form-control" id="producto"
+                <select type="text"
+                    class="form-control custom-select"
+                    id="producto"
                     name="producto"
                     required
-                    [(ngModel)]="producto" placeholder="Producto">
+                    [(ngModel)]="producto"
+                    placeholder="Producto">
+                    <option value disabled>Seleccione un producto</option>
+                    <option value={{item}}
+                        *ngFor="let item of productosDisponiblesNombres">{{item}}</option>
+                </select>
+
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col">
-                <input type="number" class="form-control" id="cantidad"
-                    name="cantidad" [(ngModel)]="cantidad"
+                <input type="number"
+                    class="form-control"
+                    id="cantidad"
+                    name="cantidad"
+                    [(ngModel)]="cantidad"
                     placeholder="Cantidad">
             </div>
             <div class="col">
-                <input type="number" class="form-control" id="total"
+                <input type="number"
+                    class="form-control"
+                    id="total"
                     name="total"
-                    [(ngModel)]="total" placeholder="total">
+                    [(ngModel)]="total"
+                    placeholder="total">
             </div>
         </div>
         <br>
-
-        <button type="button" class="btn button btn-primary" (click)="enviar()">Submit</button>
+        <div class="input-group col-md-8">
+            <button type="submit"
+                class="btn btn-outline-primary mr-2">
+                Enviar
+            </button>
+            <button type="button"
+                class="btn btn-outline-danger"
+                (click)="limpiar()">
+                Limpiar
+            </button>
+        </div>
         <!-- Otros campos del formulario -->
-
-    </div>
+    </form>
 </div>
