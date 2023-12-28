@@ -211,6 +211,7 @@ export class FormAgregarProductoComponent implements OnInit {
       };
 
       this.serviceProduct.post(formData).subscribe(res => {
+        alert("Se agrego un producto correctamente")
         console.log(res)
         this.route.navigate(['/', 'productos'])
       });

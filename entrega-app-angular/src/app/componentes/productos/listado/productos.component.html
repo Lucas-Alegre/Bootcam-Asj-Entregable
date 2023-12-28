@@ -32,9 +32,6 @@
                 <td>{{ product.precio | currency:'U$S ' }}</td>
                 <td class="editarEliminar">
                     <button
-                        class="btn button btn-primary"
-                        [routerLink]="['/', product.id]">Ver más</button>
-                    <button
                         class="btn button btn-warning"
                         [routerLink]="['/editar-producto', product.id]"><i
                             class="bi bi-pencil-fill"></i></button>

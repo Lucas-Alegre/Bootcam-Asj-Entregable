@@ -1,7 +1,8 @@
 <div class="container">
     <h1 class="h2">Gestion de ordenes de compra</h1>
     <button routerLink="/agregar-orden-compra"
-        class="buttonAdd btn btn-primary buttonAgregar"> Agregar orden de compra</button>
+        class="buttonAdd btn btn-primary buttonAgregar"> Agregar orden de
+        compra</button>
     <br>
     <div class="card">
         <table class="table table-hover">
@@ -29,13 +30,17 @@
                     <td class="editarEliminar">
                         <button
                             class="btn button btn-warning"
-                            [routerLink]="['/editar-orden-compra', orden.id]">Editar</button>
+                            [routerLink]="['/editar-orden-compra', orden.id]"><i
+                                class="bi bi-pencil-fill"></i></button>
                         <button
                             class="btn button btn-danger"
-                            (click)="eliminar(orden)">Eliminar</button>
+                            (click)="eliminar(orden)"><i
+                                class="bi bi-trash3-fill"></i></button>
                     </td>
                 </tr>
             </tbody>
+
         </table>
     </div>
+
 </div>

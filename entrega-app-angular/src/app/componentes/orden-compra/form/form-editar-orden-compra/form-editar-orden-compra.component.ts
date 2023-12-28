@@ -129,10 +129,12 @@ export class FormEditarOrdenCompraComponent implements OnInit {
 
       if (JSON.stringify(ordenAdd) == JSON.stringify(productoCompare)) {
         this.editarInvalido = true;
+        
       } else {
         this.editarInvalido = false;
         this.serviceOrdenCompra.put(ordenAdd, this.idNuevo).subscribe(res => {
           console.log(res)
+          alert("Se modificó una orden correctamente")
           this.route.navigate(['/', 'orden-compra'])
         });
       }

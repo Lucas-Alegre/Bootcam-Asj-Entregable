@@ -81,19 +81,6 @@ export class FormAgregarProveedorComponent {
       const citieToStateConstName = new Set(this.citieToStateByName);
       this.citieToStateByName = [...citieToStateConstName]
     })
-
-    /*Para probar esto colocar el input en text-despues faltaria aplicarle un regex
-    this.form.controls['cuitForm'].valueChanges.subscribe(value => {
-      let cuit = value
-      if (cuit.length == 2) {
-        this.cuitAux = cuit + "-";
-        this.form.controls['cuitForm'].setValue(this.cuitAux)
-      }
-      if (cuit.length == 9) {
-        this.cuitAux += cuit.slice(3,8) + "-";
-        this.form.controls['cuitForm'].setValue(this.cuitAux)
-      }
-    })*/
     
   }
 
@@ -268,7 +255,7 @@ export class FormAgregarProveedorComponent {
         rol: this.form.get('rolForm')?.value,
       }
       this.serviceProveedor.post(proveedorAdd).subscribe(res => {
-        console.log("Se agrego un proveedor" + res)
+        alert("Se agregó un proveedor correctamente")
         this.route.navigate(['/', 'proveedores'])
       });
 

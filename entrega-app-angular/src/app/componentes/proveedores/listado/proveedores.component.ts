@@ -42,6 +42,7 @@ export class ProveedoresComponent {
 
   eliminar(proveedor: any) {
     this.servicesProveedor.delete(proveedor.id).subscribe(res => {
+      alert("Se eliminó un proveedor correctamente");
       this.getProveedor()
     })
   }

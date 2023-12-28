@@ -212,7 +212,7 @@ export class FormEditarComponent {
 
   //Funciones de botones Enviar y Limpiar
   enviar(form: any): void {
-    
+
     if (this.validarFormulario()) {
       this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)
       const formData = {
@@ -246,6 +246,7 @@ export class FormEditarComponent {
         this.editarInvalido = false;
         this.serviceProduct.put(formData, this.productoId).subscribe(res => {
           console.log(res)
+          alert("Se Editó un producto correctamente")
           this.route.navigate(['/', 'productos'])
         });
       }

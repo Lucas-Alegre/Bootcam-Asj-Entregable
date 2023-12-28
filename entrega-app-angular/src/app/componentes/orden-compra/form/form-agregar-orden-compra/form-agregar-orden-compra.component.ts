@@ -105,6 +105,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       }
       this.serviceOrdenCompra.post(ordenAdd).subscribe(res => {
         console.log(res)
+        alert("Se agregó una orden correctamente")
         this.route.navigate(['/', 'orden-compra'])
       });
     }

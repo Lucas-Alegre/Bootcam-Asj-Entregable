@@ -33,7 +33,6 @@
                     name="proveedor"
                     [(ngModel)]="proveedor"
                     (ngModelChange)="proveedorChange($event)">
-
                     <option value disabled>Seleccione un proveedo</option>
                     <option
                         *ngFor="let item of listadoNombresJoinApellido"
@@ -88,6 +87,8 @@
                 Limpiar
             </button>
         </div>
+        <p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
+            producto, si no realiza ningún cambio</p>
         <!-- Otros campos del formulario -->
     </form>
 </div>

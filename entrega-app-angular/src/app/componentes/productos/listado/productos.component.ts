@@ -40,7 +40,9 @@ export class ProductosComponent implements OnInit {
 
 
   eliminar(product: any) {
+    
     this.servicesProducto.delete(product.id).subscribe(res => {
+      alert("Se eliminó un producto correctamente")
       this.getProductos()
     })
   }

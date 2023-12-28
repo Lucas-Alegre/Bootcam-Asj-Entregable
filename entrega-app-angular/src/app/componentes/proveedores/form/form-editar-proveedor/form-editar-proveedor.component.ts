@@ -93,19 +93,6 @@ export class FormEditarProveedorComponent {
     });
 
 
-
-    /*Para probar esto colocar el input en text-despues faltaria aplicarle un regex
-    this.form.controls['cuitForm'].valueChanges.subscribe(value => {
-      let cuit = value
-      if (cuit.length == 2) {
-        this.cuitAux = cuit + "-";
-        this.form.controls['cuitForm'].setValue(this.cuitAux)
-      }
-      if (cuit.length == 9) {
-        this.cuitAux += cuit.slice(3,8) + "-";
-        this.form.controls['cuitForm'].setValue(this.cuitAux)
-      }
-    })*/
   }
   getCountry() {
     this.servicesCountry.get().subscribe((data) => {
@@ -313,7 +300,7 @@ export class FormEditarProveedorComponent {
         this.editarInvalido = true;
       } else {
         this.serviceProveedor.put(proveedorAdd, this.proveedorId).subscribe(res => {
-          console.log("Se editó un producto" + res)
+          alert("Se editó un proveedor correctamente")
           this.route.navigate(['/', 'proveedores'])
         });
       }
