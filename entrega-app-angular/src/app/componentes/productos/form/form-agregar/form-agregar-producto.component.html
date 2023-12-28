@@ -4,7 +4,7 @@
   <br>
   <h3 class="mt-3">Agregar un producto</h3>
   <hr>
-  <form [formGroup]="form" (ngSubmit)="guardar()">
+  <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
     <div class="row">
       <div class="col-6">
         <div>
@@ -15,13 +15,13 @@
                 class="form-control"
                 id="codigoSku"
                 name="codigoSku"
-                formControlName="codigoSkuForm"
-                [class.is-invalid]="codigoSkuValido"
-                placeholder="Ingrese un codido SKU">
-              <small *ngIf="codigoSkuValido" class="text-danger">Ingrese un
-                codigo SKU minimo de 4 caracteres. </small>
-              <small *ngIf="codigoSkuValido2" class="text-danger">Este
-                codigo SKU ya existe. Por favor ingrese uno diferente. </small>
+                placeholder="Codigo Sku"
+                [(ngModel)]="codigoSku"
+                (ngModelChange)="cambiaEstadoValidado($event)">
+              <small class="text-danger"
+                *ngIf="codigoSkuvalidado">El codigo Sku es requerido.</small>
+                <small class="text-danger"
+                *ngIf="codigoSkuRepetidovalidado">Este codigo ya existe. Por favor ingese uno diferente.</small>
             </div>
           </div>
           <br>
@@ -32,12 +32,11 @@
                 class="form-control"
                 id="nombreProducto"
                 name="nombreProducto"
-                formControlName="nombreProductoForm"
-                [class.is-invalid]="nombreProductoValido"
-                placeholder="Nombre del producto">
-              <small *ngIf="nombreProductoValido" class="text-danger">Ingrese un
-                nombre de producto valido. </small>
-
+                placeholder="Nombre de Producto"
+                [(ngModel)]="nombreProducto">
+              <!--<small
+                *ngIf="myFormReactivo.get('nombreProductoForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
           <br>
@@ -48,18 +47,15 @@
                 class="form-control custom-select"
                 id="proveedor"
                 name="proveedor"
-                formControlName="proveedorForm"
-                [class.is-invalid]="proveedorValido"
-                placeholder="Proveedor">
-                <option value disabled>Seleccione un proveedor</option>
+                placeholder="Proveedor"
+                [(ngModel)]="proveedor">
+                <option value disabled>Seleccione una categoría</option>
                 <option value={{item}}
                   *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
               </select>
-              <small *ngIf="proveedorValido" class="text-danger">Ingrese un
-                nombre de proveedor valido. </small>
-              <small *ngIf="proveedorStringValido" class="text-danger">Ingrese
-                un
-                nombre sin números</small>
+              <!--<small
+                *ngIf="myFormReactivo.get('proveedorForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
           <br>
@@ -70,15 +66,15 @@
                 class="form-control custom-select"
                 id="categoria"
                 name="categoria"
-                formControlName="categoriaForm"
-                [class.is-invalid]="categoriaValido"
-                placeholder="Seleccione una categoría">
+                placeholder="Categoria"
+                [(ngModel)]="categoria">
                 <option value disabled>Seleccione una categoría</option>
                 <option value={{item}}
                   *ngFor="let item of listaCategorias">{{item}}</option>
               </select>
-              <small *ngIf="categoriaValido" class="text-danger">Ingrese una
-                categoría</small>
+              <!--<small
+                *ngIf="myFormReactivo.get('categoriaForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
         </div>
@@ -92,13 +88,11 @@
                 class="form-control"
                 id="imagen"
                 name="imagen"
-                formControlName="imagenForm"
-                [class.is-invalid]="imagenValida"
-                placeholder="Url Imagen">
-              <small *ngIf="imagenValida" class="text-danger">La imagen
-                es requerida. </small>
-              <small *ngIf="imagenValidaFormato" class="text-danger">La imagen
-                debe tener un formato valido</small>
+                placeholder="Imagen"
+                [(ngModel)]="imagen">
+              <!--<small
+                *ngIf="myFormReactivo.get('imagenForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
           <br>
@@ -109,11 +103,11 @@
                 class="form-control"
                 id="descripcion"
                 name="descripcion"
-                formControlName="descripcionForm"
-                [class.is-invalid]="descriptionValida"
-                placeholder="Descripción">
-              <small *ngIf="descriptionValida" class="text-danger">Ingrese una
-                descripción minima de 10 caracteres</small>
+                placeholder="Descripción"
+                [(ngModel)]="descripcion">
+              <!--<small
+                *ngIf="myFormReactivo.get('descripcionForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
           <br>
@@ -122,12 +116,13 @@
             <div class="col-md-8">
               <input type="number"
                 class="form-control"
-                id="precio" name="precio"
-                formControlName="precioForm"
-                [class.is-invalid]="precioValido"
-                placeholder="Precio">
-              <small *ngIf="precioValido" class="text-danger">Ingrese un precio
-                mayor a $1. </small>
+                id="precio"
+                name="precio"
+                placeholder="Precio"
+                [(ngModel)]="precio">
+              <!--<small
+                *ngIf="myFormReactivo.get('precioForm')?.hasError('required')">Proveedor
+                es requerido.</small>-->
             </div>
           </div>
         </div>
@@ -141,20 +136,14 @@
           class="btn btn-outline-primary mr-2">
           Enviar
         </button>
-        <button *ngIf="formInvalido" type="button" disabled
-          class="btn btn-outline-danger"
-          (click)="limpiar()">
-          Limpiar
-        </button>
-        <button *ngIf="!formInvalido" type="button"
+        <button type="button"
           class="btn btn-outline-danger"
           (click)="limpiar()">
           Limpiar
         </button>
       </div>
-      <p *ngIf="codigoSku" class="text-danger mt-3">Por favor complete bien los
-        campos requeridos!</p>
+      <!--<p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
+        producto, si no realiza ningún cambio</p>-->
     </div>
-
   </form>
 </div>

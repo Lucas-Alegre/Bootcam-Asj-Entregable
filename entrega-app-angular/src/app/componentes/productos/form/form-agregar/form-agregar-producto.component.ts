@@ -11,22 +11,27 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
 })
 export class FormAgregarProductoComponent implements OnInit {
   listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
-  nombreProducto = "";
-  proveedor = "";
-  categoria = "";
-  imagen = "";
-  descripcion = "";
-  precio = "";
+
   idNuevo = 0;
-  public form!: FormGroup
   productosSKU: any = []
-  codigoSku: boolean = false;
   listadoProveedores: any = []
   listadoProveedoresNombre: any = [];
   listadoProveedoresApellido: any = [];
   listadoNombresJoinApellidoRzonSocial: any = []
   listadoNombresJoinApellido: any = []
   proveedorEncontrado: any = [];
+
+  codigoSku: string = '';
+  nombreProducto: string = '';
+  proveedor: string = '';
+  categoria: string = '';
+  imagen: string = '';
+  descripcion: string = '';
+  precio: string = '';
+
+  codigoSkuvalidado: boolean = false;
+  codigoSkuRepetidovalidado: boolean = false;
+  nombreProductoValido:boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,25 +44,7 @@ export class FormAgregarProductoComponent implements OnInit {
       this.idNuevo = data.length;
       this.productosSKU = data.map((item: any) => item.codigoSKU);
     });
-    this.form = this.formBuilder.group({
-      codigoSkuForm: ['', [Validators.required, Validators.minLength(4)]],
-      nombreProductoForm: ['', [Validators.required, Validators.minLength(3)]],
-      proveedorForm: ['', [Validators.required, Validators.minLength(1)]],
-      categoriaForm: ['', [Validators.required]],
-      imagenForm: ['', [Validators.required, Validators.minLength(5)]],
-      descripcionForm: ['', [Validators.required, Validators.minLength(10)]],
-      precioForm: ['1', [Validators.required, Validators.minLength(1)]]
-    })
-
-    this.form.controls['codigoSkuForm'].valueChanges.subscribe(value => {
-      this.codigoSku = this.productosSKU.includes(value);
-    })
     this.getListadProveedores()
-
-    this.form.controls[' proveedorForm'].valueChanges.subscribe(value => {
-      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == value)
-      if (this.proveedorEncontrado) console.log(this.proveedorEncontrado)
-    })
   }
 
   getListadProveedores() {
@@ -71,110 +58,164 @@ export class FormAgregarProductoComponent implements OnInit {
 
       const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
-      console.log(this.listadoNombresJoinApellidoRzonSocial)
+      //console.log(this.listadoNombresJoinApellidoRzonSocial)
       this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
         item.union
       )
 
       const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
       this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
-      console.log(this.listadoNombresJoinApellido)
+      //console.log(this.listadoNombresJoinApellido)
     });
   }
 
-  get codigoSkuValido2() {
-    return this.codigoSku;
-  }
-  get codigoSkuValido() {
-    return this.form.get('codigoSkuForm')?.invalid && this.form.get('codigoSkuForm')?.touched;
-  }
-
-  get nombreProductoValido() {
-    return this.form.get('nombreProductoForm')?.invalid && this.form.get('nombreProductoForm')?.touched;
-  }
-
-  get proveedorStringValido() {
-    let nombreProveedor = this.form.get('proveedorForm')?.value;
-    if (nombreProveedor.replace(/[^0-9]/g, "").length) {
-      return true
+  cambiaEstadoValidado(valor: any) {
+    if (valor.length > 2) {
+      this.codigoSkuvalidado = false;
     }
-    return false
-  }
-
-  get imagenValida() {
-    return this.form.get('imagenForm')?.invalid && this.form.get('imagenForm')?.touched;
-  }
-  get imagenValidaFormato() {
-    let nombreProveedor = this.form.get('imagenForm')?.value;
-    if (nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
-      return true
+    if (valor.length <= 2) {
+      this.codigoSkuvalidado = true;
     }
-    return false
-  }
-
-
-  get proveedorValido() {
-    return this.form.get('proveedorForm')?.invalid && this.form.get('proveedorForm')?.touched;
-  }
-  get categoriaValido() {
-    return this.form.get('categoriaForm')?.invalid && this.form.get('categoriaForm')?.touched;
-  }
-
-  get descriptionValida() {
-    return this.form.get('descripcionForm')?.invalid && this.form.get('descripcionForm')?.touched;
-  }
-
-  get precioValido() {
-    let precio = this.form.get('precioForm')?.value;
-
-    if (precio == 0) {
-      return true
+    let skuValidate = this.productosSKU.filter((item: any) => item == valor)
+    if (skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = true;
     }
-    if (precio < 0) {
-      return true
+    if (!skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = false;
     }
-    return this.form.get('precioForm')?.invalid && this.form.get('precioForm')?.touched;
   }
 
-  get formInvalido() {
-    let formularioToValidar = this.form.invalid;
-    if (formularioToValidar) {
-      return true
+  cambiaNombreProductoValidado(valor: any) {
+    if (valor.length <= 2) {
+      this.codigoSkuvalidado = true;
     }
-    return false
   }
 
-  guardar() {
-    console.log(this.form.value)
-    if (this.form.invalid) {
-      return Object.values(this.form.controls).forEach(controls => {
-        controls.markAllAsTouched()
-      })
-    } if (this.codigoSku) {
-      console.log("Por favor complete bien el campo requerido")
+  private validarFormulario(): boolean {
+    let skuValidate = this.productosSKU.filter((item: any) => item == this.codigoSku)
+    //let proveedorContieneNumeros = this.proveedor.replace(/[^0-9]/g,"").length;
+    if (skuValidate[0]) {
+      this.codigoSkuRepetidovalidado = true;
+      return false;
     }
-    else {
+    if (!this.codigoSku) {
+      this.codigoSkuvalidado = true;
+      return false;
+    }
+    if (!this.nombreProducto || this.nombreProducto.length < 2) {
+      alert('Nombre producto es requerido, y debe tener al menos 2 caracteres.');
+      this.nombreProductoValido=true;
+      //Quede en validacion esta
+      return false;
+    }
+    if (!this.proveedor) {
+      alert('Proveedor es requerido.');
+      return false;
+    }
+    if (!this.categoria) {
+      alert('Categoria es requerida.');
+      return false;
+    }
+    if (!this.imagen) {
+      alert('Imagen es requerida.');
+      return false;
+    }
+    if (this.imagen.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+      alert('Imagen debe cumplir con formato url + .png .web .jpeg.');
+      return false;
+    }
+    if (!this.descripcion || this.descripcion.length < 10) {
+      alert('La descripción es requerida, y debe tener al menos 10 caracteres.');
+      return false;
+    }
+    if (!this.precio || this.precio.length > 15) {
+      alert('Precio es requerido y debe tener un máximo de 15 cdigitos.');
+      return false;
+    }
+    return true;
+  }
 
-      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.form.get('proveedorForm')?.value)
-
-      console.log("Soy encontrado" + this.proveedorEncontrado[0].id)
-
-
-      let productoAdd = {
+  /*
+    get codigoSkuValido2() {
+      return this.codigoSku;
+    }
+    get codigoSkuValido() {
+      return this.form.get('codigoSkuForm')?.invalid && this.form.get('codigoSkuForm')?.touched;
+    }
+  
+    get nombreProductoValido() {
+      return this.form.get('nombreProductoForm')?.invalid && this.form.get('nombreProductoForm')?.touched;
+    }
+  
+    get proveedorStringValido() {
+      let nombreProveedor = this.form.get('proveedorForm')?.value;
+      if (nombreProveedor.replace(/[^0-9]/g, "").length) {
+        return true
+      }
+      return false
+    }
+  
+    get imagenValida() {
+      return this.form.get('imagenForm')?.invalid && this.form.get('imagenForm')?.touched;
+    }
+    get imagenValidaFormato() {
+      let nombreProveedor = this.form.get('imagenForm')?.value;
+      if (nombreProveedor.replace(/(http|https|ftp|ftps).*(png|jpg|jpeg|gif|webp|=)$/g, "")) {
+        return true
+      }
+      return false
+    }
+  
+  
+    get proveedorValido() {
+      return this.form.get('proveedorForm')?.invalid && this.form.get('proveedorForm')?.touched;
+    }
+    get categoriaValido() {
+      return this.form.get('categoriaForm')?.invalid && this.form.get('categoriaForm')?.touched;
+    }
+  
+    get descriptionValida() {
+      return this.form.get('descripcionForm')?.invalid && this.form.get('descripcionForm')?.touched;
+    }
+  
+    get precioValido() {
+      let precio = this.form.get('precioForm')?.value;
+  
+      if (precio == 0) {
+        return true
+      }
+      if (precio < 0) {
+        return true
+      }
+      return this.form.get('precioForm')?.invalid && this.form.get('precioForm')?.touched;
+    }
+  
+    get formInvalido() {
+      let formularioToValidar = this.form.invalid;
+      if (formularioToValidar) {
+        return true
+      }
+      return false
+    }
+  */
+  enviar(form: any): void {
+    if (this.validarFormulario()) {
+      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)
+      const formData = {
         id: this.idNuevo + 2,
-        codigoSKU: this.form.get('codigoSkuForm')?.value,
-        nameProducto: this.form.get('nombreProductoForm')?.value,
-        imagen: this.form.get('imagenForm')?.value,
-        proveedor: this.form.get('proveedorForm')?.value,
-        categoria: this.form.get('categoriaForm')?.value,
-        descripcion: this.form.get('descripcionForm')?.value,
-        precio: this.form.get('precioForm')?.value,
+        codigoSKU: this.codigoSku,
+        nameProducto: this.nombreProducto,
+        imagen: this.imagen,
+        proveedor: this.proveedor,
+        categoria: this.categoria,
+        descripcion: this.descripcion,
+        precio: this.precio,
         idProveedor: this.proveedorEncontrado[0].id,
         razonSocial: this.proveedorEncontrado[0].razonSocial
+      };
 
-      }
-      this.serviceProduct.post(productoAdd).subscribe(res => {
-        console.log("Se agrego un producto" + res)
+      this.serviceProduct.post(formData).subscribe(res => {
+        console.log(res)
         this.route.navigate(['/', 'productos'])
       });
 
@@ -183,7 +224,12 @@ export class FormAgregarProductoComponent implements OnInit {
   }
 
   limpiar() {
-    this.form.reset()
-    this.ngOnInit()
+    this.codigoSku = "";
+    this.nombreProducto = "";
+    this.proveedor = "";
+    this.categoria = "";
+    this.imagen = "";
+    this.descripcion = "";
+    this.precio = "";
   }
 }

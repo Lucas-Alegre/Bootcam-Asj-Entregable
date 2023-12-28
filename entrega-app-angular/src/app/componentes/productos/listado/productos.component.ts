@@ -14,9 +14,7 @@ export class ProductosComponent implements OnInit {
   listadoProveedores: any = []
   listadoNombreApellidoProveedores: any = []
 
-  constructor(private servicesProducto: ProductosService,
-    private route: Router,
-    private serviceProveedor: ProveedoresService) { }
+  constructor(private servicesProducto: ProductosService,) { }
 
   ngOnInit(): void {
     this.getProductos()
