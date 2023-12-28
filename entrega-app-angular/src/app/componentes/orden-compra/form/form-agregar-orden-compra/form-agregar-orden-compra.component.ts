@@ -108,6 +108,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
         producto: this.producto,
         cantidad: this.cantidad,
         total: this.precioPrueba,
+        status:"pending"
       }
       this.serviceOrdenCompra.post(ordenAdd).subscribe(res => {
         console.log(res)

@@ -9,8 +9,9 @@ import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compr
 })
 export class OrdenCompraComponent implements OnInit {
   ordenDeCompra: any = [];
-  seElimino:boolean=false
-  existenOrdenes:boolean=false;
+  ordenDeCompra2: any = [];
+  seElimino: boolean = false
+  existenOrdenes: boolean = false;
 
   constructor(private ordenService: OrdenCompraService,
     private route: Router) { }
@@ -25,13 +26,37 @@ export class OrdenCompraComponent implements OnInit {
       if (data.length < 1) {
         this.existenOrdenes = true;
       }
+      for (let i = 0; i < this.ordenDeCompra.length; i++) {
+        if (this.ordenDeCompra[i].status == "pending" || this.ordenDeCompra[i].status == "alta") {
+          this.ordenDeCompra2.push(this.ordenDeCompra[i])
+        }
+      }
+      console.log(this.ordenDeCompra2)
     });
   }
 
   eliminar(orden: any) {
-    this.seElimino=true
-    this.ordenService.delete(orden.id).subscribe((data: any) => {
-      this.getOrdenCompra()
+    let obj = {
+      id: orden.id,
+      fechaEntrega: orden.fechaEntrega,
+      direccion: orden.direccion,
+      proveedor: orden.proveedor,
+      producto: orden.producto,
+      cantidad: orden.cantidad,
+      total: orden.total,
+      status: "baja"
+    }
+
+    this.ordenService.put(obj, orden.id).subscribe((data: any) => {
+      this.seElimino = true
+      alert("Se dio de baja la orden")
+      this.ngOnInit()
     })
+
+
+    // this.seElimino = true
+    // this.ordenService.delete(obj.id).subscribe((data: any) => {
+    // this.getOrdenCompra()
+    //})
   }
 }

@@ -38,13 +38,54 @@
   ],
   "ordenDeCompra": [
     {
-      "id": 3,
-      "fechaEntrega": "2023-12-01",
+      "id": 2,
+      "fechaEntrega": "2023-12-12",
       "direccion": "rawson 2000",
       "proveedor": "Vega Ayelen",
       "producto": "Mate",
-      "cantidad": "3",
-      "total": 75
+      "cantidad": "5",
+      "total": 125,
+      "status": "baja"
+    },
+    {
+      "id": 3,
+      "fechaEntrega": "2023-12-06",
+      "direccion": "Diamante 4703",
+      "proveedor": "Vega Ayelen",
+      "producto": "Mate",
+      "cantidad": "5",
+      "total": 125,
+      "status": "baja"
+    },
+    {
+      "id": 4,
+      "fechaEntrega": "2023-12-06",
+      "direccion": "rawson 2000",
+      "proveedor": "Vega Ayelen",
+      "producto": "Mate",
+      "cantidad": "5",
+      "total": 125,
+      "status": "baja"
+    },
+    {
+      "id": 5,
+      "fechaEntrega": "2023-12-05",
+      "direccion": "rawson 2000",
+      "proveedor": "Vega Ayelen",
+      "producto": "Mate",
+      "cantidad": "5",
+      "total": 125,
+      "status": "baja"
+    },
+    {
+      "id": 6,
+      "fechaEntrega": "2023-12-06",
+      "direccion": "rawson 2000",
+      "proveedor": "Vega Ayelen",
+      "producto": "Mate",
+      "cantidad": "5",
+      "total": 125,
+      "status": "baja"
     }
   ]
 }

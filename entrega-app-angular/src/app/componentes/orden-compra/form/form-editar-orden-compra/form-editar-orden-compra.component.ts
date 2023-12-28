@@ -116,6 +116,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
         producto: this.producto,
         cantidad: this.cantidad,
         total: this.total,
+        status:"pending"
       }
       const productoCompare = {
         id: this.idNuevo,
@@ -125,6 +126,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
         producto: this.orden.producto,
         cantidad: this.orden.cantidad,
         total: this.orden.total,
+        status:"pending"
       }
 
       if (JSON.stringify(ordenAdd) == JSON.stringify(productoCompare)) {
