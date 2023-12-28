@@ -13,7 +13,7 @@ export class ProductosComponent implements OnInit {
   productos2: any = []
   listadoProveedores: any = []
   listadoNombreApellidoProveedores: any = []
-
+  existenProductos: boolean = false;
   constructor(private servicesProducto: ProductosService,) { }
 
   ngOnInit(): void {
@@ -24,6 +24,9 @@ export class ProductosComponent implements OnInit {
   getProductos() {
     this.servicesProducto.get().subscribe((data) => {
       this.productos = data
+      if (data.length < 1) {
+        this.existenProductos = true;
+      }
       this.productos.sort(this.sortFunc)
     });
   }
@@ -40,7 +43,7 @@ export class ProductosComponent implements OnInit {
 
 
   eliminar(product: any) {
-    
+
     this.servicesProducto.delete(product.id).subscribe(res => {
       alert("Se eliminó un producto correctamente")
       this.getProductos()

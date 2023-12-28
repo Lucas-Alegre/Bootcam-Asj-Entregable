@@ -57,11 +57,12 @@
         <br>
         <div class="row">
             <div class="col">
-                <input type="number"
+                <input type="text"
                     class="form-control"
                     id="cantidad"
                     name="cantidad"
                     [(ngModel)]="cantidad"
+                    (ngModelChange)="cantidadChange($event)"
                     placeholder="Cantidad">
             </div>
             <div class="col">
@@ -69,6 +70,7 @@
                     class="form-control"
                     id="total"
                     name="total"
+                    disabled
                     [(ngModel)]="total"
                     placeholder="total">
             </div>

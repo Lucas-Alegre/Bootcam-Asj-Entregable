@@ -7,74 +7,44 @@
       "imagen": "https://media.istockphoto.com/id/1328088056/es/foto/t%C3%ADpico-mate-argentino-sobre-tela-de-arpillera-con-detalles-de-guardias-gauchos-bebida.jpg?s=2048x2048&w=is&k=20&c=d-4h7DbfJTbMC92gcWnvO8O05-BxUcSpNkYPXnehhqo=",
       "proveedor": "Vega Ayelen",
       "categoria": "Tecnológico",
-      "descripcion": "Samsung Galaxy S23 Ultra 512gb Sm-s918bzkvaro Color Phantom black",
-      "precio": 44,
-      "idProveedor": 3,
-      "razonSocial": "AduanaLB"
+      "descripcion": "El mejor mate amargo",
+      "precio": 50,
+      "idProveedor": 2,
+      "razonSocial": "Finnegans Sa"
     }
   ],
   "proveedor": [
     {
-      "id": 3,
-      "codigo": "pogr7801",
-      "razonSocial": "AduanaLB",
-      "rubro": "Moda",
-      "sitioWeb": "https://facebook.com",
-      "condicionIva": "IVA Sujeto Ecento",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
-      "localidad": "Paso de los Libres",
-      "provincia": "Corrientes",
-      "pais": "Argentina",
-      "calle": "Cruz",
-      "numerocalle": "12",
-      "CP": "14",
-      "cuit": "53535353535",
-      "telefono": "45454545",
-      "email": "ayelen.extra@gmail.com",
-      "nombre": "Ayelen",
-      "apellido": "Vega",
-      "rol": "usuario"
-    },
-    {
-      "id": 4,
-      "codigo": "Fru2498",
-      "razonSocial": "AllMotorBlue",
+      "id": 2,
+      "codigo": "asjk",
+      "razonSocial": "Finnegans Sa",
       "rubro": "Vehículo",
       "sitioWeb": "https://facebook.com",
-      "condicionIva": "Pequeño Contribuyente Eventual Social",
-      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_731400-MLU72273397500_102023-F.webp",
-      "localidad": "Concordia",
-      "provincia": "Entre Rios",
-      "pais": "Argentina",
-      "calle": "La bianca",
-      "numerocalle": "166",
-      "CP": "123",
-      "cuit": "53535353535",
-      "telefono": "777777777",
-      "email": "sander@allmotor.com",
-      "nombre": "Alexander",
-      "apellido": "Martinez",
+      "condicionIva": "IVA Responsable no Inscripto",
+      "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_847930-MLA73087622579_112023-F.webp",
+      "localidad": "The Valley",
+      "provincia": "N/A",
+      "pais": "Anguilla",
+      "calle": "Cruz",
+      "numerocalle": "1",
+      "CP": "13",
+      "cuit": "20-42736541-8",
+      "telefono": "4444444",
+      "email": "lucasalegre.extra@gmail.com",
+      "nombre": "Ayelen",
+      "apellido": "Vega",
       "rol": "usuario"
     }
   ],
   "ordenDeCompra": [
     {
-      "id": 2,
-      "fechaEntrega": "2023-11-28",
-      "direccion": "rawson 2000",
-      "proveedor": "Alegre Lucas",
-      "producto": "Samsung s20Fe",
-      "cantidad": 21,
-      "total": 35
-    },
-    {
       "id": 3,
-      "fechaEntrega": "2023-12-14",
+      "fechaEntrega": "2023-12-01",
       "direccion": "rawson 2000",
       "proveedor": "Vega Ayelen",
       "producto": "Mate",
-      "cantidad": 20,
-      "total": 21
+      "cantidad": "3",
+      "total": 75
     }
   ]
 }

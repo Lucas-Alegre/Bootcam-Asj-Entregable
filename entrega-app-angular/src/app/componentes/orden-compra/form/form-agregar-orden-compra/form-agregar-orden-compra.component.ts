@@ -14,7 +14,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   direccion = "";
   proveedor = "";
   producto = "";
-  cantidad = 0;
+  cantidad = "";
   total = 0;
   idNuevo = 0
 
@@ -27,6 +27,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   listadoNombresJoinApellido: any = [];
   productosDisponibles: any = []
   proveedorValido: boolean = false;
+  precioPrueba: any = 25;
 
   constructor(
     private serviceOrdenCompra: OrdenCompraService,
@@ -79,6 +80,11 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.productosDisponiblesNombres = this.productosDisponibles.map((item: any) => item.nameProducto)
   }
 
+  cantidadChange(valor: any) {
+    this.precioPrueba = this.precioPrueba * parseInt(valor);
+    this.total = this.precioPrueba.toString()
+  }
+
 
   private validarFormulario(): boolean {
 
@@ -89,7 +95,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   }
 
   enviar(form: any) {
-   
+
     if (this.validarFormulario()) {
       this.serviceOrdenCompra.get().subscribe((data: any) => {
         this.idNuevo = data.length
@@ -101,7 +107,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
         proveedor: this.proveedor,
         producto: this.producto,
         cantidad: this.cantidad,
-        total: this.total,
+        total: this.precioPrueba,
       }
       this.serviceOrdenCompra.post(ordenAdd).subscribe(res => {
         console.log(res)
@@ -116,7 +122,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.direccion = ""
     this.proveedor = ""
     this.producto = ""
-    this.cantidad = 0;
+    this.cantidad = "";
     this.total = 0;
   }
 }

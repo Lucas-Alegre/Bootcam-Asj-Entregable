@@ -10,6 +10,8 @@ import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compr
 export class OrdenCompraComponent implements OnInit {
   ordenDeCompra: any = [];
   seElimino:boolean=false
+  existenOrdenes:boolean=false;
+
   constructor(private ordenService: OrdenCompraService,
     private route: Router) { }
 
@@ -20,6 +22,9 @@ export class OrdenCompraComponent implements OnInit {
   getOrdenCompra() {
     this.ordenService.get().subscribe((data: any) => {
       this.ordenDeCompra = data;
+      if (data.length < 1) {
+        this.existenOrdenes = true;
+      }
     });
   }
 

@@ -10,7 +10,7 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
 })
 export class ProveedoresComponent {
   proveedor: any = []
- 
+  existenProveedor: boolean = false;
 
   constructor(
     private servicesProveedor: ProveedoresService,
@@ -24,6 +24,9 @@ export class ProveedoresComponent {
   getProveedor() {
     this.servicesProveedor.get().subscribe((data) => {
       this.proveedor = data
+      if (data.length < 1) {
+        this.existenProveedor = true;
+      }
       this.proveedor.sort(this.sortFunc)
     });
   }
@@ -38,7 +41,7 @@ export class ProveedoresComponent {
     return 0;
   }
 
-  
+
 
   eliminar(proveedor: any) {
     this.servicesProveedor.delete(proveedor.id).subscribe(res => {
