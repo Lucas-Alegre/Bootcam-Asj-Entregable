@@ -46,17 +46,11 @@ export class OrdenCompraComponent implements OnInit {
       total: orden.total,
       status: "baja"
     }
-
+    this.seElimino = true
     this.ordenService.put(obj, orden.id).subscribe((data: any) => {
-      this.seElimino = true
+
       alert("Se dio de baja la orden")
-      this.ngOnInit()
+      this.getOrdenCompra()
     })
-
-
-    // this.seElimino = true
-    // this.ordenService.delete(obj.id).subscribe((data: any) => {
-    // this.getOrdenCompra()
-    //})
   }
 }
