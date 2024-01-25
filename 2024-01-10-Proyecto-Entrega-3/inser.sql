@@ -9,22 +9,22 @@ VALUES
 ('Puerto Rico');
 SELECT* FROM pais;
 
-INSERT INTO provincia VALUES('Entre Ríos',1);
-INSERT INTO provincia VALUES('Córdoba',1);
-INSERT INTO provincia VALUES('Montevideo',2);
-INSERT INTO provincia VALUES('Maldonado',2);
-INSERT INTO provincia VALUES('Río de Janeiro',3);
-INSERT INTO provincia VALUES('Pará',3);
-INSERT INTO provincia VALUES('Bogotá',4);
-INSERT INTO provincia VALUES('Barranquilla',4);
-INSERT INTO provincia VALUES('Puerta del Sol',5);
-INSERT INTO provincia VALUES('Porta Caribe',5);
+INSERT INTO provincia VALUES(1,'Entre Ríos',7);
+INSERT INTO provincia VALUES(2,'Córdoba',7);
+INSERT INTO provincia VALUES(3,'Montevideo',8);
+INSERT INTO provincia VALUES(4,'Maldonado',8);
+INSERT INTO provincia VALUES(5,'Río de Janeiro',9);
+INSERT INTO provincia VALUES(6,'Pará',9);
+INSERT INTO provincia VALUES(7,'Bogotá',10);
+INSERT INTO provincia VALUES(8,'Barranquilla',10);
+INSERT INTO provincia VALUES(9,'Puerta del Sol',11);
+INSERT INTO provincia VALUES(10,'Porta Caribe',11);
 
-INSERT INTO localidad VALUES('Concordia',1);
-INSERT INTO localidad VALUES('Paraná',1);
-INSERT INTO localidad VALUES('La Páz',1);
-INSERT INTO localidad VALUES('Nogoyá',1);
-INSERT INTO localidad VALUES('Diamante',1);
+INSERT INTO localidad VALUES(1,'Concordia',1);
+INSERT INTO localidad VALUES(2,'Paraná',1);
+INSERT INTO localidad VALUES(3,'La Páz',1);
+INSERT INTO localidad VALUES(4,'Nogoyá',1);
+INSERT INTO localidad VALUES(5,'Diamante',1);
 
 INSERT INTO localidad VALUES('Elena',2);
 INSERT INTO localidad VALUES('Oliva',2);
