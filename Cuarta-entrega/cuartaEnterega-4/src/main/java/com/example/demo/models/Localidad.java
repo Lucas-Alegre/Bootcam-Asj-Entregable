@@ -1,9 +1,12 @@
 package com.example.demo.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,12 +18,14 @@ public class Localidad {
 	@Column(name="loc_id", unique=true, nullable=false)
 	private Integer id;
 	private String nombre;
-	private Integer provId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "prov_id", referencedColumnName = "prov_id", nullable = false)
+    private Provincia prov;
 	
-	public Localidad(Integer id, String nombre, Integer provId) {
+	public Localidad(Integer id, String nombre, Provincia prov) {
 		this.id=id; 
 		this.nombre=nombre;
-		this.provId=provId;
+		this.prov=prov;
 	}
 	public Localidad() {
 		super();
@@ -42,17 +47,16 @@ public class Localidad {
 		this.nombre = nombre;
 	}
 
-	public Integer getProvId() {
-		return provId;
+	public Provincia getProv() {
+		return prov;
 	}
-
-	public void setProvId(Integer provId) {
-		this.provId = provId;
+	public void setProv(Provincia prov) {
+		this.prov = prov;
 	}
 
 	@Override
 	public String toString() {
-		return "Localidad [id=" + id + ", nombre=" + nombre + ", provId=" + provId + "]";
+		return "Localidad [id=" + id + ", nombre=" + nombre + ", provId=" + prov + "]";
 	}
 	
 	

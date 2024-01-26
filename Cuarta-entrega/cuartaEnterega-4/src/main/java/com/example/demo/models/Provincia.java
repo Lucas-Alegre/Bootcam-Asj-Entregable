@@ -5,9 +5,11 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -19,14 +21,20 @@ public class Provincia {
 	@Column(name="prov_id", unique=true, nullable=false)
 	private Integer id;
 	private String nombre;
-	private Integer paisId;
-	//@ManyToOne
-	//private Set<Pais> pais=new HashSet<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pais_id", referencedColumnName = "pais_id", nullable = false)
+    private Pais pais;
 	
-	public Provincia(Integer id, String nombre, Integer paisId) {
+	public Provincia(Integer id, String nombre, Pais pais) {
 		this.id= id;
 		this.nombre=nombre;
-		this.paisId=paisId;
+		this.pais=pais;
+	}
+	public Pais getPais() {
+		return pais;
+	}
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 	public Provincia() {
 		super();
@@ -48,17 +56,10 @@ public class Provincia {
 		this.nombre = nombre;
 	}
 
-	public Integer getPaisId() {
-		return paisId;
-	}
-
-	public void setPaisId(Integer paisId) {
-		this.paisId = paisId;
-	}
 
 	@Override
 	public String toString() {
-		return "Provincia [id=" + id + ", nombre=" + nombre + ", paisId=" + paisId + "]";
+		return "Provincia [id=" + id + ", nombre=" + nombre + ", paisId=" + pais + "]";
 	}
 	
 

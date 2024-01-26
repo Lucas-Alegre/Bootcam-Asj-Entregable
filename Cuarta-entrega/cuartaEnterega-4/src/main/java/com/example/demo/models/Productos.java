@@ -2,9 +2,13 @@ package com.example.demo.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,12 +24,21 @@ public class Productos {
 	private String descripcion;
 	private float precio;
 	private boolean habilitado;
-	private Integer proveedorId;
-	private Integer catId;
+	
+	 @ManyToOne(fetch = FetchType.EAGER)
+	 @JoinColumn(name = "proveedor_id", referencedColumnName = "proveedor_id", nullable = false)
+	 private Proveedor proveedorId;
+	 
+	 @ManyToOne(fetch = FetchType.EAGER)
+	 @JoinColumn(name = "cat_id", referencedColumnName = "cat_id", nullable = false)
+	 private Categoria categoria;
+	 
+	 
+
 	
 	public Productos(Integer id,String codigoSKU,String nombreProducto , String imagen,
-			String descripcion, float precio, boolean habilitado, Integer proveedorId,
-			Integer catId) {
+			String descripcion, float precio, boolean habilitado, Proveedor proveedorId,
+			Categoria categoria) {
 		this.id=id;
 		this.codigoSKU=codigoSKU;
 		this.nombreProducto=nombreProducto;
@@ -34,7 +47,7 @@ public class Productos {
 	    this.precio=precio;
 	    this.habilitado=habilitado;
 	    this.proveedorId=proveedorId;
-	    this.catId=catId;
+	    this.categoria=categoria;
 	}
 	public Productos() {
   		super();
@@ -96,27 +109,25 @@ public class Productos {
 		this.habilitado = habilitado;
 	}
 
-	public Integer getProveedorId() {
+	
+
+	public Proveedor getProveedorId() {
 		return proveedorId;
 	}
-
-	public void setProveedorId(Integer proveedorId) {
+	public void setProveedorId(Proveedor proveedorId) {
 		this.proveedorId = proveedorId;
 	}
-
-	public Integer getCatId() {
-		return catId;
+	public Categoria getCategoria() {
+		return categoria;
 	}
-
-	public void setCatId(Integer catId) {
-		this.catId = catId;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
-
 	@Override
 	public String toString() {
 		return "Productos [id=" + id + ", codigoSKU=" + codigoSKU + ", nombreProducto=" + nombreProducto + ", imagen="
 				+ imagen + ", descripcion=" + descripcion + ", precio=" + precio + ", habilitado=" + habilitado
-				+ ", proveedorId=" + proveedorId + ", catId=" + catId + "]";
+				+ ", proveedorId=" + proveedorId + ", catId=" + categoria + "]";
 	}
 	
 

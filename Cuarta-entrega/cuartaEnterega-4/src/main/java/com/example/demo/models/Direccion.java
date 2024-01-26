@@ -1,9 +1,12 @@
 package com.example.demo.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,14 +19,17 @@ public class Direccion {
 	private String calle;
 	private int numCalle;
 	private String codigoPostal;
-	private Integer loc_id;
 	
-	public Direccion(Integer id, String calle, int numCalle,String codigoPostal,Integer loc_id) {
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "loc_id", referencedColumnName = "loc_id", nullable = false)
+    private Localidad localidad;
+	
+	public Direccion(Integer id, String calle, int numCalle,String codigoPostal,Localidad localidad) {
 		this.id=id;
 		this.calle=calle;
 		this.numCalle=numCalle;
 		this.codigoPostal=codigoPostal;
-		this.loc_id=loc_id;
+		this.localidad=localidad;
 	}
 	 public Direccion() {
 			super();
@@ -61,19 +67,19 @@ public class Direccion {
 		this.codigoPostal = codigoPostal;
 	}
 
-	public Integer getLoc_id() {
-		return loc_id;
-	}
-
-	public void setLoc_id(Integer loc_id) {
-		this.loc_id = loc_id;
-	}
+	
 	
 
+	public Localidad getLocalidad() {
+		return localidad;
+	}
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
+	}
 	@Override
 	public String toString() {
 		return "Direccion [id=" + id + ", calle=" + calle + ", numCalle=" + numCalle + ", codigoPostal=" + codigoPostal
-				+ ", loc_id=" + loc_id + "]";
+				+ ", loc_id=" + localidad + "]";
 	}
 	
 	

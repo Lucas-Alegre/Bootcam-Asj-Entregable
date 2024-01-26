@@ -41,8 +41,17 @@ INSERT INTO CONDICION_DE_IVA VALUES(3, 'Consumidor Final');
 INSERT INTO CONDICION_DE_IVA VALUES(4, 'Proveedor del Exterior');
 INSERT INTO CONDICION_DE_IVA VALUES(5, 'Monotributista Social');
 
-INSERT INTO PROVEEDOR VALUES(1, 'asj35', 2, '20427365418', 0, 3, 'http://fideos308.com.ar/wp-content/uploads/2019/03/Morron.png','Pastas 308','308', 1, 'http://fideos308.com.ar/', '3454050975');
-INSERT INTO PROVEEDOR VALUES(2, 'Per67',3, '55427365417',0,  4,  'https://76338a6a.flyingcdn.com/38745-large_default/candy-lavarropas-aut-ro-1510156dwhcr-12-rapido-anthra-frontal-105kg-1400-rpm.jpg',  'PerozziHogar', 'Perozzi', 2, 'https://www.perozzi.com.ar/', '3454050455');
+INSERT INTO CONTACTOS VALUES(1, 'lucasalegre.web@gmail.com', 'Gerente de Venta' , '3454768932');
+INSERT INTO CONTACTOS VALUES(2, 'emilio@gmail.com', 'Vendedor' , '3454050975' );
+
+INSERT INTO CONTACTOS VALUES(3, 'damarisGiemenez@gmail.com', 'Gerente de Venta' , '3454768931');
+INSERT INTO CONTACTOS VALUES(4, 'emilia@gmail.com', 'Vendedora', '3456788456');
+
+INSERT INTO CONTACTOS VALUES(5, 'ludmila.c@gmail.com', 'Gerente de Venta' , '3456760932');
+INSERT INTO CONTACTOS VALUES(6, 'agustin.zpa@gmail.com', 'Vendedor' , '3454050975');
+
+INSERT INTO PROVEEDOR VALUES(1, 'asj35', 2, '20427365418', 0, 3, 'http://fideos308.com.ar/wp-content/uploads/2019/03/Morron.png','Pastas 308','308', 1, 'http://fideos308.com.ar/', '3454050975',1);
+INSERT INTO PROVEEDOR VALUES(2, 'Per67',3, '55427365417',0,  4,  'https://76338a6a.flyingcdn.com/38745-large_default/candy-lavarropas-aut-ro-1510156dwhcr-12-rapido-anthra-frontal-105kg-1400-rpm.jpg',  'PerozziHogar', 'Perozzi', 2, 'https://www.perozzi.com.ar/', '3454050455',3);
 
 ------------------------------------------------------------------------------
 
@@ -61,14 +70,7 @@ INSERT INTO productos VALUES(3, 1, 'Prod56', 'Mamá mamá, necesito estos fideos
 INSERT INTO productos VALUES(4, 5, 'Prod57', 'Mamá mamá, probemos estos arroz!', 1,'https://www.mamalucchetti.com.ar/wp-content/uploads/2023/01/largo-fino-bolsa-500g.webp',  'Arroz',  40,1 );
 
 -------------------------------------------------------------------------------
-INSERT INTO CONTACTOS VALUES(1, 'lucasalegre.web@gmail.com',1, 'Gerente de Venta' , '3454768932');
-INSERT INTO CONTACTOS VALUES(2, 'emilio@gmail.com',1, 'Vendedor' , '3454050975' );
 
-INSERT INTO CONTACTOS VALUES(3, 'damarisGiemenez@gmail.com', 2, 'Gerente de Venta' , '3454768931');
-INSERT INTO CONTACTOS VALUES(4, 'emilia@gmail.com', 3, 'Vendedora', '3456788456');
-
-INSERT INTO CONTACTOS VALUES(5, 'ludmila.c@gmail.com', 3, 'Gerente de Venta' , '3456760932');
-INSERT INTO CONTACTOS VALUES(6, 'agustin.zpa@gmail.com',3, 'Vendedor' , '3454050975');
 
 INSERT INTO ESTADOS_DE_ORDENES VALUES(1, 'pendiente');
 INSERT INTO ESTADOS_DE_ORDENES VALUES(2, 'aceptada');

@@ -17,14 +17,12 @@ public class Contactos {
     private String email;
     private String telefono;
     private String rol;
-    private Integer proveedorId;
     
-    public Contactos(Integer id, String email, String telefono,  String rol, Integer proveedorId){
+    public Contactos(Integer id, String email, String telefono,  String rol){
     	this.id=id;
     	this.email=email;
     	this.telefono=telefono;
     	this.rol=rol;
-    	this.proveedorId=proveedorId;
     }
 
     public Contactos() {
@@ -62,18 +60,10 @@ public class Contactos {
 		this.rol = rol;
 	}
 
-	public Integer getProveedorId() {
-		return proveedorId;
-	}
-
-	public void setProveedorId(Integer proveedorId) {
-		this.proveedorId = proveedorId;
-	}
 
 	@Override
 	public String toString() {
-		return "Contactos [id=" + id + ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + ", proveedorId="
-				+ proveedorId + "]";
+		return "Contactos [id=" + id + ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + "]";
 	}
     
     
