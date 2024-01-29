@@ -18,11 +18,12 @@ import jakarta.persistence.Table;
 public class Provincia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="prov_id", unique=true, nullable=false)
+	@Column( unique=true, nullable=false)
 	private Integer id;
+	@Column( unique=true, nullable=false)
 	private String nombre;
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pais_id", referencedColumnName = "pais_id", nullable = false)
+    @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private Pais pais;
 	
 	public Provincia(Integer id, String nombre, Pais pais) {

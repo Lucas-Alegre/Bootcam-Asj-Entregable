@@ -50,6 +50,10 @@ INSERT INTO CONTACTOS VALUES(4, 'emilia@gmail.com', 'Vendedora', '3456788456');
 INSERT INTO CONTACTOS VALUES(5, 'ludmila.c@gmail.com', 'Gerente de Venta' , '3456760932');
 INSERT INTO CONTACTOS VALUES(6, 'agustin.zpa@gmail.com', 'Vendedor' , '3454050975');
 
+
+INSERT INTO PROVEEDOR VALUES
+(1, 'asj35', '20427365418', 0, 'http://fideos308.com.ar/wp-content/uploads/2019/03/Morron.png','Pastas 308','308','http://fideos308.com.ar/', '3454050975',1,1,1,1,'2013-02-27T13:57:21.836+00:00', '2013-02-27T13:57:21.836+00:00');
+
 INSERT INTO PROVEEDOR VALUES(1, 'asj35', 2, '20427365418', 0, 3, 'http://fideos308.com.ar/wp-content/uploads/2019/03/Morron.png','Pastas 308','308', 1, 'http://fideos308.com.ar/', '3454050975',1);
 INSERT INTO PROVEEDOR VALUES(2, 'Per67',3, '55427365417',0,  4,  'https://76338a6a.flyingcdn.com/38745-large_default/candy-lavarropas-aut-ro-1510156dwhcr-12-rapido-anthra-frontal-105kg-1400-rpm.jpg',  'PerozziHogar', 'Perozzi', 2, 'https://www.perozzi.com.ar/', '3454050455',3);
 

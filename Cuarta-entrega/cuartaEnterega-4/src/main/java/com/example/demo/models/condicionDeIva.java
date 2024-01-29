@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 public class condicionDeIva {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="cond_iva_id", unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private Integer id;
+	@Column(unique=true, nullable=false)
 	private String condNombre;
 	
 	public condicionDeIva(Integer id, String condNombre) {

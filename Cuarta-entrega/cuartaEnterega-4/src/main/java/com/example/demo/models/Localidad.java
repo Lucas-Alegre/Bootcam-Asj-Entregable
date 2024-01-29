@@ -15,11 +15,12 @@ public class Localidad {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="loc_id", unique=true, nullable=false)
+	@Column( unique=true, nullable=false)
 	private Integer id;
+	@Column( unique=true, nullable=false)
 	private String nombre;
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "prov_id", referencedColumnName = "prov_id", nullable = false)
+    @JoinColumn(name = "prov", referencedColumnName = "id", nullable = false)
     private Provincia prov;
 	
 	public Localidad(Integer id, String nombre, Provincia prov) {

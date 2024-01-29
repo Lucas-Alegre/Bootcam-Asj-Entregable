@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 public class Rubro {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@Column(name="rubro_id", unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private Integer id;
+	@Column(unique=true, nullable=false)
     private String nombre;
     
     public Rubro(Integer id, String nombre) {

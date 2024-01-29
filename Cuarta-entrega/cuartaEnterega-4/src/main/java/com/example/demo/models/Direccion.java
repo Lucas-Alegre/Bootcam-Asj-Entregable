@@ -14,14 +14,17 @@ import jakarta.persistence.Table;
 public class Direccion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
-	@Column(name="dir_id", unique=true, nullable=false)
+	@Column( unique=true, nullable=false)
 	private Integer id;
+	@Column( unique=true, nullable=false)
 	private String calle;
+	@Column( unique=true, nullable=false)
 	private int numCalle;
+	@Column( unique=true, nullable=false)
 	private String codigoPostal;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "loc_id", referencedColumnName = "loc_id", nullable = false)
+    @JoinColumn(name = "localidad", referencedColumnName = "id", nullable = false)
     private Localidad localidad;
 	
 	public Direccion(Integer id, String calle, int numCalle,String codigoPostal,Localidad localidad) {

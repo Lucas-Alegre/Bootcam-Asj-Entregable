@@ -23,7 +23,7 @@ public class OrdenDeCompra {
 	private boolean habilitado;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "proveedor_id", referencedColumnName = "proveedor_id", nullable = false)
+	@JoinColumn(name = "proveedor_id", referencedColumnName = "id", nullable = false)
 	private Proveedor proveedorId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

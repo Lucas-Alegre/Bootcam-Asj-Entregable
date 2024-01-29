@@ -12,10 +12,13 @@ import jakarta.persistence.Table;
 public class Contactos {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="cont_id", unique=true, nullable=false)
+    @Column( unique=true, nullable=false)
 	private Integer id;
+    @Column( unique=true, nullable=false)
     private String email;
+    @Column( unique=true, nullable=false)
     private String telefono;
+    @Column( unique=true, nullable=false)
     private String rol;
     
     public Contactos(Integer id, String email, String telefono,  String rol){
