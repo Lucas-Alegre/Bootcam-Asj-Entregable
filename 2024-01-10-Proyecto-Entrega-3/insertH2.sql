@@ -12,7 +12,7 @@ INSERT INTO PROVINCIA VALUES(6,'Pará',3);
 
 INSERT INTO LOCALIDAD VALUES(1,'Concordia',1);
 INSERT INTO LOCALIDAD VALUES(2,'Parana',1);
-INSERT INTO LOCALIDAD VALUES(3,'La Páz'1);
+INSERT INTO LOCALIDAD VALUES(3,'La Páz',1);
 
 INSERT INTO LOCALIDAD VALUES(4,'Elena',2);
 INSERT INTO LOCALIDAD VALUES(5,'Villa Carlos Paz',2);
@@ -44,11 +44,10 @@ INSERT INTO CONDICION_DE_IVA VALUES(5, 'Monotributista Social');
 INSERT INTO CONTACTOS VALUES(1, 'lucasalegre.web@gmail.com', 'Gerente de Venta' , '3454768932');
 INSERT INTO CONTACTOS VALUES(2, 'emilio@gmail.com', 'Vendedor' , '3454050975' );
 
-INSERT INTO CONTACTOS VALUES(3, 'damarisGiemenez@gmail.com', 'Gerente de Venta' , '3454768931');
+INSERT INTO CONTACTOS VALUES(3, 'damarisGiemenez@gmail.com', 'Gestion y control' , '3454768931');
 INSERT INTO CONTACTOS VALUES(4, 'emilia@gmail.com', 'Vendedora', '3456788456');
 
-INSERT INTO CONTACTOS VALUES(5, 'ludmila.c@gmail.com', 'Gerente de Venta' , '3456760932');
-INSERT INTO CONTACTOS VALUES(6, 'agustin.zpa@gmail.com', 'Vendedor' , '3454050975');
+INSERT INTO CONTACTOS VALUES(5, 'ludmila.c@gmail.com', 'Analista de ventas' , '3456760933');
 
 
 INSERT INTO PROVEEDOR VALUES

@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,10 @@ public class ProveedorServices {
 	public List<Proveedor> obtenerProveedor() {
 		return proveedorRepository.findAll();
 	}
-
+	
+	public Optional<Proveedor> findById(Integer id) {
+		return proveedorRepository.findById(id);
+	}
 	public String cearProveedor(Proveedor proveedor) {
 		System.out.println("holaaaaaaaaaaaaaaa");
 		proveedorRepository.save(proveedor);

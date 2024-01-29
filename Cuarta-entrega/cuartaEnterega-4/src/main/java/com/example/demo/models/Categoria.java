@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 public class Categoria {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="cat_id",unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private Integer id;
+	@Column( nullable=false)
 	private String nombre;
 	
 	public Categoria(Integer id, String nombre) {

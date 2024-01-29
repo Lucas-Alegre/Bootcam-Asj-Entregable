@@ -30,7 +30,7 @@ public class Productos {
 	 private Proveedor proveedorId;
 	 
 	 @ManyToOne(fetch = FetchType.EAGER)
-	 @JoinColumn(name = "cat_id", referencedColumnName = "cat_id", nullable = false)
+	 @JoinColumn(name = "cat", referencedColumnName = "id", nullable = false)
 	 private Categoria categoria;
 	 
 	 
