@@ -40,11 +40,11 @@ public class ProveedorController {
 	public ResponseEntity<String> updateProveedor(@PathVariable int id, @RequestBody Proveedor proveedor) {
 		return ResponseEntity.ok(proveedorServices.modificarProveedor(id,proveedor));
 	}
-
+*/
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Proveedor> deleteProveedor(@PathVariable int id) {
 		return ResponseEntity.ok(proveedorServices.eliminarProveedor(id));
-	}*/
+	}
 	
 
 }
