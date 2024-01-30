@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "detalle_de_orden")
-public class DetalleDeLaOrden {
+public class DetalleDeLaOrden extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column( unique = true, nullable = false)
