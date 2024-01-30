@@ -17,7 +17,7 @@ public class Localidad {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column( unique=true, nullable=false)
 	private Integer id;
-	@Column( unique=true, nullable=false)
+	@Column( nullable=false)
 	private String nombre;
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "prov", referencedColumnName = "id", nullable = false)

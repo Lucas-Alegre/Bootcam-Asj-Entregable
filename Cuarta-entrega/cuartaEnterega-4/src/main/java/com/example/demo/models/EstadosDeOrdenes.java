@@ -14,7 +14,7 @@ public class EstadosDeOrdenes {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private Integer id;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String nombre;
 
 	public EstadosDeOrdenes(Integer id, String nombre) {

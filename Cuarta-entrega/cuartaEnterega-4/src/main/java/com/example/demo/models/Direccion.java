@@ -16,11 +16,11 @@ public class Direccion {
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	@Column( unique=true, nullable=false)
 	private Integer id;
-	@Column( unique=true, nullable=false)
+	@Column(nullable=false)
 	private String calle;
-	@Column( unique=true, nullable=false)
+	@Column(nullable=false)
 	private int numCalle;
-	@Column( unique=true, nullable=false)
+	@Column(nullable=false)
 	private String codigoPostal;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

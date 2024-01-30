@@ -18,7 +18,7 @@ public class Contactos {
     private String email;
     @Column( unique=true, nullable=false)
     private String telefono;
-    @Column( unique=true, nullable=false)
+    @Column(nullable=false)
     private String rol;
     
     public Contactos(Integer id, String email, String telefono,  String rol){

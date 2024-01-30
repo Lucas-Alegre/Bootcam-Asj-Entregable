@@ -12,19 +12,18 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "detalle_de_orden")
-public class DetalleDeLaOrden extends AuditModel{
+public class DetalleDeLaOrden extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column( unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	private Integer id;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private int detalleCantidad;
-
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ordenId", referencedColumnName = "id", nullable = false)
 	private OrdenDeCompra ordenId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productoId", referencedColumnName = "id", nullable = false)
 	private Productos productosId;
@@ -77,7 +76,5 @@ public class DetalleDeLaOrden extends AuditModel{
 		return "DetalleDeLaOrden [id=" + id + ", detalleCantidad=" + detalleCantidad + ", ordenId=" + ordenId
 				+ ", productosId=" + productosId + "]";
 	}
-
-	
 
 }

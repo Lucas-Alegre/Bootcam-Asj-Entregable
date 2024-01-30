@@ -12,53 +12,50 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="productos")
-public class Productos extends AuditModel{
+@Table(name = "productos")
+public class Productos extends AuditModel {
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private Integer id;
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private String codigoSKU;
-	@Column(unique=true, nullable=false)
+	@Column(nullable = false)
 	private String nombreProducto;
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	private String imagen;
-	@Column(unique=true, nullable=false)
+	@Column(nullable = false)
 	private String descripcion;
-	@Column(unique=true, nullable=false)
+	@Column(nullable = false)
 	private float precio;
-	@Column( nullable=false)
+	@Column(nullable = false)
 	private boolean habilitado;
-	
-	 @ManyToOne(fetch = FetchType.EAGER)
-	 @JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
-	 private Proveedor proveedorId;
-	 
-	 @ManyToOne(fetch = FetchType.EAGER)
-	 @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
-	 private Categoria categoria;
-	 
-	 
 
-	
-	public Productos(Integer id,String codigoSKU,String nombreProducto , String imagen,
-			String descripcion, float precio, boolean habilitado, Proveedor proveedorId,
-			Categoria categoria) {
-		this.id=id;
-		this.codigoSKU=codigoSKU;
-		this.nombreProducto=nombreProducto;
-		this.imagen=imagen;
-		this.descripcion=descripcion;
-	    this.precio=precio;
-	    this.habilitado=habilitado;
-	    this.proveedorId=proveedorId;
-	    this.categoria=categoria;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
+	private Proveedor proveedorId;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
+	private Categoria categoria;
+
+	public Productos(Integer id, String codigoSKU, String nombreProducto, String imagen, String descripcion,
+			float precio, boolean habilitado, Proveedor proveedorId, Categoria categoria) {
+		this.id = id;
+		this.codigoSKU = codigoSKU;
+		this.nombreProducto = nombreProducto;
+		this.imagen = imagen;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.habilitado = habilitado;
+		this.proveedorId = proveedorId;
+		this.categoria = categoria;
 	}
+
 	public Productos() {
-  		super();
-  	}
-	
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -115,26 +112,27 @@ public class Productos extends AuditModel{
 		this.habilitado = habilitado;
 	}
 
-	
-
 	public Proveedor getProveedorId() {
 		return proveedorId;
 	}
+
 	public void setProveedorId(Proveedor proveedorId) {
 		this.proveedorId = proveedorId;
 	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
 	@Override
 	public String toString() {
 		return "Productos [id=" + id + ", codigoSKU=" + codigoSKU + ", nombreProducto=" + nombreProducto + ", imagen="
 				+ imagen + ", descripcion=" + descripcion + ", precio=" + precio + ", habilitado=" + habilitado
 				+ ", proveedorId=" + proveedorId + ", catId=" + categoria + "]";
 	}
-	
 
 }

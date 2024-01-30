@@ -13,29 +13,29 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "proveedor")
-public class Proveedor extends AuditModel{
-	
+public class Proveedor extends AuditModel {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private Integer id;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String codigo;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String razonSocial;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String sitioWeb;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String imagen;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String cuit;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String nombreProveedor;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private boolean deleteAt;
-	@Column( nullable = false)
+	@Column(unique = true, nullable = false)
 	private String telefono;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "direc", referencedColumnName = "id", nullable = false)
 	private Direccion direc;
@@ -51,7 +51,7 @@ public class Proveedor extends AuditModel{
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "contactos", referencedColumnName = "id", nullable = false)
 	private Contactos contactos;
-    
+
 	public Proveedor(Integer id, String codigo, String razonSocial, String sitioWeb, String imagen, String cuit,
 			String nombreProveedor, boolean deleteAt, String telefono, Direccion direc, Rubro rubro,
 			condicionDeIva condIva, Contactos contactos) {
@@ -170,7 +170,6 @@ public class Proveedor extends AuditModel{
 		this.condIva = condIva;
 	}
 
-	
 	public Contactos getContactos() {
 		return contactos;
 	}
@@ -186,7 +185,5 @@ public class Proveedor extends AuditModel{
 				+ deleteAt + ", telefono=" + telefono + ", direc=" + direc + ", rubro=" + rubro + ", condIva=" + condIva
 				+ ", contactos=" + contactos + "]";
 	}
-
-	
 
 }

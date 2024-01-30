@@ -12,24 +12,24 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Orden_de_Compra")
-public class OrdenDeCompra extends AuditModel{
+public class OrdenDeCompra extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column( unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	private Integer id;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private String ordenDireccion;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private String ordenInformacionRecepcion;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private float total;
-	@Column( nullable = false)
+	@Column(nullable = false)
 	private boolean habilitado;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
 	private Proveedor proveedorId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "estado_id", referencedColumnName = "id", nullable = false)
 	private EstadosDeOrdenes estadoId;
@@ -111,7 +111,5 @@ public class OrdenDeCompra extends AuditModel{
 				+ ordenInformacionRecepcion + ", total=" + total + ", habilitado=" + habilitado + ", proveedorId="
 				+ proveedorId + ", estadoId=" + estadoId + "]";
 	}
-
-	
 
 }
