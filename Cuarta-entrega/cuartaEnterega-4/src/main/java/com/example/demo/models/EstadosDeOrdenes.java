@@ -12,8 +12,9 @@ import jakarta.persistence.Table;
 public class EstadosDeOrdenes {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "est_id", unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	private Integer id;
+	@Column( nullable = false)
 	private String nombre;
 
 	public EstadosDeOrdenes(Integer id, String nombre) {

@@ -13,24 +13,30 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="productos")
-public class Productos {
+public class Productos extends AuditModel{
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@Column(name="prod_id", unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private Integer id;
+	@Column(unique=true, nullable=false)
 	private String codigoSKU;
+	@Column(unique=true, nullable=false)
 	private String nombreProducto;
+	@Column(unique=true, nullable=false)
 	private String imagen;
+	@Column(unique=true, nullable=false)
 	private String descripcion;
+	@Column(unique=true, nullable=false)
 	private float precio;
+	@Column( nullable=false)
 	private boolean habilitado;
 	
 	 @ManyToOne(fetch = FetchType.EAGER)
-	 @JoinColumn(name = "proveedor_id", referencedColumnName = "id", nullable = false)
+	 @JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
 	 private Proveedor proveedorId;
 	 
 	 @ManyToOne(fetch = FetchType.EAGER)
-	 @JoinColumn(name = "cat", referencedColumnName = "id", nullable = false)
+	 @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
 	 private Categoria categoria;
 	 
 	 

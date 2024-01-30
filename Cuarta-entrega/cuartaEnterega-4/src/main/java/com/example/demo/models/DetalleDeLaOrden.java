@@ -15,17 +15,18 @@ import jakarta.persistence.Table;
 public class DetalleDeLaOrden {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	@Column( unique = true, nullable = false)
 	private Integer id;
+	@Column( nullable = false)
 	private int detalleCantidad;
 
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "orden_id", referencedColumnName = "ord_id", nullable = false)
+	@JoinColumn(name = "ordenId", referencedColumnName = "id", nullable = false)
 	private OrdenDeCompra ordenId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "producto_id", referencedColumnName = "prod_id", nullable = false)
+	@JoinColumn(name = "productoId", referencedColumnName = "id", nullable = false)
 	private Productos productosId;
 
 	public DetalleDeLaOrden(Integer id, int detalleCantidad, OrdenDeCompra ordenId, Productos productosId) {
