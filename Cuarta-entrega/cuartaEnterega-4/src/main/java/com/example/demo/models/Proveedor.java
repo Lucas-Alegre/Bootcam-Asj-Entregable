@@ -10,6 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "proveedor")
@@ -19,21 +22,50 @@ public class Proveedor extends AuditModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	private Integer id;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El codigo no puede ser null")
+	@NotBlank(message="El codigo no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "El codigo debe tener un minimo de 2 catacteres")
 	private String codigo;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="La razon social no puede ser null")
+	@NotBlank(message="La razon social no puede estar vacia")
+	@Pattern(regexp="^.{2,}$", message = "La razon social debe tener un nombre minimo de 2 catacteres")
 	private String razonSocial;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El sitio web no puede ser null")
+	@NotBlank(message="El sitio web no puede estar vacio")
+	@Pattern(regexp="^.{10,}$", message = "El sitio web debe tener una url minima de 10 catacteres")
 	private String sitioWeb;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="La imagen no puede ser null")
+	@NotBlank(message="La imagen no puede estar vacio")
+	@Pattern(regexp="^.{10,}$", message = "La imagen debe ser una url minima de 10 catacteres")
 	private String imagen;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El cuit no puede ser null")
+	@NotBlank(message="El cuit no puede estar vacio")
+	@Pattern(regexp="^.{10,}$", message = "El cuit debe tener un nombre minimo de 10 catacteres")
 	private String cuit;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El nombre de una proveedor no puede ser null")
+	@NotBlank(message="El nombre de un proveedor no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "El proveedor debe tener un nombre minimo de 2 catacteres")
 	private String nombreProveedor;
+	
 	@Column(nullable = false)
 	private boolean deleteAt;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El telefono de un proveedor, no puede ser null")
+	@NotBlank(message="El telefono de un proveedor no puede estar vacio")
+	@Pattern(regexp="^[0-9]{7,15}$", message = "La proveedor debe tener un telefono valido")
 	private String telefono;
 
 	@OneToOne(fetch = FetchType.EAGER)

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="categoria")
@@ -19,7 +20,8 @@ public class Categoria {
 	
 	@Column( nullable=false)
 	@NotNull(message="El nombre de una categoría, no puede ser null")
-	@NotBlank(message="El nombre no puede estar vacio")
+	@NotBlank(message="El nombre de la categoría no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "La categoría debe tener un nombre minimo de 2 catacteres")
 	private String nombre;
 	
 	public Categoria(Integer id, String nombre) {

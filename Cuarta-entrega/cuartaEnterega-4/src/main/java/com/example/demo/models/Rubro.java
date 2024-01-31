@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="rubro")
@@ -15,6 +18,9 @@ public class Rubro {
 	@Column(unique=true, nullable=false)
 	private Integer id;
 	@Column(unique=true, nullable=false)
+	@NotNull(message="El nombre de rubro, no puede ser null")
+	@NotBlank(message="El nombre de rubro no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "El rubro debe tener un nombre minimo de 2 catacteres")
     private String nombre;
     
     public Rubro(Integer id, String nombre) {

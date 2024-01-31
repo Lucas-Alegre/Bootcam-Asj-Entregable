@@ -10,6 +10,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "productos")
@@ -18,16 +22,37 @@ public class Productos extends AuditModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private Integer id;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="El codigo no puede ser null")
+	@NotBlank(message="El codigo no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "El codigo debe tener un minimo de 2 catacteres")
 	private String codigoSKU;
+	
 	@Column(nullable = false)
+	@NotNull(message="El nombre de un producto no puede ser null")
+	@NotBlank(message="El nombre de un producto no puede estar vacio")
+	@Pattern(regexp="^.{2,}$", message = "El nombre de un producto debe tener un minimo de 2 catacteres")
 	private String nombreProducto;
+	
 	@Column(unique = true, nullable = false)
+	@NotNull(message="La imagen no puede ser null")
+	@NotBlank(message="La imagen no puede estar vacio")
+	@Pattern(regexp="^.{10,}$", message = "La imagen debe ser una url minima de 10 catacteres")
 	private String imagen;
+	
 	@Column(nullable = false)
+	@NotNull(message="La descripción de un producto no puede ser null")
+	@NotBlank(message="La descripción de un producto no puede estar vacio")
+	@Pattern(regexp="^.{15,}$", message = "La descripción de un producto debe tener un minimo de 15 catacteres")
 	private String descripcion;
+	
 	@Column(nullable = false)
+	@NotNull(message="El precio de un producto no puede ser null")
+	@NotBlank(message="El precio de un producto no puede estar vacio")
+	@DecimalMin(value="0.1")
 	private float precio;
+	
 	@Column(nullable = false)
 	private boolean habilitado;
 

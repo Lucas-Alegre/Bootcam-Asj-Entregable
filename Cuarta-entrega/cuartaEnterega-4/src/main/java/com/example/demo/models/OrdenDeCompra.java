@@ -9,6 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "Orden_de_Compra")
@@ -17,12 +21,25 @@ public class OrdenDeCompra extends AuditModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private Integer id;
+	
 	@Column(nullable = false)
+	@NotNull(message="La dirección no puede ser null")
+	@NotBlank(message="La dirección no puede estar vacia")
+	@Pattern(regexp="^.{3,}$", message = "La dirección debe tener un minimo de 3 catacteres")
 	private String ordenDireccion;
+	
 	@Column(nullable = false)
+	@NotNull(message="La información de recepción no puede ser null")
+	@NotBlank(message="La información de recepción no puede estar vacio")
+	@Pattern(regexp="^.{5,}$", message = "La información de recepción debe tener un minimo de 5 catacteres")
 	private String ordenInformacionRecepcion;
+	
 	@Column(nullable = false)
+	@NotNull(message="El total de la orden no puede ser null")
+	@NotBlank(message="El total de la orden no puede estar vacio")
+	@DecimalMin(value="0.1")
 	private float total;
+	
 	@Column(nullable = false)
 	private boolean habilitado;
 

@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "detalle_de_orden")
@@ -17,7 +20,10 @@ public class DetalleDeLaOrden extends AuditModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private Integer id;
+	
 	@Column(nullable = false)
+	@NotNull(message="La cantidad no puede ser null")
+	@NotBlank(message="La cantidad no puede estar vacia")
 	private int detalleCantidad;
 
 	@ManyToOne(fetch = FetchType.EAGER)
