@@ -23,7 +23,7 @@ public class DetalleDeLaOrden extends AuditModel {
 	
 	@Column(nullable = false)
 	@NotNull(message="La cantidad no puede ser null")
-	@NotBlank(message="La cantidad no puede estar vacia")
+	//@NotBlank(message="La cantidad no puede estar vacia")
 	private int detalleCantidad;
 
 	@ManyToOne(fetch = FetchType.EAGER)
