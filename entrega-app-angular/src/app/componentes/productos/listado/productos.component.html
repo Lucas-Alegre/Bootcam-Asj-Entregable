@@ -25,10 +25,10 @@
                         height="75px"
                         class="shadow-4" />
                 </td>
-                <td>{{ product.nameProducto }}</td>
-                <td>{{ product.categoria }}</td>
-                <td>{{ product.proveedor }}</td>
-                <td>{{product.razonSocial}}</td>
+                <td>{{ product.nombreProducto }}</td>
+                <td>{{ product.categoria.nombre }}</td>
+                <td>{{ product.proveedorId.nombreProveedor }}</td>
+                <td>{{product.proveedorId.razonSocial}}</td>
                 <td>{{ product.precio | currency:'U$S ' }}</td>
                 <td class="editarEliminar">
                     <button
@@ -43,7 +43,7 @@
             </tr>
         </tbody>
     </table>
-    <div *ngIf="existenProductos" class="alert alert-primary" role="alert">
+    <div *ngIf="noExistenProductos" class="alert alert-primary" role="alert">
         No hay productos creados, por favor agregue uno.
       </div>
 </div>

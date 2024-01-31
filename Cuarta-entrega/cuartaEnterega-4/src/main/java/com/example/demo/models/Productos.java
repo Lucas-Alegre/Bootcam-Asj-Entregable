@@ -49,7 +49,6 @@ public class Productos extends AuditModel {
 	
 	@Column(nullable = false)
 	@NotNull(message="El precio de un producto no puede ser null")
-	@NotBlank(message="El precio de un producto no puede estar vacio")
 	@DecimalMin(value="0.1")
 	private float precio;
 	

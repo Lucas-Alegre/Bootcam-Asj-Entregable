@@ -13,40 +13,41 @@ import com.example.demo.repositories.ProductosRepository;
 public class ProductosServices {
 
 	@Autowired
-	ProductosRepository ProductosRepository;
+	ProductosRepository productosRepository;
 
 	public List<Productos> obtenerProductos() {
-		return ProductosRepository.findAll();
+		return productosRepository.findAll();
 	}
 
 	public Optional<Productos> findById(Integer id) {
-		return ProductosRepository.findById(id);
+		return productosRepository.findById(id);
 	}
 
 	public String cearProductos(Productos productos) {
-		ProductosRepository.save(productos);
+		productosRepository.save(productos);
 		return "Productos creado correctamente";
 	}
 
 	public String modificarProductos(Integer id, Productos productos) {
 		try {
-			Productos p = ProductosRepository.findById(id).get();
-			p.setNombreProducto(productos.getNombreProducto());
+			Productos p = productosRepository.findById(id).get();
+			p.setNombreProducto(productos.getNombreProducto());	
 			p.setImagen(productos.getImagen());
 			p.setPrecio(productos.getPrecio());
 			p.setDescripcion(productos.getDescripcion());
 			p.setHabilitado(productos.isHabilitado());
-			ProductosRepository.save(p);
+			productosRepository.save(p);
 			return "Productos " + id + " modificado correctamente.";
 		} catch (Exception err) {
+			System.out.println("soy error: "+ err);
 			return "Error: El producto no pudo ser modificado.";
 		}
 	}
 
 	public Productos eliminarProducto(Integer id) {
 		try {
-			Productos productoToReturn = ProductosRepository.findById(id).get();
-			ProductosRepository.deleteById(id);
+			Productos productoToReturn = productosRepository.findById(id).get();
+			productosRepository.deleteById(id);
 			return productoToReturn;
 		} catch (Exception err) {
 			err.getMessage();
