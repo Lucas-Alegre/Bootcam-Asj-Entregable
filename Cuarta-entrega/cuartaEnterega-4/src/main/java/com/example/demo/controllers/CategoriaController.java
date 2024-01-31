@@ -58,7 +58,17 @@ public class CategoriaController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateCategoria(@PathVariable int id, @RequestBody Categoria categoria) {
+	public ResponseEntity<Object> updateCategoria(@Valid @PathVariable int id, @RequestBody Categoria categoria,
+			BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+
+			Map<String, String> errors = new ErrorHandler().validacionDeInput(bindingResult);
+
+			System.out.println(errors);
+
+			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(categoriaServices.modificarCategoria(id, categoria));
 	}
 

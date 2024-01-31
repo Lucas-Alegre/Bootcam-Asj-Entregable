@@ -26,15 +26,15 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/ordenDeCompra")
 public class OrdenDeCompraController {
-	
+
 	@Autowired
 	OrdenDeCompraServices ordenDeCompraServices;
 
 	@GetMapping()
 	public ResponseEntity<List<OrdenDeCompra>> getOrdenesCompra() {
 		return ResponseEntity.ok(ordenDeCompraServices.obtenerOrdenesDeCompra());
-    }
-	
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<OrdenDeCompra>> getById(@PathVariable Integer id) {
 		return ResponseEntity.ok(ordenDeCompraServices.findById(id));
@@ -55,7 +55,16 @@ public class OrdenDeCompraController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateOrden(@PathVariable int id, @RequestBody OrdenDeCompra orden) {
+	public ResponseEntity<Object> updateOrden(@Valid @PathVariable int id, @RequestBody OrdenDeCompra orden,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+
+			Map<String, String> errors = new ErrorHandler().validacionDeInput(bindingResult);
+
+			System.out.println(errors);
+
+			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(ordenDeCompraServices.modificarOrdenDeCompra(id, orden));
 	}
 

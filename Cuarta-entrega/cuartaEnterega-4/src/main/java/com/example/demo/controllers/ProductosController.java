@@ -49,15 +49,19 @@ public class ProductosController {
 
 			Map<String, String> errors = new ErrorHandler().validacionDeInput(bindingResult);
 
-			System.out.println(errors);
-
 			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 		}
 		return ResponseEntity.ok(productosServices.cearProductos(productos));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateProductos(@PathVariable int id, @RequestBody Productos productos) {
+	public ResponseEntity<Object> updateProductos(@Valid @PathVariable int id, @RequestBody Productos productos, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+
+			Map<String, String> errors = new ErrorHandler().validacionDeInput(bindingResult);
+
+			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(productosServices.modificarProductos(id, productos));
 	}
 

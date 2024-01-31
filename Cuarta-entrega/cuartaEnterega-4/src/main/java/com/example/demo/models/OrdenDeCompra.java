@@ -36,7 +36,6 @@ public class OrdenDeCompra extends AuditModel {
 	
 	@Column(nullable = false)
 	@NotNull(message="El total de la orden no puede ser null")
-	@NotBlank(message="El total de la orden no puede estar vacio")
 	@DecimalMin(value="0.1")
 	private float total;
 	

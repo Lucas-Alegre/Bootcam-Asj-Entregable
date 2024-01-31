@@ -55,7 +55,16 @@ public class RubroController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateRubro(@PathVariable int id, @RequestBody Rubro rubro) {
+	public ResponseEntity<Object> updateRubro(@Valid @PathVariable int id, @RequestBody Rubro rubro,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+
+			Map<String, String> errors = new ErrorHandler().validacionDeInput(bindingResult);
+
+			System.out.println(errors);
+
+			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(rubroService.modificarRubro(id, rubro));
 	}
 

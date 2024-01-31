@@ -18,7 +18,7 @@ public class Categoria {
 	@Column(unique=true, nullable=false)
 	private Integer id;
 	
-	@Column( nullable=false)
+	@Column(unique=true, nullable=false)
 	@NotNull(message="El nombre de una categoría, no puede ser null")
 	@NotBlank(message="El nombre de la categoría no puede estar vacio")
 	@Pattern(regexp="^.{2,}$", message = "La categoría debe tener un nombre minimo de 2 catacteres")
