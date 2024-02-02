@@ -35,6 +35,10 @@ export class ProductosComponent implements OnInit {
 
     this.modalService.open(longContent, { scrollable: true });
   }
+  openScrollableContentBaja(longContent: TemplateRef<any>) {
+    console.log("Estoy haciendo notificacion")
+    this.modalService.open(longContent, { scrollable: true });
+  }
 
   onKeyUp(event: any) {
     console.log("valor model: " + this.textoDeInput);
@@ -105,7 +109,7 @@ export class ProductosComponent implements OnInit {
     return 0;
   }
 
-  eliminar(product: any) {
+  eliminar(product: any, longContent: TemplateRef<any>) {
     //borrado logico editando el habilitado=false
     const productEditado = {
       fechaCreacion: product.fechaCreacion,
@@ -124,6 +128,7 @@ export class ProductosComponent implements OnInit {
         id: product.categoria.id
       }
     }
+    this.openScrollableContentBaja(longContent)
     this.servicesProducto.put(productEditado, product.id).subscribe(res => {
       alert("Se eliminó logicamente un producto correctamente")
     }, (error) => {
@@ -131,7 +136,7 @@ export class ProductosComponent implements OnInit {
     })
   }
 
-  darDeAlta(product: any) {
+  darDeAlta(product: any, longContent: TemplateRef<any>) {
     const productEditado = {
       fechaCreacion: product.fechaCreacion,
       fechaActualizacion: product.fechaActualizacion,
@@ -149,6 +154,7 @@ export class ProductosComponent implements OnInit {
         id: product.categoria.id
       }
     }
+    this.openScrollableContentBaja(longContent)
     this.servicesProducto.put(productEditado, product.id).subscribe(res => {
       alert("Se Dio de Alta a un producto correctamente")
     }, (error) => {

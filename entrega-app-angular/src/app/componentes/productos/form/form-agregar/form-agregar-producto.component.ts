@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriasService } from 'src/app/services/categoria/categorias.service';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
@@ -11,7 +12,8 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./form-agregar-producto.component.css']
 })
 export class FormAgregarProductoComponent implements OnInit {
-  listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
+  listaCategorias: any = []
+  private modalService = inject(NgbModal);
 
   idNuevo = 0;
   productosSKU: any = []
@@ -64,6 +66,10 @@ export class FormAgregarProductoComponent implements OnInit {
     })
   }
 
+  openScrollableContent(longContent: TemplateRef<any>) {
+    console.log("Estoy haciendo notificacion")
+    this.modalService.open(longContent, { scrollable: true });
+  }
 
   //Se valida los inputs
   cambiaEstadoValidado(valor: any) {
@@ -188,7 +194,7 @@ export class FormAgregarProductoComponent implements OnInit {
   }
 
 
-  enviar(form: any): void {
+  enviar(form: any, longContent: TemplateRef<any>): void {
     if (this.validarFormulario()) {
       this.proveedorEncontrado = this.listadoProveedores.filter((item: any) => item.nombreProveedor == this.proveedor)
       this.categoriaEncontrada = this.listaCategorias.filter((item: any) => item.nombre == this.categoria)
@@ -206,10 +212,13 @@ export class FormAgregarProductoComponent implements OnInit {
           id: this.categoriaEncontrada[0].id
         }
       };
-
+      this.openScrollableContent(longContent)
       this.serviceProduct.post(formData).subscribe(res => {
         alert("Se agrego un producto correctamente")
         console.log(res)
+        
+        //this.route.navigate(['/', 'productos']) 
+      },(error)=>{
         this.route.navigate(['/', 'productos'])
       });
     }

@@ -48,25 +48,25 @@
                 (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
-            
-                <img src="{{productDetail.imagen}}"
-                    alt="Imagen producto"
-                    class="align-center"
-                    width="130"
-                    height="150px">
-                <p><b>Descripción : </b>
-                    {{productDetail.descripcion}}
-                </p>
-                <p><b>Categoria :</b>
-                    {{productDetail.categoria.nombre}}
-                </p>
-                <p><b>Proveedor :</b>
-                    {{productDetail.proveedorId.nombreProveedor}}
-                </p>
-                <p><b>Precio :U$S </b>
-                    {{productDetail.precio}}
-                </p>
-            
+
+            <img src="{{productDetail.imagen}}"
+                alt="Imagen producto"
+                class="align-center"
+                width="130"
+                height="150px">
+            <p><b>Descripción : </b>
+                {{productDetail.descripcion}}
+            </p>
+            <p><b>Categoria :</b>
+                {{productDetail.categoria.nombre}}
+            </p>
+            <p><b>Proveedor :</b>
+                {{productDetail.proveedorId.nombreProveedor}}
+            </p>
+            <p><b>Precio :U$S </b>
+                {{productDetail.precio}}
+            </p>
+
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary"
@@ -75,6 +75,39 @@
 
     </ng-template>
 
+    <ng-template #longContentBaja let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Se dio de baja correctamente un producto </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+
+    <ng-template #longContentAlta let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Se dio de alta correctamente un producto </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
     <!-- Modal -->
 
     <br>
@@ -121,7 +154,7 @@
                             class="bi bi-pencil-fill"></i></button>
                     <button
                         class="btn button btn-danger"
-                        (click)="eliminar(product)"><i
+                        (click)="eliminar(product, longContentBaja)"><i
                             class="bi bi-trash3-fill"></i></button>
 
                 </td>
@@ -130,14 +163,16 @@
                     class="editarEliminar">
                     <button
                         class="btn button btn-success"
-                        (click)="darDeAlta(product)">Dar de alta</button>
+                        (click)="darDeAlta(product, longContentAlta)">Dar de
+                        alta</button>
 
                 </td>
 
             </tr>
         </tbody>
     </table>
-    <div *ngIf="noExistenProductos" class="alert alert-primary text-center" role="alert">
+    <div *ngIf="noExistenProductos" class="alert alert-primary text-center"
+        role="alert">
         No hay productos.
     </div>
 </div>

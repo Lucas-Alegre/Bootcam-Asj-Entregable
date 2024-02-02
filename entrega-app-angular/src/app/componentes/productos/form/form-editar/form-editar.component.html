@@ -5,7 +5,25 @@
   <h3 class="mt-3">Editar el producto de codigo:
     <small class="text-success"> {{producto.codigoSKU}}</small></h3>
   <hr>
-  <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
+
+  <ng-template #longContent let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title">Notificación</h4>
+      <button type="button" class="btn-close" aria-label="Close"
+        (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <p><b>Se modifico correctamente  un producto </b></p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary"
+        (click)="modal.close('Close click')">Close</button>
+    </div>
+
+  </ng-template>
+
+  <form #myForm="ngForm" (ngSubmit)="enviar(myForm, longContent)">
     <div class="row">
       <div class="col-6">
         <div>

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriasService } from 'src/app/services/categoria/categorias.service';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
@@ -41,6 +42,7 @@ export class FormEditarComponent {
   nombreLengthImagenValido: boolean = false;
   nombreDescripcionValido: boolean = false;
   nombrePrecioValido: boolean = false;
+  private modalService = inject(NgbModal);
 
 
   constructor(private serviceProduct: ProductosService,
@@ -94,6 +96,12 @@ export class FormEditarComponent {
       this.listaCategorias = data;
     })
   }
+
+  openScrollableContent(longContent: TemplateRef<any>) {
+    console.log("Estoy haciendo notificacion")
+    this.modalService.open(longContent, { scrollable: true });
+  }
+
 
   cambiaEstadoValidado(valor: any) {
     if (valor.length > 2) {
@@ -219,7 +227,7 @@ export class FormEditarComponent {
 
 
   //Funciones de botones Enviar y Limpiar
-  enviar(form: any): void {
+  enviar(form: any, longContent: TemplateRef<any>): void {
 
     if (this.validarFormulario()) {
       this.proveedorEncontrado = this.listadoProveedores.filter((item: any) => item.nombreProveedor == this.proveedor)
@@ -254,9 +262,10 @@ export class FormEditarComponent {
         this.editarInvalido = true;
       } else {
         this.editarInvalido = false;
+        this.openScrollableContent(longContent)
         this.serviceProduct.put(formData, this.productoId).subscribe(res => {
           console.log(res)
-          alert("Se Editó un producto correctamente")
+        },(error)=>{
           this.route.navigate(['/', 'productos'])
         });
       }
