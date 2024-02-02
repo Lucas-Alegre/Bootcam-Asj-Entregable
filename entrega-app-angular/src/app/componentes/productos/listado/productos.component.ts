@@ -46,6 +46,7 @@ export class ProductosComponent implements OnInit {
     this.productosAux = this.productos.filter((e: any) =>
       e.nombreProducto.toUpperCase().includes(this.textoDeInput.toUpperCase()) ||
       e.descripcion.toUpperCase().includes(this.textoDeInput.toUpperCase()));
+      this.productosAux.sort(this.sortFunc)
   }
 
   productosAlta() {
@@ -68,6 +69,7 @@ export class ProductosComponent implements OnInit {
       }
       this.productos.sort(this.sortFunc)
       this.productosAux = this.productos;
+      this.productosAux.sort(this.sortFunc)
     });
   }
 
@@ -76,8 +78,10 @@ export class ProductosComponent implements OnInit {
     if (evento.target.value == "todos") {
       console.log("Soy todos jajajaja");
       this.productosAux = this.productos;
+      this.productosAux.sort(this.sortFunc)
     } else {
       this.productosAux = this.productos.filter((e: any) => e.categoria.nombre == evento.target.value);
+      this.productosAux.sort(this.sortFunc)
     }
 
   }
@@ -91,6 +95,7 @@ export class ProductosComponent implements OnInit {
       }
       this.productos.sort(this.sortFunc)
       this.productosAux = this.productos;
+      this.productosAux.sort(this.sortFunc)
     });
   }
   getListaCategorias() {
@@ -100,10 +105,10 @@ export class ProductosComponent implements OnInit {
   }
 
   sortFunc(a: any, b: any) {
-    if (a.nameProducto < b.nameProducto) {
+    if (a.nombreProducto < b.nombreProducto) {
       return -1;
     }
-    if (a.nameProducto > b.nameProducto) {
+    if (a.nombreProducto > b.nombreProducto) {
       return 1;
     }
     return 0;

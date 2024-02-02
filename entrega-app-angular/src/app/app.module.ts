@@ -26,7 +26,11 @@ import { FormEditarOrdenCompraComponent } from './componentes/orden-compra/form/
 import { SidenavComponent } from './pages/sidenav/sidenav.component';
 import { CountryService } from './services/country/country.service';
 import { CategoriasService } from './services/categoria/categorias.service';
-
+import { CaegoriasComponent } from './componentes/categorias/listado/caegorias/caegorias.component';
+import { AgregarCategoriaComponent } from './componentes/categorias/form/agregar-categoria/agregar-categoria.component';
+import { EditarCategoriaComponent } from './componentes/categorias/form/editar-categoria/editar-categoria.component';
+import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.component';
+import { RubroService } from './services/rubro/rubro.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,12 +39,16 @@ import { CategoriasService } from './services/categoria/categorias.service';
     ProductosComponent,
     ProveedoresComponent,
     OrdenCompraComponent,
+    CaegoriasComponent,
     FormAgregarProductoComponent,
     FormEditarComponent,
     FormAgregarProveedorComponent,
     FormEditarProveedorComponent,
     FormAgregarOrdenCompraComponent,
     FormEditarOrdenCompraComponent,
+    AgregarCategoriaComponent,
+    EditarCategoriaComponent,
+    RubroComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,10 +58,9 @@ import { CategoriasService } from './services/categoria/categorias.service';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule,
-    FormsModule
+    ReactiveFormsModule
   ],
-  providers: [ProductosService,ProveedoresService,OrdenCompraService,CountryService,CategoriasService],
+  providers: [ProductosService, ProveedoresService, OrdenCompraService, CountryService, CategoriasService, RubroService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

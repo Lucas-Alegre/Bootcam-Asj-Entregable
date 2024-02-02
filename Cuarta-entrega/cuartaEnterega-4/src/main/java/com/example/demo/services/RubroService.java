@@ -32,6 +32,7 @@ public class RubroService {
 		try {
 			Rubro r = rubroRepository.findById(id).get();
 			r.setNombre(rubro.getNombre());
+			r.setHabilitado(rubro.isHabilitado());
 			rubroRepository.save(r);
 			return "Rubro " + id + " modificado correctamente.";
 		} catch (Exception err) {

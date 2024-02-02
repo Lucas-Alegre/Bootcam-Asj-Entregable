@@ -22,10 +22,14 @@ public class Rubro {
 	@NotBlank(message="El nombre de rubro no puede estar vacio")
 	@Pattern(regexp="^.{2,}$", message = "El rubro debe tener un nombre minimo de 2 catacteres")
     private String nombre;
+	
+	@Column(nullable = false)
+	private boolean habilitado;
     
-    public Rubro(Integer id, String nombre) {
+    public Rubro(Integer id, String nombre, boolean habilitado) {
     	this.id=id;
     	this.nombre=nombre;
+    	this.habilitado=habilitado;
     }
     public Rubro() {
   		super();
@@ -46,11 +50,17 @@ public class Rubro {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
 	@Override
 	public String toString() {
-		return "Rubro [id=" + id + ", nombre=" + nombre + "]";
+		return "Rubro [id=" + id + ", nombre=" + nombre + ", habilitado=" + habilitado + "]";
 	}
+
+	
     
 }

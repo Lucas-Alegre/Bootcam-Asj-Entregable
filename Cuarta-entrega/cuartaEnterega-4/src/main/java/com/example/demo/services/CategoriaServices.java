@@ -32,6 +32,7 @@ public class CategoriaServices {
 		try {
 			Categoria c = categoriaRepository.findById(id).get();
 			c.setNombre(categoria.getNombre());
+			c.setHabilitado(categoria.isHabilitado());
 			categoriaRepository.save(c);
 			return "Categoria " + id + " modificada correctamente.";
 		} catch (Exception err) {
