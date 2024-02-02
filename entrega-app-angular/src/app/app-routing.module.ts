@@ -13,6 +13,8 @@ import { CaegoriasComponent } from './componentes/categorias/listado/caegorias/c
 import { AgregarCategoriaComponent } from './componentes/categorias/form/agregar-categoria/agregar-categoria.component';
 import { EditarCategoriaComponent } from './componentes/categorias/form/editar-categoria/editar-categoria.component';
 import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.component';
+import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
+import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
 
 
 const routes: Routes = [
@@ -32,6 +34,8 @@ const routes: Routes = [
   { path: 'agregar-categoria', component: AgregarCategoriaComponent },
   { path: 'editar-categoria/:id', component: EditarCategoriaComponent },
   { path: 'rubros', component: RubroComponent },
+  { path: 'agregar-rubro', component: AgregarRubroComponent },
+  { path: 'editar-rubro/:id', component: EditarRubroComponent },
 ];
 
 @NgModule({

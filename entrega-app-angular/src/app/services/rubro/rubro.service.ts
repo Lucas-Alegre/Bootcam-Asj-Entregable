@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class RubroService {
 
 
-  url: string = 'http://localhost:8080/categoria';
+  url: string = 'http://localhost:8080/rubro';
 
   constructor(private http: HttpClient) { }
 
@@ -18,12 +20,12 @@ export class RubroService {
     return this.http.get(this.url + "/" + id)
   }
 
-  post(categoria: any): Observable<any> {
-    return this.http.post(this.url, categoria);
+  post(rubro: any): Observable<any> {
+    return this.http.post(this.url, rubro);
   }
 
-  put(categoria: any, id: any): Observable<any> {
-    return this.http.put(this.url + "/" + id, categoria);
+  put(rubro: any, id: any): Observable<any> {
+    return this.http.put(this.url + "/" + id, rubro);
   }
 
   delete(id: any): Observable<any> {

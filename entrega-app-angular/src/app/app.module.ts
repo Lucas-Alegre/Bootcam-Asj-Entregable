@@ -31,6 +31,8 @@ import { AgregarCategoriaComponent } from './componentes/categorias/form/agregar
 import { EditarCategoriaComponent } from './componentes/categorias/form/editar-categoria/editar-categoria.component';
 import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.component';
 import { RubroService } from './services/rubro/rubro.service';
+import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
+import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,8 @@ import { RubroService } from './services/rubro/rubro.service';
     AgregarCategoriaComponent,
     EditarCategoriaComponent,
     RubroComponent,
+    AgregarRubroComponent,
+    EditarRubroComponent,
   ],
   imports: [
     BrowserModule,
