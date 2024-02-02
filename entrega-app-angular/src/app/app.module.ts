@@ -33,6 +33,7 @@ import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.componen
 import { RubroService } from './services/rubro/rubro.service';
 import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
 import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
+import { DashboardComponent } from './componentes/dashboard/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/edit
     RubroComponent,
     AgregarRubroComponent,
     EditarRubroComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

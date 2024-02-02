@@ -15,10 +15,12 @@ import { EditarCategoriaComponent } from './componentes/categorias/form/editar-c
 import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.component';
 import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
 import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
+import { DashboardComponent } from './componentes/dashboard/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'productos', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'orden-compra', component: OrdenCompraComponent },
