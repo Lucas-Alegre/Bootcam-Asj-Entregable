@@ -36,6 +36,8 @@ public class ProductosServices {
 			p.setPrecio(productos.getPrecio());
 			p.setDescripcion(productos.getDescripcion());
 			p.setHabilitado(productos.isHabilitado());
+			p.setProveedorId(productos.getProveedorId());
+			p.setCategoria(productos.getCategoria());
 			productosRepository.save(p);
 			return "Productos " + id + " modificado correctamente.";
 		} catch (Exception err) {
@@ -48,6 +50,7 @@ public class ProductosServices {
 		try {
 			Productos productoToReturn = productosRepository.findById(id).get();
 			productosRepository.deleteById(id);
+			System.out.println("Se elimono correctamente un producto id: "+ id);
 			return productoToReturn;
 		} catch (Exception err) {
 			err.getMessage();

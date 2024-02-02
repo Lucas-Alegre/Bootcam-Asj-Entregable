@@ -53,8 +53,8 @@
                 [(ngModel)]="proveedor"
                 (ngModelChange)="cambiaProveedorValidado($event)">
                 <option value disabled>Seleccione un proveedor</option>
-                <option value={{item}}
-                  *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+                <option value={{item.nombreProveedor}}
+                  *ngFor="let item of listadoProveedores">{{item.nombreProveedor}}</option>
               </select>
               <small class="text-danger"
                 *ngIf="nombreProveedorValido">Proveedor
@@ -73,8 +73,8 @@
                 [(ngModel)]="categoria"
                 (ngModelChange)="cambiaCategoriaValidado($event)">
                 <option value disabled>Seleccione una categoría</option>
-                <option value={{item}}
-                  *ngFor="let item of listaCategorias">{{item}}</option>
+                <option value={{item.nombre}}
+                  *ngFor="let item of listaCategorias">{{item.nombre}}</option>
               </select>
               <small class="text-danger"
                 *ngIf="nombreCategoriaValido">Categoria

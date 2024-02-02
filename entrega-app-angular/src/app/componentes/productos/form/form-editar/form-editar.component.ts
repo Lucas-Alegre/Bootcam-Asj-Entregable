@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoriasService } from 'src/app/services/categoria/categorias.service';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
@@ -19,6 +20,7 @@ export class FormEditarComponent {
   listadoNombresJoinApellidoRzonSocial: any = []
   listadoNombresJoinApellido: any = []
   proveedorEncontrado: any = []
+  categoriaEncontrada:any=[];
 
   productosSKU: any = []
   isDisabled = true;
@@ -43,7 +45,8 @@ export class FormEditarComponent {
 
   constructor(private serviceProduct: ProductosService,
     private route: Router, private _activateRoute: ActivatedRoute,
-    private serviceProveedor: ProveedoresService) {
+    private serviceProveedor: ProveedoresService,
+    private categoriaServices: CategoriasService) {
     /* ;*/
   }
 
@@ -55,15 +58,16 @@ export class FormEditarComponent {
       this.producto = res;
       console.log(this.producto)
       this.codigoSku = this.producto.codigoSKU;
-      this.nombreProducto = this.producto.nameProducto;
-      this.proveedor = this.producto.proveedor;
-      this.categoria = this.producto.categoria;
+      this.nombreProducto = this.producto.nombreProducto;
+      this.proveedor = this.producto.proveedorId.nombreProveedor;
+      this.categoria = this.producto.categoria.nombre;
       this.imagen = this.producto.imagen;
       this.descripcion = this.producto.descripcion;
       this.precio = this.producto.precio;
     })
 
     this.getListadProveedores()
+    this.getListaCategorias();
   }
 
   getListadProveedores() {
@@ -85,7 +89,11 @@ export class FormEditarComponent {
       this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
     });
   }
-
+  getListaCategorias() {
+    this.categoriaServices.get().subscribe((data: any) => {
+      this.listaCategorias = data;
+    })
+  }
 
   cambiaEstadoValidado(valor: any) {
     if (valor.length > 2) {
@@ -214,34 +222,36 @@ export class FormEditarComponent {
   enviar(form: any): void {
 
     if (this.validarFormulario()) {
-      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)
+      this.proveedorEncontrado = this.listadoProveedores.filter((item: any) => item.nombreProveedor == this.proveedor)
+      this.categoriaEncontrada = this.listaCategorias.filter((item: any) => item.nombre == this.categoria)
       const formData = {
-        id: this.productoId,
         codigoSKU: this.codigoSku,
-        nameProducto: this.nombreProducto,
+        nombreProducto: this.nombreProducto,
         imagen: this.imagen,
-        proveedor: this.proveedor,
-        categoria: this.categoria,
         descripcion: this.descripcion,
         precio: this.precio,
-        idProveedor: this.proveedorEncontrado[0].id,
-        razonSocial: this.proveedorEncontrado[0].razonSocial
+        proveedor: this.proveedor,
+        habilitado: this.producto.habilitado,
+        proveedorId: {
+          id: this.proveedorEncontrado[0].id,
+        },
+        categoria: {
+          id: this.categoriaEncontrada[0].id
+        }
       };
       const productoCompare = {
-        id: this.productoId,
-        codigoSKU: this.producto.codigoSKU,
-        nameProducto: this.producto.nameProducto,
+        codigoSKU: this.producto.codigoSku,
+        nombreProducto: this.producto.nombreProducto,
         imagen: this.producto.imagen,
-        proveedor: this.producto.proveedor,
-        categoria: this.producto.categoria,
         descripcion: this.producto.descripcion,
         precio: this.producto.precio,
-        idProveedor: this.producto.idProveedor,
-        razonSocial: this.producto.razonSocial
+        proveedor: this.producto.proveedor,
+        habilitado: this.producto.habilitado,
+        proveedorId: this.producto.proveedorId,
+        categoria: this.producto.categoria
       }
       if (JSON.stringify(formData) == JSON.stringify(productoCompare)) {
         this.editarInvalido = true;
-
       } else {
         this.editarInvalido = false;
         this.serviceProduct.put(formData, this.productoId).subscribe(res => {

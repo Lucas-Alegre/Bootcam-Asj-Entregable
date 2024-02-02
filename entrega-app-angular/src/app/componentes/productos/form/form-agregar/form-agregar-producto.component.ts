@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CategoriasService } from 'src/app/services/categoria/categorias.service';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
@@ -15,11 +16,8 @@ export class FormAgregarProductoComponent implements OnInit {
   idNuevo = 0;
   productosSKU: any = []
   listadoProveedores: any = []
-  listadoProveedoresNombre: any = [];
-  listadoProveedoresApellido: any = [];
-  listadoNombresJoinApellidoRzonSocial: any = []
-  listadoNombresJoinApellido: any = []
   proveedorEncontrado: any = [];
+  categoriaEncontrada: any = [];
 
   codigoSku: string = '';
   nombreProducto: string = '';
@@ -37,13 +35,13 @@ export class FormAgregarProductoComponent implements OnInit {
   nombreImagenValido: boolean = false;
   nombreLengthImagenValido: boolean = false;
   nombreDescripcionValido: boolean = false;
-  nombrePrecioValido:boolean=false;
+  nombrePrecioValido: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
     private serviceProduct: ProductosService,
     private route: Router,
-    private serviceProveedor: ProveedoresService,) { }
+    private serviceProveedor: ProveedoresService,
+    private categoriaServices: CategoriasService) { }
 
   ngOnInit(): void {
     this.serviceProduct.get().subscribe(data => {
@@ -51,28 +49,23 @@ export class FormAgregarProductoComponent implements OnInit {
       this.productosSKU = data.map((item: any) => item.codigoSKU);
     });
     this.getListadProveedores()
+    this.getListaCategorias();
   }
 
+  //Se obtiene proveedores ty categorias
   getListadProveedores() {
     this.serviceProveedor.get().subscribe((data: any) => {
       this.listadoProveedores = data
-
-      for (let i = 0; i < this.listadoProveedores.length; i++) {
-        let join = this.listadoProveedores[i].apellido + " " + this.listadoProveedores[i].nombre;
-        this.listadoNombresJoinApellidoRzonSocial.push({ union: join, razonSocial: this.listadoProveedores[i].razonSocial, id: this.listadoProveedores[i].id })
-      }
-
-      const eliminaProveedoresRepetidos = new Set(this.listadoNombresJoinApellidoRzonSocial)
-      this.listadoNombresJoinApellidoRzonSocial = [...eliminaProveedoresRepetidos];
-      this.listadoNombresJoinApellido = this.listadoNombresJoinApellidoRzonSocial.map((item: any) =>
-        item.union
-      )
-
-      const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
-      this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
     });
   }
+  getListaCategorias() {
+    this.categoriaServices.get().subscribe((data: any) => {
+      this.listaCategorias = data;
+    })
+  }
 
+
+  //Se valida los inputs
   cambiaEstadoValidado(valor: any) {
     if (valor.length > 2) {
       this.codigoSkuvalidado = false;
@@ -139,8 +132,8 @@ export class FormAgregarProductoComponent implements OnInit {
     }
   }
 
-  cambiaNombrePrecioValidado(valor: any){
-    let price=parseInt(valor)
+  cambiaNombrePrecioValidado(valor: any) {
+    let price = parseInt(valor)
     if (price <= 0) {
       this.nombrePrecioValido = true;
     }
@@ -150,10 +143,11 @@ export class FormAgregarProductoComponent implements OnInit {
   }
 
 
+  //Se valida formulario
   private validarFormulario(): boolean {
     let skuValidate = this.productosSKU.filter((item: any) => item == this.codigoSku)
-    let price=parseInt(this.precio)
-    //let proveedorContieneNumeros = this.proveedor.replace(/[^0-9]/g,"").length;
+    let price = parseInt(this.precio)
+    
     if (skuValidate[0]) {
       this.codigoSkuRepetidovalidado = true;
       return false;
@@ -186,28 +180,31 @@ export class FormAgregarProductoComponent implements OnInit {
       this.nombreDescripcionValido = true;
       return false;
     }
-    if (!this.precio || price<=0) {
+    if (!this.precio || price <= 0) {
       this.nombrePrecioValido = true;
       return false;
     }
     return true;
   }
 
-  
+
   enviar(form: any): void {
     if (this.validarFormulario()) {
-      this.proveedorEncontrado = this.listadoNombresJoinApellidoRzonSocial.filter((item: any) => item.union == this.proveedor)
+      this.proveedorEncontrado = this.listadoProveedores.filter((item: any) => item.nombreProveedor == this.proveedor)
+      this.categoriaEncontrada = this.listaCategorias.filter((item: any) => item.nombre == this.categoria)
       const formData = {
-        id: this.idNuevo + 2,
         codigoSKU: this.codigoSku,
-        nameProducto: this.nombreProducto,
+        nombreProducto: this.nombreProducto,
         imagen: this.imagen,
-        proveedor: this.proveedor,
-        categoria: this.categoria,
         descripcion: this.descripcion,
         precio: this.precio,
-        idProveedor: this.proveedorEncontrado[0].id,
-        razonSocial: this.proveedorEncontrado[0].razonSocial
+        habilitado: 1,
+        proveedorId: {
+          id: this.proveedorEncontrado[0].id,
+        },
+        categoria: {
+          id: this.categoriaEncontrada[0].id
+        }
       };
 
       this.serviceProduct.post(formData).subscribe(res => {
@@ -215,9 +212,7 @@ export class FormAgregarProductoComponent implements OnInit {
         console.log(res)
         this.route.navigate(['/', 'productos'])
       });
-
     }
-
   }
 
   limpiar() {

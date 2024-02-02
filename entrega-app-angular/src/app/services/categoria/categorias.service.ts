@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { proveedor } from 'src/app/data/proveedor';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProveedoresService {
-  url: string = 'http://localhost:8080/proveedores';
-  proveedor: any = proveedor;
+export class CategoriasService {
+
+  url: string = 'http://localhost:8080/categoria';
+ 
   constructor(private http: HttpClient) { }
 
   get(): Observable<any> {
@@ -19,12 +19,12 @@ export class ProveedoresService {
     return this.http.get(this.url + "/" + id)
   }
 
-  post(proveedor: any): Observable<any> {
-    return this.http.post(this.url, proveedor);
+  post(categoria: any): Observable<any> {
+    return this.http.post(this.url, categoria);
   }
 
-  put(proveedor: any, id: any): Observable<any> {
-    return this.http.put(this.url + "/" + id, proveedor);
+  put(categoria: any, id: any): Observable<any> {
+    return this.http.put(this.url + "/" + id, categoria);
   }
 
   delete(id: any): Observable<any> {

@@ -12,3 +12,6 @@
     display: block;
     text-align: center;
 }
+.deleted{
+    color: brown;
+}
