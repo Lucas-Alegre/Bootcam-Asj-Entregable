@@ -23,9 +23,9 @@ public class CategoriaServices {
 		return categoriaRepository.findById(id);
 	}
 
-	public String cearCategoria(Categoria categoria) {
-		categoriaRepository.save(categoria);
-		return "Categoria creada correctamente";
+	public Categoria cearCategoria(Categoria categoria) {
+		
+		return categoriaRepository.save(categoria);
 	}
 
 	public String modificarCategoria(Integer id, Categoria categoria) {

@@ -16,23 +16,29 @@ public class Direccion {
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	@Column( unique=true, nullable=false)
 	private Integer id;
+	
 	@Column(nullable=false)
 	private String calle;
+	
 	@Column(nullable=false)
 	private int numCalle;
+	
 	@Column(nullable=false)
 	private String codigoPostal;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "localidad", referencedColumnName = "id", nullable = false)
-    private Localidad localidad;
+	@Column(nullable=false)
+	private String localidad;
 	
-	public Direccion(Integer id, String calle, int numCalle,String codigoPostal,Localidad localidad) {
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "provincia", referencedColumnName = "id", nullable = false)
+    private Provincia provincia;
+	
+	public Direccion(Integer id, String calle, int numCalle,String codigoPostal,Provincia provincia) {
 		this.id=id;
 		this.calle=calle;
 		this.numCalle=numCalle;
 		this.codigoPostal=codigoPostal;
-		this.localidad=localidad;
+		this.provincia = provincia;
 	}
 	 public Direccion() {
 			super();
@@ -69,21 +75,25 @@ public class Direccion {
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
-
-	
-	
-
-	public Localidad getLocalidad() {
+	public String getLocalidad() {
 		return localidad;
 	}
-	public void setLocalidad(Localidad localidad) {
+	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+	public Provincia getProvincia() {
+		return provincia;
+	}
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
 	@Override
 	public String toString() {
 		return "Direccion [id=" + id + ", calle=" + calle + ", numCalle=" + numCalle + ", codigoPostal=" + codigoPostal
-				+ ", loc_id=" + localidad + "]";
+				+ ", localidad=" + localidad + ", provincia=" + provincia + "]";
 	}
+	
+	
 	
 	
 }
