@@ -29,7 +29,7 @@ public class DireccionServices {
 		return direccionRepository.save(direccion);
 	}
 
-	public String modificarDireccion(Integer id, Direccion direccion) {
+	public Object modificarDireccion(Integer id, Direccion direccion) {
 		try {
 			Direccion d = direccionRepository.findById(id).get();
 			d.setCalle(direccion.getCalle());
@@ -37,8 +37,8 @@ public class DireccionServices {
 			d.setNumCalle(direccion.getNumCalle());
 			d.setLocalidad(direccion.getLocalidad());
 			d.setProvincia(direccion.getProvincia());
-			direccionRepository.save(d);
-			return "Direccion " + id + " modificada correctamente.";
+			
+			return direccionRepository.save(d);
 		} catch (Exception err) {
 			return "Error: La direccion no pudo ser modificada.";
 		}

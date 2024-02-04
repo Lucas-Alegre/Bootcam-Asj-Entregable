@@ -28,16 +28,16 @@ public class ContactosServices {
 		return contactosRepository.save(contactos);
 	}
 
-	public String modificarContactos(Integer id, Contactos contactos) {
+	public Contactos modificarContactos(Integer id, Contactos contactos) {
 		try {
 			Contactos c = contactosRepository.findById(id).get();
 			c.setEmail(contactos.getEmail());	
 			c.setTelefono(contactos.getTelefono());
 			c.setRol(contactos.getRol());
-			contactosRepository.save(c);
-			return "Contactos " + id + " modificado correctamente.";
+			
+			return contactosRepository.save(c);
 		} catch (Exception err) {
-			return "Error: Los Contactos no pudieron ser modificados.";
+			return null;
 		}
 	}
 

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, inject } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CondicionIvaService } from 'src/app/services/condicionDeIva/condicion-iva.service';
 import { ContactosService } from 'src/app/services/contactos/contactos.service';
 import { CountryService } from 'src/app/services/country/country.service';
@@ -16,6 +17,7 @@ import { RubroService } from 'src/app/services/rubro/rubro.service';
   styleUrls: ['./form-agregar-proveedor.component.css']
 })
 export class FormAgregarProveedorComponent {
+  private modalService = inject(NgbModal);
   listaRubros: any = ["Tecnológico"];
   listaRoles: any = ["usuario", "admin"]//esto no hace falta
   listaCondicionIva: any = []
@@ -88,7 +90,6 @@ export class FormAgregarProveedorComponent {
       this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
       const stateToCountryConstName = new Set(this.stateToCountryName);
       this.stateToCountryName = [...stateToCountryConstName]
-      //pruebo provincias
       this.encontrarIdPorNombre(value)
     })
 
@@ -115,43 +116,36 @@ export class FormAgregarProveedorComponent {
   getRubros() {
     this.rubroService.get().subscribe((data) => {
       this.listaRubros = data;
-      console.log("Estos son rubros ")
-      console.log(this.listaRubros)
     });
   }
 
   getCondicionDeIva() {
     this.condicionIvaService.get().subscribe((data) => {
       this.listaCondicionIva = data;
-      console.log("Estos son condiciones de Iva ")
-      console.log(this.listaCondicionIva)
     })
   }
 
   getPais() {
     this.paisServices.get().subscribe((data) => {
       this.listaPaises = data;
-      console.log("Estos son los paises ")
-      console.log(this.listaPaises);
     })
   }
 
   encontrarIdPorNombre(nombre: String) {
-    console.log("Debo encontrar el nombre " + nombre)
     this.paisEncontrado = this.listaPaises.filter((p: any) => p.nombre == nombre)
-    console.log("Se encontro el pais + " + this.paisEncontrado[0].nombre)
-    console.log(this.paisEncontrado[0])
     this.getProvincias(this.paisEncontrado[0])
   }
 
 
   getProvincias(pais: any) {
-    console.log("Debo encontrar el pais con id " + pais.id)
-    console.log("Debo encontrar el pais con nombre " + pais.nombre)
     this.provinciaServices.get().subscribe((data) => {
       this.listaProvincias = data.filter((e: any) => e.pais.id == pais.id)
-      console.log(this.listaProvincias)
     })
+  }
+
+  openScrollableContent(longContent: TemplateRef<any>) {
+    console.log("Estoy haciendo notificacion")
+    this.modalService.open(longContent, { scrollable: true });
   }
 
 
@@ -284,19 +278,16 @@ export class FormAgregarProveedorComponent {
     return false
   }
 
-  guardar() {
-    /*console.log("Continua el objeto enviado")
-    console.log(this.form.value)
-    console.log("hOLAAAAAAAA")*/
+  guardar(longContent: TemplateRef<any>) {
     if (this.form.invalid) {
       console.log("----eS INVALIDO------------")
       return Object.values(this.form.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
     } else {
-      console.log("Esta bien validado")
+      //Esta bien validado
 
-      //enviar direccion
+      //Crear direccion y contactos, para luego enviarlo en proveedor.
       let direccion = {
         calle: this.form.get('calleForm')?.value,
         numCalle: this.form.get('numeroCalleForm')?.value,
@@ -304,7 +295,8 @@ export class FormAgregarProveedorComponent {
         localidad: this.form.get('localidadForm')?.value,
         provincia: { id: parseInt(this.form.get('provinciaForm')?.value) }
       }
-      // console.log(direccion)
+
+      //Se crea una nueva direccion
       this.direccionService.post(direccion).subscribe((dir) => {
 
         let contactos = {
@@ -313,14 +305,8 @@ export class FormAgregarProveedorComponent {
           rol: this.form.get('rolForm')?.value
         }
 
+        //Se crea un nuevo contacto
         this.contactosService.post(contactos).subscribe((con) => {
-         /* console.log("Soy respuesta de contactos api");
-          console.log(con)
-          console.log(con.id)
-          console.log("-----------------------------------")
-          console.log("Soy respuesta de direcion api");
-          console.log(dir)
-          console.log(dir.id)*/
 
           let proveedorAdd = {
             codigo: this.form.get('codigoForm')?.value,
@@ -336,28 +322,14 @@ export class FormAgregarProveedorComponent {
             condIva: { id: parseInt(this.form.get('condicionIvaForm')?.value) },
             contactos: { id: con.id }
           }
-
-          //console.log("--------------PROVEEDOR-OBJECT---------------------")
-          //console.log(proveedorAdd)
-
+          this.openScrollableContent(longContent)
+          //Se agrega proveedor con su: rubro, condicionIva, direccion y contacto.
           this.serviceProveedor.post(proveedorAdd).subscribe(res => {
-            console.log("Se agregó un proveedor correctamente")
-            console.log("--------------PROVEEDOR-OBJECT---------------------")
-            console.log(res)
             this.route.navigate(['/', 'proveedores'])
           })
         })
       })
-
-      //enviar contacto
-      /*this.serviceProveedor.post(proveedorAdd).subscribe(res => {
-        alert("Se agregó un proveedor correctamente")
-
-        this.route.navigate(['/', 'proveedores'])
-      });*/
-
     }
-
   }
 
   limpiar() {

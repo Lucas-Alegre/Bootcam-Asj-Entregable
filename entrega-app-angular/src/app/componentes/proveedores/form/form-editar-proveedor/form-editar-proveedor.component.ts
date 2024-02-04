@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CondicionIvaService } from 'src/app/services/condicionDeIva/condicion-iva.service';
+import { ContactosService } from 'src/app/services/contactos/contactos.service';
 import { CountryService } from 'src/app/services/country/country.service';
+import { DireccionService } from 'src/app/services/direccion/direccion.service';
+import { PaisService } from 'src/app/services/pais/pais.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
+import { ProvinciasService } from 'src/app/services/provincias/provincias.service';
+import { RubroService } from 'src/app/services/rubro/rubro.service';
 
 @Component({
   selector: 'app-form-editar-proveedor',
@@ -10,11 +17,19 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./form-editar-proveedor.component.css']
 })
 export class FormEditarProveedorComponent {
-  listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
+  listaRubros: any = [];
+  listaCondicionIva: any = []
+  listaPaises: any = []
+  paisEncontrado: any = []
+  listaProvincias: any = []
+  listProvinciasTodas: any = []
+  listCondiciondeIva: any = []
+  listaDireccion: any = [];
+  listaRubrosEncontrado: any = [];
+  private modalService = inject(NgbModal);
+
+  listaCategorias: any = ["Tecnológico"]
   listaRoles: any = ["usuario", "admin"]
-  listaCondicionIva: any = ["IVA Responsable Inscripto", "IVA Responsable no Inscripto", "IVA no Responsable", "IVA Sujeto Ecento",
-    "Condumidor Final", "Responsable Monotributo", "Sujeto no Categorizado", "Proveedor del Exterior", "Cliente del Exterior",
-    "IVA Liberado", "Agente de Percepción", "Pequeño Contribuyente Eventual", "Monotributista Social", "Pequeño Contribuyente Eventual Social"]
   editarInvalido: boolean = false;
   nombreProducto = "";
   nombre: string = '';
@@ -40,6 +55,12 @@ export class FormEditarProveedorComponent {
   constructor(
     private formBuilder: FormBuilder,
     private serviceProveedor: ProveedoresService,
+    private rubroService: RubroService,
+    private condicionIvaService: CondicionIvaService,
+    private paisServices: PaisService,
+    private provinciaServices: ProvinciasService,
+    private direccionService: DireccionService,
+    private contactosService: ContactosService,
     private route: Router,
     private _activateRoute: ActivatedRoute,
     private servicesCountry: CountryService) { }
@@ -49,38 +70,40 @@ export class FormEditarProveedorComponent {
     this.proveedorId = this._activateRoute.snapshot.paramMap.get('id');
     this.serviceProveedor.getById(this.proveedorId).subscribe(data => {
       this.proveedorObjet = data;
-
+      /*console.log("Soy el objeto precargado de la api by id")
       console.log(this.proveedorObjet)
+
+      console.log(this.proveedorObjet)*/
       this.form = this.formBuilder.group({
-        codigoForm: [`${this.proveedorObjet.codigo}`, [Validators.required, Validators.minLength(4)]],
+        codigoForm: [{ value: `${this.proveedorObjet.codigo}`, disabled: true }, [Validators.required, Validators.minLength(4)]],
         razonSocialForm: [`${this.proveedorObjet.razonSocial}`, [Validators.required, Validators.minLength(2)]],
-        rubroForm: [`${this.proveedorObjet.rubro}`, [Validators.required]],
+        rubroForm: [`${this.proveedorObjet.rubro.nombre}`, [Validators.required]],
         sitioWebForm: [`${this.proveedorObjet.sitioWeb}`, [Validators.required, Validators.minLength(12)]],
-        condicionIvaForm: [`${this.proveedorObjet.condicionIva}`, [Validators.required]],
+        condicionIvaForm: [`${this.proveedorObjet.condIva.condNombre}`, [Validators.required]],
         imagenForm: [`${this.proveedorObjet.imagen}`, [Validators.required, Validators.minLength(5)]],
 
-        localidadForm: [`${this.proveedorObjet.localidad}`, [Validators.required, Validators.minLength(3)]],
-        provinciaForm: [`${this.proveedorObjet.provincia}`, [Validators.required, Validators.minLength(2)]],
-        paisForm: [`${this.proveedorObjet.pais}`, [Validators.required, Validators.minLength(3)]],
-        calleForm: [`${this.proveedorObjet.calle}`, [Validators.required, Validators.minLength(3)]],
-        numeroCalleForm: [`${this.proveedorObjet.numerocalle}`, [Validators.required, Validators.minLength(1)]],
-        codigoPostalForm: [`${this.proveedorObjet.CP}`, [Validators.required, Validators.minLength(2)]],
+        localidadForm: [`${this.proveedorObjet.direc.localidad}`, [Validators.required, Validators.minLength(3)]],
+        provinciaForm: [`${this.proveedorObjet.direc.provincia.nombre}`, [Validators.required]],
+        paisForm: [`${this.proveedorObjet.direc.provincia.pais.nombre}`, [Validators.required, Validators.minLength(3)]],
+        calleForm: [`${this.proveedorObjet.direc.calle}`, [Validators.required, Validators.minLength(3)]],
+        numeroCalleForm: [`${this.proveedorObjet.direc.numCalle}`, [Validators.required, Validators.minLength(1)]],
+        codigoPostalForm: [`${this.proveedorObjet.direc.codigoPostal}`, [Validators.required, Validators.minLength(2)]],
 
-        cuitForm: [`${this.proveedorObjet.cuit}`, [Validators.required, Validators.minLength(10)]],
+        cuitForm: [{ value: `${this.proveedorObjet.cuit}`, disabled: true }, [Validators.required, Validators.minLength(10)]],
         telefonoForm: [`${this.proveedorObjet.telefono}`, [Validators.required, Validators.minLength(6)]],
-        emailForm: [`${this.proveedorObjet.email}`, [Validators.required, Validators.minLength(3)]],
-        nombreForm: [`${this.proveedorObjet.nombre}`, [Validators.required, Validators.minLength(2)]],
-        apellidoForm: [`${this.proveedorObjet.apellido}`, [Validators.required, Validators.minLength(2)]],
-        rolForm: [`${this.proveedorObjet.rol}`, [Validators.required]]
+        emailForm: [`${this.proveedorObjet.contactos.email}`, [Validators.required, Validators.minLength(3)]],
+        nombreForm: [`${this.proveedorObjet.nombreProveedor}`, [Validators.required, Validators.minLength(2)]],
+        rolForm: [`${this.proveedorObjet.contactos.rol}`, [Validators.required]]
       })
 
-
+      //console.log(this.form.value)
       this.getCountry()
       this.form.controls['paisForm'].valueChanges.subscribe(value => {
         this.stateToCountry = this.country.filter((item: any) => item.country == value)
         this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
         const stateToCountryConstName = new Set(this.stateToCountryName);
         this.stateToCountryName = [...stateToCountryConstName]
+        this.encontrarIdPorNombre(value)
       })
 
       this.form.controls['provinciaForm'].valueChanges.subscribe(value => {
@@ -92,8 +115,13 @@ export class FormEditarProveedorComponent {
 
     });
 
+    this.getRubros();
+    this.getCondicionDeIva();
+    this.getPais()
 
   }
+
+
   getCountry() {
     this.servicesCountry.get().subscribe((data) => {
       this.country = data
@@ -114,6 +142,40 @@ export class FormEditarProveedorComponent {
 
   }
 
+  getRubros() {
+    this.rubroService.get().subscribe((data) => {
+      this.listaRubros = data;
+    });
+  }
+
+  getCondicionDeIva() {
+    this.condicionIvaService.get().subscribe((data) => {
+      this.listaCondicionIva = data;
+    })
+  }
+
+  getPais() {
+    this.paisServices.get().subscribe((data) => {
+      this.listaPaises = data;
+      this.encontrarIdPorNombre(this.proveedorObjet.direc.provincia.pais.nombre)
+    })
+  }
+
+  encontrarIdPorNombre(nombre: String) {
+    this.paisEncontrado = this.listaPaises.filter((p: any) => p.nombre == nombre)
+    this.getProvincias(this.paisEncontrado[0])
+  }
+
+
+  getProvincias(pais: any) {
+    this.provinciaServices.get().subscribe((data) => {
+      this.listaProvincias = data.filter((e: any) => e.pais.id == pais.id)
+    })
+  }
+
+  openScrollableContent(longContent: TemplateRef<any>) {
+    this.modalService.open(longContent, { scrollable: true });
+  }
 
 
   //primer from
@@ -246,65 +308,121 @@ export class FormEditarProveedorComponent {
   }
 
 
-  guardar() {
-    console.log(this.form.value)
+  guardar(longContent: TemplateRef<any>) {
+    //console.log(this.form.value)
     if (this.form.invalid) {
+      //console.log("salio invalido-------")
       return Object.values(this.form.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
     } else {
-      let proveedorAdd = {
-        id: this.proveedorId,
-        codigo: this.form.get('codigoForm')?.value,
-        razonSocial: this.form.get('razonSocialForm')?.value,
-        rubro: this.form.get('rubroForm')?.value,
-        sitioWeb: this.form.get('sitioWebForm')?.value,
-        condicionIva: this.form.get('condicionIvaForm')?.value,
-        imagen: this.form.get('imagenForm')?.value,
-        localidad: this.form.get('localidadForm')?.value,
-        provincia: this.form.get('provinciaForm')?.value,
-        pais: this.form.get('paisForm')?.value,
-        calle: this.form.get('calleForm')?.value,
-        numerocalle: this.form.get('numeroCalleForm')?.value,
-        CP: this.form.get('codigoPostalForm')?.value,
-        cuit: this.form.get('cuitForm')?.value,
-        telefono: this.form.get('telefonoForm')?.value,
-        email: this.form.get('emailForm')?.value,
-        nombre: this.form.get('nombreForm')?.value,
-        apellido: this.form.get('apellidoForm')?.value,
-        rol: this.form.get('rolForm')?.value,
-      }
-      let proveedorToCompare = {
-        id: this.proveedorId,
-        codigo: this.proveedorObjet.codigo,
-        razonSocial: this.proveedorObjet.razonSocial,
-        rubro: this.proveedorObjet.rubro,
-        sitioWeb: this.proveedorObjet.sitioWeb,
-        condicionIva: this.proveedorObjet.condicionIva,
-        imagen: this.proveedorObjet.imagen,
-        localidad: this.proveedorObjet.localidad,
-        provincia: this.proveedorObjet.provincia,
-        pais: this.proveedorObjet.pais,
-        calle: this.proveedorObjet.calle,
-        numerocalle: this.proveedorObjet.numerocalle,
-        CP: this.proveedorObjet.CP,
-        cuit: this.proveedorObjet.cuit,
-        telefono: this.proveedorObjet.telefono,
-        email: this.proveedorObjet.email,
-        nombre: this.proveedorObjet.nombre,
-        apellido: this.proveedorObjet.apellido,
-        rol: this.proveedorObjet.rol
-      }
+      //console.log("salio valido yesssssssssss")
 
-      if (JSON.stringify(proveedorAdd) == JSON.stringify(proveedorToCompare)) {
-        this.editarInvalido = true;
-      } else {
-        this.serviceProveedor.put(proveedorAdd, this.proveedorId).subscribe(res => {
-          alert("Se editó un proveedor correctamente")
-          this.route.navigate(['/', 'proveedores'])
-        });
-      }
+      this.provinciaServices.get().subscribe((da) => {
+        this.listProvinciasTodas = da;
+        this.listProvinciasTodas = this.listProvinciasTodas.filter((a: any) => a.nombre == (this.form.get('provinciaForm')?.value))
 
+
+        let direccion = {
+          calle: this.form.get('calleForm')?.value,
+          numCalle: this.form.get('numeroCalleForm')?.value,
+          codigoPostal: this.form.get('codigoPostalForm')?.value.toString(),
+          localidad: this.form.get('localidadForm')?.value,
+          provincia: this.listProvinciasTodas[0]
+        }
+
+        //Se crea una nueva direccion
+        this.direccionService.put(direccion, this.proveedorObjet.direc.id).subscribe((dir) => {
+
+          let contactos = {
+            email: this.form.get('emailForm')?.value,
+            telefono: this.form.get('telefonoForm')?.value.toString(),
+            rol: this.form.get('rolForm')?.value
+          }
+
+          //Se crea un nuevo contacto
+          this.contactosService.put(contactos, this.proveedorObjet.contactos.id).subscribe((con) => {
+
+            //encontrar condicionde iba por nombre
+            this.condicionIvaService.get().subscribe((condicion) => {
+              this.listCondiciondeIva = condicion;
+              this.listCondiciondeIva = this.listCondiciondeIva.filter((cd: any) => cd.condNombre == this.form.get('condicionIvaForm')?.value)
+              // console.log("condicion encontrada");
+              //console.log(this.listCondiciondeIva[0])
+
+              //buscar por rubro
+              this.rubroService.get().subscribe((rubro) => {
+                this.listaRubrosEncontrado = rubro
+                this.listaRubrosEncontrado = this.listaRubrosEncontrado.filter((rub: any) => rub.nombre == this.form.get('rubroForm')?.value);
+                //console.log("Rubro encontrado");
+                //console.log(this.listaRubrosEncontrado[0])
+              })
+
+              let proveedorAdd = {
+                codigo: this.form.get('codigoForm')?.value,
+                razonSocial: this.form.get('razonSocialForm')?.value,
+                sitioWeb: this.form.get('sitioWebForm')?.value,
+                imagen: this.form.get('imagenForm')?.value,
+                cuit: this.form.get('cuitForm')?.value,
+                nombreProveedor: this.form.get('nombreForm')?.value,
+                deleteAt: false,
+                telefono: this.form.get('telefonoForm')?.value,
+                direc: {
+                  id: dir.id,
+                  calle: dir.calle,
+                  numCalle: dir.numCalle,
+                  codigoPostal: dir.codigoPostal,
+                  localidad: dir.localidad
+                },
+                condIva: this.listCondiciondeIva[0],
+                contactos: { id: con.id, email: con.email, telefono: con.telefono, rol: con.rol }
+              }
+
+              let proveedorCompare = {
+                codigo: this.proveedorObjet.codigo,
+                razonSocial: this.proveedorObjet.razonSocial,
+                sitioWeb: this.proveedorObjet.sitioWeb,
+                imagen: this.proveedorObjet.imagen,
+                cuit: this.proveedorObjet.cuit,
+                nombreProveedor: this.proveedorObjet.nombreProveedor,
+                deleteAt: this.proveedorObjet.deleteAt,
+                telefono: this.proveedorObjet.telefono,
+                direc: {
+                  id: this.proveedorObjet.direc.id,
+                  calle: this.proveedorObjet.direc.calle,
+                  numCalle: this.proveedorObjet.direc.numCalle,
+                  codigoPostal: this.proveedorObjet.direc.codigoPostal,
+                  localidad: this.proveedorObjet.direc.localidad,
+                },
+                condIva: this.proveedorObjet.condIva,
+                contactos: {
+                  id: this.proveedorObjet.contactos.id,
+                  email: this.proveedorObjet.contactos.email,
+                  telefono: this.proveedorObjet.contactos.telefono,
+                  rol: this.proveedorObjet.contactos.rol
+
+                }
+              }
+
+              if (JSON.stringify(proveedorAdd) == JSON.stringify(proveedorCompare)) {
+                this.editarInvalido = true;
+              } else {
+                this.editarInvalido = false;
+                this.openScrollableContent(longContent)
+                this.serviceProveedor.put(proveedorAdd, this.proveedorId).subscribe((prove) => {
+                  console.log(prove)
+                  this.openScrollableContent(longContent)
+                  this.route.navigate(['/', 'proveedores'])
+                })
+                //this.openScrollableContent(longContent)
+                this.route.navigate(['/', 'proveedores'])
+              }
+
+            })
+          })
+
+        })
+      })
     }
 
   }

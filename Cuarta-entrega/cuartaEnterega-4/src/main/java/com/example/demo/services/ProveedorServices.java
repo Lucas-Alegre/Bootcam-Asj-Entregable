@@ -37,8 +37,13 @@ public class ProveedorServices {
 			p.setSitioWeb(proveedor.getSitioWeb());
 			p.setCuit(proveedor.getCuit());
 			p.setNombreProveedor(proveedor.getNombreProveedor());
+			p.setDirec(proveedor.getDirec());
+			p.setContactos(proveedor.getContactos());
 			p.setDeleteAt(proveedor.getDeleteAt());
 			p.setTelefono(proveedor.getTelefono());
+			p.setCondIva(proveedor.getCondIva());
+			
+			
 
 			proveedorRepository.save(p);
 

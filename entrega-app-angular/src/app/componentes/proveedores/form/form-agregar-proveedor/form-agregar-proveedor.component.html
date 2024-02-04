@@ -4,7 +4,24 @@
     <br>
     <h3 class="mt-3">Agregar un proveedor</h3>
     <hr>
-    <form [formGroup]="form" (ngSubmit)="guardar()">
+
+    <ng-template #longContent let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Se dio de alta correctamente un proveedor </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+    <form [formGroup]="form" (ngSubmit)="guardar(longContent)">
         <div class="row">
             <div class="col-4">
                 <div>

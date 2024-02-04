@@ -22,4 +22,12 @@ export class DireccionService {
   post(direccion: any): Observable<any> {
     return this.http.post(this.url, direccion);
   }
+
+  put(direccion: any, id: any): Observable<any> {
+    return this.http.put(this.url + "/" + id, direccion);
+  }
+
+  delete(id: any): Observable<any> {
+    return this.http.delete(this.url + "/" + id);
+  }
 }
