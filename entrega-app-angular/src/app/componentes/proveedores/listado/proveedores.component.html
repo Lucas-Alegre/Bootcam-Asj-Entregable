@@ -133,9 +133,8 @@
                 <th>Logo</th>
                 <th>Codigo</th>
                 <th>Razón Social</th>
-                <th>Pais provincia</th>
-                <th>Nombre Completo</th>
-                <th>Contactos</th>
+                <th>Ubicación</th>
+                <th>Datos de Contactos</th>
                 <th> </th>
             </tr>
         </thead>
@@ -151,13 +150,16 @@
                 <td>{{ proveedor.codigo }}</td>
                 <td>{{ proveedor.razonSocial }}</td>
                 <td>
-                    <li>{{ proveedor.direc.provincia.pais.nombre }}</li>
-                    <li>{{ proveedor.direc.provincia.nombre }}</li>
+                    {{ proveedor.direc.provincia.nombre }},
+                    {{ proveedor.direc.provincia.pais.nombre }}
                 </td>
-                <td>{{ proveedor.nombreProveedor }}</td>
-                <td><li>{{ proveedor.sitioWeb }}</li>
-                    <li>{{ proveedor.contactos.email }}</li>
-                    <li>{{ proveedor.telefono }}</li></td>
+                <td>
+                    <button type="button" class="btn" placement="top"
+                        ngbTooltip="{{ proveedor.sitioWeb}} {{ proveedor.contactos.email }} {{ proveedor.telefono}}">
+                        <i class="bi bi-arrow-up-circle-fill"></i>
+                    </button>
+                    {{ proveedor.nombreProveedor }}
+                </td>
                 <td *ngIf="estaEnBajas"
                     [ngClass]="{'deleted': proveedor.deleteAt==1}"
                     class="editarEliminar">
@@ -187,7 +189,8 @@
             </tr>
         </tbody>
     </table>
-    <div *ngIf="existenProveedor" class="alert alert-primary text-center" role="alert">
+    <div *ngIf="existenProveedor" class="alert alert-primary text-center"
+        role="alert">
         No hay proveedores!
     </div>
 </div>

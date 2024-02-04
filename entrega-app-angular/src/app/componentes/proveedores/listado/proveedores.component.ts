@@ -56,7 +56,8 @@ export class ProveedoresComponent {
     console.log("valor model: " + this.textoDeInput);
     //hacer filtro
     this.listaproveedorAux = this.listaproveedor.filter((e: any) =>
-      e.nombreProveedor.toUpperCase().includes(this.textoDeInput.toUpperCase()));
+      e.razonSocial.toUpperCase().includes(this.textoDeInput.toUpperCase()) ||
+      e.codigo.toUpperCase().includes(this.textoDeInput.toUpperCase()));
     this.listaproveedorAux.sort(this.sortFunc)
   }
   getListaRubros() {
