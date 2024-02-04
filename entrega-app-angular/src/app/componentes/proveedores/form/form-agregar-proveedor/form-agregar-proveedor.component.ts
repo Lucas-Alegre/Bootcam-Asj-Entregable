@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CondicionIvaService } from 'src/app/services/condicionDeIva/condicion-iva.service';
+import { ContactosService } from 'src/app/services/contactos/contactos.service';
 import { CountryService } from 'src/app/services/country/country.service';
+import { DireccionService } from 'src/app/services/direccion/direccion.service';
+import { PaisService } from 'src/app/services/pais/pais.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
+import { ProvinciasService } from 'src/app/services/provincias/provincias.service';
+import { RubroService } from 'src/app/services/rubro/rubro.service';
 
 @Component({
   selector: 'app-form-agregar-proveedor',
@@ -10,11 +16,9 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./form-agregar-proveedor.component.css']
 })
 export class FormAgregarProveedorComponent {
-  listaCategorias: any = ["Tecnológico", "Vehículo", "Moda", "Hogar y mueble"]
-  listaRoles: any = ["usuario", "admin"]
-  listaCondicionIva: any = ["IVA Responsable Inscripto", "IVA Responsable no Inscripto", "IVA no Responsable", "IVA Sujeto Ecento",
-    "Condumidor Final", "Responsable Monotributo", "Sujeto no Categorizado", "Proveedor del Exterior", "Cliente del Exterior",
-    "IVA Liberado", "Agente de Percepción", "Pequeño Contribuyente Eventual", "Monotributista Social", "Pequeño Contribuyente Eventual Social"]
+  listaRubros: any = ["Tecnológico"];
+  listaRoles: any = ["usuario", "admin"]//esto no hace falta
+  listaCondicionIva: any = []
   nombreProducto = "";
   nombre: string = '';
   proveedor = "";
@@ -24,6 +28,12 @@ export class FormAgregarProveedorComponent {
   precio = "";
   idNuevo = 0;
   cuitAux: string = "";
+
+  listaPaises: any[] = []
+  paisEncontrado: any = [];
+  paisId: any = 0;
+  listaProvincias: any[] = []
+
   country: any = []
   countryName = []
   countryNameAux = []
@@ -38,6 +48,12 @@ export class FormAgregarProveedorComponent {
     private formBuilder: FormBuilder,
     private serviceProveedor: ProveedoresService,
     private servicesCountry: CountryService,
+    private rubroService: RubroService,
+    private condicionIvaService: CondicionIvaService,
+    private paisServices: PaisService,
+    private provinciaServices: ProvinciasService,
+    private direccionService: DireccionService,
+    private contactosService: ContactosService,
     private route: Router) { }
 
   ngOnInit(): void {
@@ -54,7 +70,7 @@ export class FormAgregarProveedorComponent {
       imagenForm: ['', [Validators.required, Validators.minLength(5)]],
 
       localidadForm: ['', [Validators.required, Validators.minLength(3)]],
-      provinciaForm: ['', [Validators.required, Validators.minLength(2)]],
+      provinciaForm: ['', [Validators.required]],
       paisForm: ['', [Validators.required, Validators.minLength(3)]],
       calleForm: ['', [Validators.required, Validators.minLength(3)]],
       numeroCalleForm: ['1', [Validators.required, Validators.minLength(1)]],
@@ -64,7 +80,6 @@ export class FormAgregarProveedorComponent {
       telefonoForm: ['', [Validators.required, Validators.minLength(6)]],
       emailForm: ['', [Validators.required, Validators.minLength(3)]],
       nombreForm: ['', [Validators.required, Validators.minLength(2)]],
-      apellidoForm: ['', [Validators.required, Validators.minLength(2)]],
       rolForm: ['', [Validators.required]]
     })
     this.getCountry()
@@ -73,6 +88,8 @@ export class FormAgregarProveedorComponent {
       this.stateToCountryName = this.stateToCountry.map((item: any) => item.subcountry);
       const stateToCountryConstName = new Set(this.stateToCountryName);
       this.stateToCountryName = [...stateToCountryConstName]
+      //pruebo provincias
+      this.encontrarIdPorNombre(value)
     })
 
     this.form.controls['provinciaForm'].valueChanges.subscribe(value => {
@@ -81,7 +98,9 @@ export class FormAgregarProveedorComponent {
       const citieToStateConstName = new Set(this.citieToStateByName);
       this.citieToStateByName = [...citieToStateConstName]
     })
-    
+    this.getRubros();
+    this.getCondicionDeIva()
+    this.getPais()
   }
 
   getCountry() {
@@ -91,10 +110,49 @@ export class FormAgregarProveedorComponent {
       const countryNameConstAux = new Set(this.countryName);
       this.countryNameAux = [...countryNameConstAux]
     });
+  }
 
+  getRubros() {
+    this.rubroService.get().subscribe((data) => {
+      this.listaRubros = data;
+      console.log("Estos son rubros ")
+      console.log(this.listaRubros)
+    });
+  }
+
+  getCondicionDeIva() {
+    this.condicionIvaService.get().subscribe((data) => {
+      this.listaCondicionIva = data;
+      console.log("Estos son condiciones de Iva ")
+      console.log(this.listaCondicionIva)
+    })
+  }
+
+  getPais() {
+    this.paisServices.get().subscribe((data) => {
+      this.listaPaises = data;
+      console.log("Estos son los paises ")
+      console.log(this.listaPaises);
+    })
+  }
+
+  encontrarIdPorNombre(nombre: String) {
+    console.log("Debo encontrar el nombre " + nombre)
+    this.paisEncontrado = this.listaPaises.filter((p: any) => p.nombre == nombre)
+    console.log("Se encontro el pais + " + this.paisEncontrado[0].nombre)
+    console.log(this.paisEncontrado[0])
+    this.getProvincias(this.paisEncontrado[0])
   }
 
 
+  getProvincias(pais: any) {
+    console.log("Debo encontrar el pais con id " + pais.id)
+    console.log("Debo encontrar el pais con nombre " + pais.nombre)
+    this.provinciaServices.get().subscribe((data) => {
+      this.listaProvincias = data.filter((e: any) => e.pais.id == pais.id)
+      console.log(this.listaProvincias)
+    })
+  }
 
 
   //primer from
@@ -227,37 +285,76 @@ export class FormAgregarProveedorComponent {
   }
 
   guardar() {
+    /*console.log("Continua el objeto enviado")
     console.log(this.form.value)
+    console.log("hOLAAAAAAAA")*/
     if (this.form.invalid) {
+      console.log("----eS INVALIDO------------")
       return Object.values(this.form.controls).forEach(controls => {
         controls.markAllAsTouched()
       })
     } else {
-      let proveedorAdd = {
-        id: this.idNuevo + 2,
-        codigo: this.form.get('codigoForm')?.value,
-        razonSocial: this.form.get('razonSocialForm')?.value,
-        rubro: this.form.get('rubroForm')?.value,
-        sitioWeb: this.form.get('sitioWebForm')?.value,
-        condicionIva: this.form.get('condicionIvaForm')?.value,
-        imagen: this.form.get('imagenForm')?.value,
-        localidad: this.form.get('localidadForm')?.value,
-        provincia: this.form.get('provinciaForm')?.value,
-        pais: this.form.get('paisForm')?.value,
+      console.log("Esta bien validado")
+
+      //enviar direccion
+      let direccion = {
         calle: this.form.get('calleForm')?.value,
-        numerocalle: this.form.get('numeroCalleForm')?.value,
-        CP: this.form.get('codigoPostalForm')?.value,
-        cuit: this.form.get('cuitForm')?.value,
-        telefono: this.form.get('telefonoForm')?.value,
-        email: this.form.get('emailForm')?.value,
-        nombre: this.form.get('nombreForm')?.value,
-        apellido: this.form.get('apellidoForm')?.value,
-        rol: this.form.get('rolForm')?.value,
+        numCalle: this.form.get('numeroCalleForm')?.value,
+        codigoPostal: this.form.get('codigoPostalForm')?.value.toString(),
+        localidad: this.form.get('localidadForm')?.value,
+        provincia: { id: parseInt(this.form.get('provinciaForm')?.value) }
       }
-      this.serviceProveedor.post(proveedorAdd).subscribe(res => {
+      // console.log(direccion)
+      this.direccionService.post(direccion).subscribe((dir) => {
+
+        let contactos = {
+          email: this.form.get('emailForm')?.value,
+          telefono: this.form.get('telefonoForm')?.value.toString(),
+          rol: this.form.get('rolForm')?.value
+        }
+
+        this.contactosService.post(contactos).subscribe((con) => {
+         /* console.log("Soy respuesta de contactos api");
+          console.log(con)
+          console.log(con.id)
+          console.log("-----------------------------------")
+          console.log("Soy respuesta de direcion api");
+          console.log(dir)
+          console.log(dir.id)*/
+
+          let proveedorAdd = {
+            codigo: this.form.get('codigoForm')?.value,
+            razonSocial: this.form.get('razonSocialForm')?.value,
+            sitioWeb: this.form.get('sitioWebForm')?.value,
+            imagen: this.form.get('imagenForm')?.value,
+            cuit: this.form.get('cuitForm')?.value,
+            nombreProveedor: this.form.get('nombreForm')?.value,
+            deleteAt: false,
+            telefono: this.form.get('telefonoForm')?.value,
+            direc: { id: dir.id },
+            rubro: { id: parseInt(this.form.get('rubroForm')?.value) },
+            condIva: { id: parseInt(this.form.get('condicionIvaForm')?.value) },
+            contactos: { id: con.id }
+          }
+
+          //console.log("--------------PROVEEDOR-OBJECT---------------------")
+          //console.log(proveedorAdd)
+
+          this.serviceProveedor.post(proveedorAdd).subscribe(res => {
+            console.log("Se agregó un proveedor correctamente")
+            console.log("--------------PROVEEDOR-OBJECT---------------------")
+            console.log(res)
+            this.route.navigate(['/', 'proveedores'])
+          })
+        })
+      })
+
+      //enviar contacto
+      /*this.serviceProveedor.post(proveedorAdd).subscribe(res => {
         alert("Se agregó un proveedor correctamente")
+
         this.route.navigate(['/', 'proveedores'])
-      });
+      });*/
 
     }
 

@@ -34,6 +34,11 @@ import { RubroService } from './services/rubro/rubro.service';
 import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
 import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
 import { DashboardComponent } from './componentes/dashboard/dashboard/dashboard.component';
+import { CondicionIvaService } from './services/condicionDeIva/condicion-iva.service';
+import { PaisService } from './services/pais/pais.service';
+import { ProvinciasService } from './services/provincias/provincias.service';
+import { DireccionService } from './services/direccion/direccion.service';
+import { ContactosService } from './services/contactos/contactos.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +71,9 @@ import { DashboardComponent } from './componentes/dashboard/dashboard/dashboard.
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [ProductosService, ProveedoresService, OrdenCompraService, CountryService, CategoriasService, RubroService],
+  providers: [ProductosService, ProveedoresService, OrdenCompraService, CountryService,
+    CategoriasService, RubroService, CondicionIvaService, PaisService, ProvinciasService,
+    DireccionService, ContactosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
