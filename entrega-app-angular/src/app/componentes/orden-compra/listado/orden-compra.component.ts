@@ -10,6 +10,7 @@ import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compr
 export class OrdenCompraComponent implements OnInit {
   ordenDeCompra: any = [];
   ordenDeCompra2: any = [];
+  ordenesFechasCreadas: any = []
   seElimino: boolean = false
   existenOrdenes: boolean = false;
 
@@ -27,11 +28,19 @@ export class OrdenCompraComponent implements OnInit {
         this.existenOrdenes = true;
       }
       for (let i = 0; i < this.ordenDeCompra.length; i++) {
-        if (this.ordenDeCompra[i].status == "pending" || this.ordenDeCompra[i].status == "alta") {
+        if (this.ordenDeCompra[i].estadoId.nombre == "pendiente" || this.ordenDeCompra[i].estadoId.nombre == "aceptada") {
           this.ordenDeCompra2.push(this.ordenDeCompra[i])
         }
       }
+      for (let j = 0; j < this.ordenDeCompra2.length; j++) {
+        let fecha = this.ordenDeCompra2[j].fechaCreacion.split("-");
+        let dia = fecha[2].split("T");
+        let fechaCreada = fecha[0] + "-" + fecha[1] + "-" + dia[0];
+        this.ordenesFechasCreadas.push(fechaCreada)
+      }
       console.log(this.ordenDeCompra2)
+      
+      console.log(this.ordenesFechasCreadas)
     });
   }
 

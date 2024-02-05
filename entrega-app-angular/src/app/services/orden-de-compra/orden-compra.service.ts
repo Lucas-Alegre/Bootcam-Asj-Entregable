@@ -7,7 +7,7 @@ import { ordenDeCompra } from 'src/app/data/ordenCompra';
   providedIn: 'root'
 })
 export class OrdenCompraService {
-  url: string = 'http://localhost:3000/ordenDeCompra';
+  url: string = 'http://localhost:8080/ordenDeCompra';
   ordenCompra: any = ordenDeCompra;
 
   constructor(private http: HttpClient) { }
@@ -20,8 +20,8 @@ export class OrdenCompraService {
     return this.http.get(this.url + "/" + id)
   }
 
-  post(producto: any): Observable<any> {
-    return this.http.post(this.url, producto);
+  post(orden: any): Observable<any> {
+    return this.http.post(this.url, orden);
   }
 
   put(producto: any, id: any): Observable<any> {

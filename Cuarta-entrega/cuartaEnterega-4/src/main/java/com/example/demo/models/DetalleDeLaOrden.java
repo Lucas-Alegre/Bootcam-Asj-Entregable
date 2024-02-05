@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +28,7 @@ public class DetalleDeLaOrden extends AuditModel {
 	//@NotBlank(message="La cantidad no puede estar vacia")
 	private int detalleCantidad;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ordenId", referencedColumnName = "id", nullable = false)
 	private OrdenDeCompra ordenId;

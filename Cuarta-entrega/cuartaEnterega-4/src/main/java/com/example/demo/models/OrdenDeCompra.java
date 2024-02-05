@@ -1,5 +1,10 @@
 package com.example.demo.models;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -49,6 +55,10 @@ public class OrdenDeCompra extends AuditModel {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "estado_id", referencedColumnName = "id", nullable = false)
 	private EstadosDeOrdenes estadoId;
+	
+	@JsonManagedReference
+    @OneToMany(mappedBy = "ordenId", fetch = FetchType.EAGER)
+    private List<DetalleDeLaOrden> detalles;
 
 	public OrdenDeCompra(Integer id, String ordenDireccion, String ordenInformacionRecepcion, float total,
 			boolean habilitado, Proveedor proveedorId, EstadosDeOrdenes estadoId) {
@@ -119,6 +129,15 @@ public class OrdenDeCompra extends AuditModel {
 
 	public void setEstadoId(EstadosDeOrdenes estadoId) {
 		this.estadoId = estadoId;
+	}
+	
+
+	public List<DetalleDeLaOrden> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(List<DetalleDeLaOrden> detalles) {
+		this.detalles = detalles;
 	}
 
 	@Override

@@ -12,8 +12,6 @@
                     <th>Fecha de entrega</th>
                     <th>Dirección</th>
                     <th>Proveedor</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
                     <th>Total</th>
                     <th></th>
                 </tr>
@@ -21,11 +19,9 @@
             <tbody *ngFor="let orden of ordenDeCompra2; index as i">
                 <tr>
                     <td>{{ orden.id }}</td>
-                    <td>{{ orden.fechaEntrega }}</td>
-                    <td>{{ orden.direccion }}</td>
-                    <td>{{ orden.proveedor }}</td>
-                    <td>{{ orden.producto }}</td>
-                    <td>{{ orden.cantidad }}</td>
+                    <td>{{ orden.fechaCreacion }}</td>
+                    <td>{{ orden.ordenDireccion }}</td>
+                    <td>{{ orden.proveedorId.nombreProveedor }}</td>
                     <td>${{ orden.total }}</td>
                     <td class="editarEliminar">
                         <button

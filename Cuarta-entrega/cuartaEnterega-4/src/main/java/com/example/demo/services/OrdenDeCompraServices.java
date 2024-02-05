@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.models.DetalleDeLaOrden;
 import com.example.demo.models.OrdenDeCompra;
 import com.example.demo.repositories.OrdenDeCompraRepository;
 
@@ -14,7 +15,9 @@ public class OrdenDeCompraServices {
 
 	@Autowired
 	OrdenDeCompraRepository ordenDeCompraRepository;
-
+	@Autowired
+	DetalleDeOrdenesServices detalleDeOrdenesServices;
+	
 	public List<OrdenDeCompra> obtenerOrdenesDeCompra() {
 		return ordenDeCompraRepository.findAll();
 	}
@@ -23,9 +26,14 @@ public class OrdenDeCompraServices {
 		return ordenDeCompraRepository.findById(id);
 	}
 
-	public String cearOrdenDeCompra(OrdenDeCompra orden) {
-		ordenDeCompraRepository.save(orden);
-		return "Orden de compra creada correctamente";
+	public OrdenDeCompra cearOrdenDeCompra(OrdenDeCompra orden) {
+		
+		OrdenDeCompra nuevorden = ordenDeCompraRepository.save(orden);
+		for (DetalleDeLaOrden detalleOrden : orden.getDetalles()) {
+			detalleOrden.setOrdenId(nuevorden);
+			detalleDeOrdenesServices.cearDetalleOrden(detalleOrden);
+		}
+		return nuevorden;
 	}
 
 	public String modificarOrdenDeCompra(Integer id, OrdenDeCompra orden) {
