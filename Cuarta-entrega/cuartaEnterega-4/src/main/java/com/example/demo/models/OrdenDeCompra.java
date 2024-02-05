@@ -47,6 +47,13 @@ public class OrdenDeCompra extends AuditModel {
 	
 	@Column(nullable = false)
 	private boolean habilitado;
+	
+	@Column(nullable = false)
+	@NotNull(message="La fechaDeEntrega no puede ser null")
+	@NotBlank(message="La fechaDeEntrega no puede estar vacio")
+	@Pattern(regexp="^.{7,}$", message = "La fecha de entrega debe tener un minimo de 7 catacteres")
+	private String fechaDeEntrega;
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
@@ -131,6 +138,15 @@ public class OrdenDeCompra extends AuditModel {
 		this.estadoId = estadoId;
 	}
 	
+	
+
+	public String getFechaDeEntrega() {
+		return fechaDeEntrega;
+	}
+
+	public void setFechaDeEntrega(String fechaDeEntrega) {
+		this.fechaDeEntrega = fechaDeEntrega;
+	}
 
 	public List<DetalleDeLaOrden> getDetalles() {
 		return detalles;

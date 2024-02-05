@@ -39,6 +39,7 @@ public class OrdenDeCompraServices {
 	public String modificarOrdenDeCompra(Integer id, OrdenDeCompra orden) {
 		try {
 			OrdenDeCompra or = ordenDeCompraRepository.findById(id).get();
+			or.setFechaDeEntrega(orden.getFechaDeEntrega());
 			or.setOrdenDireccion(orden.getOrdenDireccion());
 			or.setOrdenInformacionRecepcion(orden.getOrdenInformacionRecepcion());
 			or.setTotal(orden.getTotal());

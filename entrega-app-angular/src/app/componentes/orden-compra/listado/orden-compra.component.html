@@ -4,40 +4,133 @@
         class="buttonAdd btn btn-primary buttonAgregar"> Agregar orden de
         compra</button>
     <br>
-    <div class="card">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>N° Orden</th>
-                    <th>Fecha de entrega</th>
-                    <th>Dirección</th>
-                    <th>Proveedor</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody *ngFor="let orden of ordenDeCompra2; index as i">
-                <tr>
-                    <td>{{ orden.id }}</td>
-                    <td>{{ orden.fechaCreacion }}</td>
-                    <td>{{ orden.ordenDireccion }}</td>
-                    <td>{{ orden.proveedorId.nombreProveedor }}</td>
-                    <td>${{ orden.total }}</td>
-                    <td class="editarEliminar">
-                        <button
-                            class="btn button btn-warning"
-                            [routerLink]="['/editar-orden-compra', orden.id]"><i
-                                class="bi bi-pencil-fill"></i></button>
-                        <button
-                            class="btn button btn-danger"
-                            (click)="eliminar(orden)"><i
-                                class="bi bi-trash3-fill"></i></button>
-                    </td>
-                </tr>
-            </tbody>
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <input [(ngModel)]='textoDeInput'
+                class="form-control"
+                width="400px"
+                placeholder="Buscar"
+                name="textoDeInput"
+                type="text"
+                (keyup)="onKeyUp($event)">
+        </div>
+        <!--
+        <select class="form-select w-25"
+            (change)="filtrarCategoria($event)">
+            <option value="todos">Todos</option>
+            <option [value]="cat.nombre"
+                *ngFor="let cat of listaCategorias">{{cat.nombre}}</option>
+        </select>
 
-        </table>
+        <div *ngIf="estaEnAltas">
+            <button class="btn btn-success" type="submit"
+                (click)="productosAlta()">Ver dados de Alta</button>
+        </div>
+        <div *ngIf="estaEnBajas">
+            <button class="btn btn-danger" type="submit"
+                (click)="productosbaja()">Ver dados de Baja</button>
+
+        </div> -->
     </div>
+    <ng-template #longContent let-modal>
+
+        <div class="modal-header">
+            <h4
+                class="modal-title-center">Proveedor:
+                {{ordenDetail.proveedorId.razonSocial}}</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+
+            <img src="{{ordenDetail.proveedorId.imagen}}"
+                alt="Imagen producto"
+                class="align-center"
+                width="130"
+                height="150px">
+            <hr>
+            <p><b>Estado de la orden : </b>
+                {{ordenDetail.estadoId.nombre}}
+            </p>
+            <p><b>Fecha de envio : </b>
+                {{ordenDetail.fechaCreacion |date:'medium'}}</p>
+            <p><b>Fecha de entrega : </b>
+                {{ordenDetail.fechaDeEntrega | date}}
+
+            </p>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>N° Detalle</th>
+                        <th>Cantidad</th>
+                        <th>Nombre producto</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let detalle of ordenDetail.detalles; index as i">
+                    <tr>
+                        <td>{{ detalle.id }}</td>
+                        <td>{{ detalle.detalleCantidad}}</td>
+                        <td>{{ detalle.productosId.nombreProducto }}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <p><b>Direccion : </b>
+                {{ordenDetail.ordenDireccion}},
+                ordenDetail.ordenInformacionRecepcion
+            </p>
+            <h4 class="text-success">Total</h4><p>{{ordenDetailSuma|
+                currency:'U$S '}}</p>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>N° Orden</th>
+                <th>Fecha de envío</th>
+                <th>Fecha de entrega</th>
+                <th>Dirección</th>
+                <th>Proveedor</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let orden of ordenDeCompra2; index as i">
+            <tr>
+                <td>{{ orden.id }}</td>
+                <td>{{ orden.fechaCreacion |date:'medium' }}</td>
+                <td>{{ orden.fechaDeEntrega | date }}</td>
+                <td>{{ orden.ordenDireccion }}</td>
+                <td>{{ orden.proveedorId.razonSocial }}</td>
+                <td>${{ orden.total }}</td>
+                <td class="editarEliminar">
+                    <button
+                        class="btn button  btn-outline-primary mb-2 me-2"
+                        (click)="openScrollableContent(longContent,orden.id)">Ver
+                        mas</button>
+                    <button
+                        class="btn button btn-warning"
+                        [routerLink]="['/editar-orden-compra', orden.id]"><i
+                            class="bi bi-pencil-fill"></i></button>
+                    <button
+                        class="btn button btn-danger"
+                        (click)="eliminar(orden)"><i
+                            class="bi bi-trash3-fill"></i></button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
     <div *ngIf="existenOrdenes" class="alert alert-primary" role="alert">
         No hay ordenes creadas, por favor agregue una.
     </div>

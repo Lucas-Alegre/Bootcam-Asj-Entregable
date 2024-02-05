@@ -10,10 +10,10 @@ INSERT INTO PROVINCIA VALUES(4,'Maldonado',2);
 INSERT INTO PROVINCIA VALUES(5,'Río de Janeiro',3);
 INSERT INTO PROVINCIA VALUES(6,'Pará',3);
 
-INSERT INTO DIRECCION VALUES(1,'Diamante','3200', ' Concordia',50,1);
-INSERT INTO DIRECCION VALUES(2,'Razon','456', ' Paso libres',30,2);
-INSERT INTO DIRECCION VALUES(3,'Villaguay','149','La paz',45,3);
-INSERT INTO DIRECCION VALUES(4,'Federal','1180', ' El federalLoca',99,4);
+--INSERT INTO DIRECCION VALUES(1,'Diamante','3200', ' Concordia',50,1);
+--INSERT INTO DIRECCION VALUES(2,'Razon','456', ' Paso libres',30,2);
+--INSERT INTO DIRECCION VALUES(3,'Villaguay','149','La paz',45,3);
+--INSERT INTO DIRECCION VALUES(4,'Federal','1180', ' El federalLoca',99,4);
 
 --------------------------------------------------------
 --INSERT INTO RUBRO VALUES(1,'ALIMENTOS');
