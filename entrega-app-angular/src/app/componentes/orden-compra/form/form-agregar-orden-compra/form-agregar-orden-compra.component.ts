@@ -20,7 +20,8 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   idProveedor: any = 0;
   listProductTable: any = [];
   noContieneProductos: boolean = true
-
+  detalles: any = []
+  suma = 0;
   listadoProductos: any = []
   listadoProductosNombre: any = []
   listadoProveedores: any = []
@@ -61,10 +62,14 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
 
 
   proveedorChange(valor: any) {
-    this.getListadProductos()
+
     this.listProductTable = []
+    this.listadoProductos = []
     this.arrayCantidad = []
+    this.cantidad = "0"
     this.noContieneProductos = true
+    this.producto = "";
+    this.getListadProductos()
   }
 
   AgregarProducto() {
@@ -76,6 +81,11 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     }
 
     this.arrayCantidad.push(this.cantidad)
+    this.suma = 0;
+
+    for (let i = 0; i < this.listProductTable.length; i++) {
+      this.suma += this.listProductTable[i].precio * parseInt(this.arrayCantidad[i]);
+    }
   }
 
 
@@ -85,22 +95,23 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
 
   enviar(form: any) {
     this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
-    //detalles:[]
-    console.log(this.listProductTable)
-    console.log(this.arrayCantidad)
+    let suma = 0;
 
-    /*
-    {
-      "detalleCantidad": 5,
-      "productosId": {
-        "id":2
+    for (let i = 0; i < this.listProductTable.length; i++) {
+      suma += this.listProductTable[i].precio * parseInt(this.arrayCantidad[i]);
+      let detalle = {
+        detalleCantidad: parseInt(this.arrayCantidad[i]),
+        productosId: {
+          id: this.listProductTable[i].id
+        }
       }
+      this.detalles.push(detalle)
     }
-    */
+
     let objectEnviar = {
       ordenDireccion: this.informacionRecepcion,
       ordenInformacionRecepcion: this.informacionRecepcion,
-      total: 200,
+      total: suma,
       habilitado: true,
       fechaDeEntrega: this.fechaEntrega,
       proveedorId: {
@@ -109,9 +120,17 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       estadoId: {
         id: 2
       },
-      detalles: []
+      detalles: this.detalles
     }
-    //console.log(objectEnviar)
+
+    this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
+      console.log(data)
+      this.route.navigate(['/', 'orden-compra'])
+    }, (error => {
+      console.log("Fijate igual xd")
+      this.route.navigate(['/', 'orden-compra'])
+    }))
+    // console.log(objectEnviar)
 
     /*if (this.validarFormulario()) {
       this.serviceOrdenCompra.get().subscribe((data: any) => {
@@ -144,5 +163,10 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   eliminarProducto() {
     this.listProductTable = []
     this.arrayCantidad = []
+    this.cantidad = "";
+    this.producto = ""
+    this.proveedor = "";
+    this.suma = 0;
+    this.listadoProductos = []
   }
 }
