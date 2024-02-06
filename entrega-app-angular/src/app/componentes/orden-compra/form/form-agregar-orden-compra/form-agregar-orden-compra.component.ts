@@ -13,19 +13,24 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
 export class FormAgregarOrdenCompraComponent implements OnInit {
   fechaEnvio: any;
   fechaEntrega = "";
+  direccion = "";
   proveedor = "";
   informacionRecepcion = ""
   producto = "";
   cantidad = "";
   arrayCantidad: any = [];
+  imagenLogo = ""
 
   fechaInvalido: boolean = false;
   proveedorInvalido: boolean = false;
   productosInvalidos: boolean = false
   informacionRecepcionInvalida: boolean = false;
+  direccionInvalida: boolean = false
   cantidadInvalida: boolean = false;
-  botondisable:boolean=false;
-  botonAble:boolean=false;
+  botondisable: boolean = false;
+  botonAble: boolean = false;
+  loader: boolean = true;
+  logo: boolean = false;
 
   idProveedor: any = 0;
   listProductTable: any = [];
@@ -33,7 +38,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   detalles: any = []
   suma = 0;
   private modalService = inject(NgbModal);
-  
+
   listadoProductos: any = []
   listadoProductosNombre: any = []
   listadoProveedores: any = []
@@ -73,6 +78,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.serviceProduct.get().subscribe((data: any) => {
       this.listadoProductos = data
       this.listadoProductos = this.listadoProductos.filter((pro: any) => pro.proveedorId.nombreProveedor == this.proveedor)
+      this.imagenLogo = this.listadoProductos[0].proveedorId.imagen;
     })
   }
 
@@ -83,7 +89,10 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.cantidad = "0"
     this.noContieneProductos = true
     this.producto = "";
+    this.loader = false;
+    this.logo = true;
     this.getListadProductos()
+
   }
 
   AgregarProducto() {
@@ -104,12 +113,6 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
 
   limpiar() {
     this.fechaEntrega = ""
-    this.proveedor = ""
-    this.producto = ""
-    this.cantidad = "";
-  }
-
-  eliminarProducto() {
     this.listProductTable = []
     this.arrayCantidad = []
     this.cantidad = "";
@@ -117,7 +120,11 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.proveedor = "";
     this.suma = 0;
     this.listadoProductos = []
+    this.imagenLogo = "";
+    this.loader = true;
+    this.logo = false;
   }
+
 
   formularioValidado(): boolean {
 
@@ -126,12 +133,12 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       return false;
     }
     if (!this.proveedor) {
-      this.botondisable=true;
+      this.botondisable = true;
       this.fechaInvalido = false;
       this.proveedorInvalido = true;
       return false;
     }
-    if (parseInt(this.cantidad)==0 ) {
+    if (parseInt(this.cantidad) == 0) {
       this.proveedorInvalido = false;
       this.cantidadInvalida = true;
       return false;
@@ -146,14 +153,20 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       this.informacionRecepcionInvalida = true
       return false;
     }
-    this.informacionRecepcionInvalida = false
+    if (!this.direccion || this.direccion.length < 5) {
+      this.informacionRecepcionInvalida = false
+      this.direccionInvalida = true
+      return false;
+    }
+
+    this.direccionInvalida = false
     return true;
   }
 
 
   enviar(form: any, longContent: TemplateRef<any>) {
     if (this.formularioValidado()) {
-      this.botondisable=false;
+      this.botondisable = false;
       this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
       let suma = 0;
 
@@ -169,7 +182,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       }
 
       let objectEnviar = {
-        ordenDireccion: this.informacionRecepcion,
+        ordenDireccion: this.direccion,
         ordenInformacionRecepcion: this.informacionRecepcion,
         total: suma,
         habilitado: true,
@@ -191,7 +204,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
         this.route.navigate(['/', 'orden-compra'])
       }))
     }
-    this.botondisable=true;
+    this.botondisable = true;
     console.log("No se envia, falta datos ")
   }
 }

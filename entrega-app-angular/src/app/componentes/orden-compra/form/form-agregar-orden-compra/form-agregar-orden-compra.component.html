@@ -47,6 +47,20 @@
                         luego del dia actual.</small>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Direccion, y numero de calle</label>
+                    <input type="text"
+                        class="form-control"
+                        id="direccion"
+                        name="direccion"
+                        [(ngModel)]="direccion"
+                        placeholder="Ingrese su direccion y numero de calle">
+                    <small class="text-danger"
+                        *ngIf="direccionInvalida">La doreccion
+                        requerida.</small>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -68,7 +82,19 @@
                         *ngIf="proveedorInvalido">Debe seleccionar un
                         proveedor.</small>
                     <div class="logo">
-
+                        <div *ngIf="loader"
+                            class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div *ngIf="logo">
+                            <img src="{{imagenLogo}}"
+                                alt="Imagen producto"
+                                class="align-center"
+                                width="130"
+                                height="150px">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,7 +150,7 @@
             <div class="col text-center">
                 <button type="button" (click)="AgregarProducto()"
                     class="btn btn-success">Agregar</button>
-                <button type="button" (click)="eliminarProducto()"
+                <button type="button" (click)="limpiar()"
                     class="btn btn-danger">Limpiar</button>
             </div><br><br><br>
             <table class="table table-hover">

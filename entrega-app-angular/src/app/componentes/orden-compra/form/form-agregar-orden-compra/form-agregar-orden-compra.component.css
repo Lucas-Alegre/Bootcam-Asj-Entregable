@@ -9,7 +9,7 @@ h1 {
 }
 
 .logo {
+    padding: 20px;
     width: 200px;
     height: 100px;
-    background-color: aquamarine;
 }
