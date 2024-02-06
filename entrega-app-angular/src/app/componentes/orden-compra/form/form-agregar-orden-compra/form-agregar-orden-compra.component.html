@@ -8,24 +8,24 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label>Fecha De Emision</label>
+                    <input type="text"
+                        class="form-control"
+                        id="fechaEnvio"
+                        disabled
+                        value="{{fechaEnvio| date }}"
+                        placeholder="Fecha de Envio">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Fecha De Entrega</label>
                     <input type="date"
                         class="form-control"
                         id="fechaEntrega"
                         name="fechaEntrega"
                         [(ngModel)]="fechaEntrega"
-                        placeholder="Fecha de Entrega">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="text"
-                        class="form-control"
-                        id="direccion"
-                        name="direccion"
-                        [(ngModel)]="direccion"
-                        placeholder="Direccion">
+                        placeholder="Fecha De Entrega">
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label for="exampleInputEmail1">Proveedor</label>
                     <select type="text"
                         class="form-control custom-select"
                         id="proveedor"
@@ -42,8 +42,8 @@
                         [(ngModel)]="proveedor"
                         (ngModelChange)="proveedorChange($event)">
                         <option value disabled>Seleccione un proveedor</option>
-                        <option value={{item}}
-                            *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+                        <option value={{item.nombreProveedor}}
+                            *ngFor="let item of listadoProveedores">{{item.nombreProveedor}}</option>
                     </select>
                     <div class="logo">
 
@@ -52,9 +52,16 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <textarea id="w3review" name="w3review" rows="4" cols="75%">
-                    
+                    <label for="exampleInputEmail1">Informacion de
+                        recepción. Ubicación y dirección</label>
+                    <textarea
+                        id="w3review"
+                        name="w3review"
+                        rows="4"
+                        cols="75%"
+                        placeholder="Ingrese su ubicación y direccion"
+                        [(ngModel)]="informacionRecepcion">
+                        
                     </textarea>
                 </div>
             </div>
@@ -72,8 +79,8 @@
                     [(ngModel)]="producto"
                     placeholder="Producto">
                     <option value disabled>Seleccione un producto</option>
-                    <option value={{item}}
-                        *ngFor="let item of productosDisponiblesNombres">{{item}}</option>
+                    <option value={{item.nombreProducto}}
+                        *ngFor="let item of listadoProductos">{{item.nombreProducto}}</option>
                 </select>
 
             </div>
@@ -83,18 +90,45 @@
                     id="cantidad"
                     name="cantidad"
                     [(ngModel)]="cantidad"
-                    (ngModelChange)="cantidadChange($event)"
                     placeholder="Cantidad">
             </div>
             <div class="col text-center">
-                <button class="btn btn-success">Agregar</button>
+                <button type="button" (click)="AgregarProducto()"
+                    class="btn btn-success">Agregar</button>
+                <button type="button" (click)="eliminarProducto()"
+                    class="btn btn-danger">Limpiar</button>
+            </div><br><br><br>
+            <table class="table table-hover">
+
+                <thead>
+                    <tr>
+                        <th>Codigo sku</th>
+                        <th>Nombre de producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio/unidad</th>
+                        <th>Precio Total</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngFor="let prod of listProductTable; index as i">
+                    <tr>
+                        <td>{{prod.codigoSKU}}</td>
+                        <td>{{prod.nombreProducto}}</td>
+                        <td>{{arrayCantidad[i]}}</td>
+                        <td>${{prod.precio}}</td>
+                        <td>${{arrayCantidad[i]*prod.precio}}</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+            <div *ngIf="noContieneProductos"
+                class="alert alert-primary text-center"
+                role="alert">
+                No hay productos en la orden. Por favor, agrege uno.
             </div>
         </div>
         <br>
-        <div  class="alert alert-primary text-center"
-            role="alert">
-            No hay productos.
-        </div>
         <br><hr>
         <div class="input-group col-md-8">
             <button type="submit"

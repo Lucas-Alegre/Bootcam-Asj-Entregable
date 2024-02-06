@@ -10,13 +10,16 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./form-agregar-orden-compra.component.css']
 })
 export class FormAgregarOrdenCompraComponent implements OnInit {
+  fechaEnvio: any;
   fechaEntrega = "";
-  direccion = "";
   proveedor = "";
+  informacionRecepcion = ""
   producto = "";
   cantidad = "";
-  total = 0;
-  idNuevo = 0
+  arrayCantidad: any = [];
+  idProveedor: any = 0;
+  listProductTable: any = [];
+  noContieneProductos: boolean = true
 
   listadoProductos: any = []
   listadoProductosNombre: any = []
@@ -38,92 +41,108 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   ngOnInit(): void {
     this.getListadProveedores()
     this.getListadProductos()
+    this.fechaEnvio = new Date()
   }
 
 
   getListadProveedores() {
     this.serviceProveedor.get().subscribe((data: any) => {
-      this.listadoProveedores = data
-
-      for (let i = 0; i < this.listadoProveedores.length; i++) {
-        let join = this.listadoProveedores[i].apellido + " " + this.listadoProveedores[i].nombre;
-        //console.log(join)
-        this.listadoProveedoresNombreCompletos.push({ nombreCompleto: join, id: this.listadoProveedores[i].id })
-      }
-
-      const eliminaProveedoresRepetidos = new Set(this.listadoProveedoresNombreCompletos)
-      this.listadoProveedoresNombreCompletos = [...eliminaProveedoresRepetidos];
-      this.listadoNombresJoinApellido = this.listadoProveedoresNombreCompletos.map((item: any) =>
-        item.nombreCompleto
-      )
-
-      const eliminaProveedoresRepetidosName = new Set(this.listadoNombresJoinApellido)
-      this.listadoNombresJoinApellido = [...eliminaProveedoresRepetidosName];
+      this.listadoProveedores = data;
+      this.listadoProveedores = this.listadoProveedores.filter((p: any) => p.deleteAt == false)
     })
   }
 
   getListadProductos() {
     this.serviceProduct.get().subscribe((data: any) => {
       this.listadoProductos = data
-      this.listadoProductosNombre = this.listadoProductos.map((item: any) => item.nameProducto)
+      this.listadoProductos = this.listadoProductos.filter((pro: any) => pro.proveedorId.nombreProveedor == this.proveedor)
     })
   }
 
 
   proveedorChange(valor: any) {
-    for (let i = 0; i < this.listadoProveedoresNombreCompletos.length; i++) {
-      if (this.listadoProveedoresNombreCompletos[i].nombreCompleto == valor) {
-        this.listadoFilterProveedoresNombreCompletos = this.listadoProveedoresNombreCompletos[i].id;
-      }
-    }
-    this.productosDisponibles = this.listadoProductos.filter((item: any) => item.idProveedor == this.listadoFilterProveedoresNombreCompletos)
-    this.productosDisponiblesNombres = this.productosDisponibles.map((item: any) => item.nameProducto)
+    this.getListadProductos()
+    this.listProductTable = []
+    this.arrayCantidad = []
+    this.noContieneProductos = true
   }
 
-  cantidadChange(valor: any) {
-    this.precioPrueba = this.precioPrueba * parseInt(valor);
-    this.total = this.precioPrueba.toString()
+  AgregarProducto() {
+    let product = this.listadoProductos.filter((prod: any) => prod.nombreProducto == this.producto)
+    this.listProductTable.push(product[0])
+
+    if (this.listProductTable.length > 0) {
+      this.noContieneProductos = false
+    }
+
+    this.arrayCantidad.push(this.cantidad)
   }
 
 
   private validarFormulario(): boolean {
-
-    if (!this.total) {
-      return false;
-    }
     return true;
   }
 
   enviar(form: any) {
+    this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
+    //detalles:[]
+    console.log(this.listProductTable)
+    console.log(this.arrayCantidad)
 
-    if (this.validarFormulario()) {
+    /*
+    {
+      "detalleCantidad": 5,
+      "productosId": {
+        "id":2
+      }
+    }
+    */
+    let objectEnviar = {
+      ordenDireccion: this.informacionRecepcion,
+      ordenInformacionRecepcion: this.informacionRecepcion,
+      total: 200,
+      habilitado: true,
+      fechaDeEntrega: this.fechaEntrega,
+      proveedorId: {
+        id: this.idProveedor[0].id
+      },
+      estadoId: {
+        id: 2
+      },
+      detalles: []
+    }
+    //console.log(objectEnviar)
+
+    /*if (this.validarFormulario()) {
       this.serviceOrdenCompra.get().subscribe((data: any) => {
         this.idNuevo = data.length
       });
       let ordenAdd = {
         id: this.idNuevo + 2,
         fechaEntrega: this.fechaEntrega,
-        direccion: this.direccion,
         proveedor: this.proveedor,
         producto: this.producto,
         cantidad: this.cantidad,
         total: this.precioPrueba,
-        status:"pending"
+        status: "pending"
       }
       this.serviceOrdenCompra.post(ordenAdd).subscribe(res => {
         console.log(res)
         alert("Se agregó una orden correctamente")
         this.route.navigate(['/', 'orden-compra'])
       });
-    }
+    }*/
   }
 
   limpiar() {
     this.fechaEntrega = ""
-    this.direccion = ""
     this.proveedor = ""
     this.producto = ""
     this.cantidad = "";
-    this.total = 0;
+  }
+
+  eliminarProducto() {
+    this.listProductTable = []
+    this.arrayCantidad = []
   }
 }
