@@ -7,3 +7,9 @@ h1 {
     display: block;
     text-align: center;
 }
+
+.logo {
+    width: 200px;
+    height: 100px;
+    background-color: aquamarine;
+}

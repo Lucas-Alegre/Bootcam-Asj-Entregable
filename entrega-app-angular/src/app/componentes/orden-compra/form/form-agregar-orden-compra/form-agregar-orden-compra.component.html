@@ -7,38 +7,62 @@
     <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
         <div class="row">
             <div class="col">
-                <input type="date"
-                    class="form-control"
-                    id="fechaEntrega"
-                    name="fechaEntrega"
-                    [(ngModel)]="fechaEntrega"
-                    placeholder="Fecha de Entrega">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="date"
+                        class="form-control"
+                        id="fechaEntrega"
+                        name="fechaEntrega"
+                        [(ngModel)]="fechaEntrega"
+                        placeholder="Fecha de Entrega">
+                </div>
             </div>
             <div class="col">
-                <input type="text"
-                    class="form-control"
-                    id="direccion"
-                    name="direccion"
-                    [(ngModel)]="direccion"
-                    placeholder="Direccion">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="text"
+                        class="form-control"
+                        id="direccion"
+                        name="direccion"
+                        [(ngModel)]="direccion"
+                        placeholder="Direccion">
+                </div>
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col">
-                <select type="text"
-                    class="form-control custom-select"
-                    id="proveedor"
-                    name="proveedor"
-                    placeholder="Proveedor"
-                    [(ngModel)]="proveedor"
-                    (ngModelChange)="proveedorChange($event)">
-                    <option value disabled>Seleccione un proveedor</option>
-                    <option value={{item}}
-                        *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
-                </select>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <select type="text"
+                        class="form-control custom-select"
+                        id="proveedor"
+                        name="proveedor"
+                        placeholder="Proveedor"
+                        [(ngModel)]="proveedor"
+                        (ngModelChange)="proveedorChange($event)">
+                        <option value disabled>Seleccione un proveedor</option>
+                        <option value={{item}}
+                            *ngFor="let item of listadoNombresJoinApellido">{{item}}</option>
+                    </select>
+                    <div class="logo">
 
+                    </div>
+                </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <textarea id="w3review" name="w3review" rows="4" cols="75%">
+                    
+                    </textarea>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <br><hr>
+        <div class="row m-5">
             <div class="col">
                 <select type="text"
                     class="form-control custom-select"
@@ -53,9 +77,6 @@
                 </select>
 
             </div>
-        </div>
-        <br>
-        <div class="row">
             <div class="col">
                 <input type="text"
                     class="form-control"
@@ -65,17 +86,16 @@
                     (ngModelChange)="cantidadChange($event)"
                     placeholder="Cantidad">
             </div>
-            <div class="col">
-                <input type="number"
-                    class="form-control"
-                    id="total"
-                    name="total"
-                    disabled
-                    [(ngModel)]="total"
-                    placeholder="total">
+            <div class="col text-center">
+                <button class="btn btn-success">Agregar</button>
             </div>
         </div>
         <br>
+        <div  class="alert alert-primary text-center"
+            role="alert">
+            No hay productos.
+        </div>
+        <br><hr>
         <div class="input-group col-md-8">
             <button type="submit"
                 class="btn btn-outline-primary mr-2">
