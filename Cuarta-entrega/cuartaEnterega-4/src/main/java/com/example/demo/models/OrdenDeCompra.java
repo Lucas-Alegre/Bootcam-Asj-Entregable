@@ -54,6 +54,11 @@ public class OrdenDeCompra extends AuditModel {
 	@Pattern(regexp="^.{7,}$", message = "La fecha de entrega debe tener un minimo de 7 catacteres")
 	private String fechaDeEntrega;
 	
+	@Column(unique = true,nullable = false)
+	@NotNull(message="El numero de orden no puede ser null")
+	@NotBlank(message="El numero de orden no puede estar vacio")
+	@Pattern(regexp="^.{3,}$", message = "El numero de orden debe tener un minimo de 3 catacteres")
+	private String numeroOrden;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "proveedorId", referencedColumnName = "id", nullable = false)
@@ -147,6 +152,16 @@ public class OrdenDeCompra extends AuditModel {
 	public void setFechaDeEntrega(String fechaDeEntrega) {
 		this.fechaDeEntrega = fechaDeEntrega;
 	}
+	
+	
+
+	public String getNumeroOrden() {
+		return numeroOrden;
+	}
+
+	public void setNumeroOrden(String numeroOrden) {
+		this.numeroOrden = numeroOrden;
+	}
 
 	public List<DetalleDeLaOrden> getDetalles() {
 		return detalles;
@@ -159,8 +174,11 @@ public class OrdenDeCompra extends AuditModel {
 	@Override
 	public String toString() {
 		return "OrdenDeCompra [id=" + id + ", ordenDireccion=" + ordenDireccion + ", ordenInformacionRecepcion="
-				+ ordenInformacionRecepcion + ", total=" + total + ", habilitado=" + habilitado + ", proveedorId="
-				+ proveedorId + ", estadoId=" + estadoId + "]";
+				+ ordenInformacionRecepcion + ", total=" + total + ", habilitado=" + habilitado + ", fechaDeEntrega="
+				+ fechaDeEntrega + ", numeroOrden=" + numeroOrden + ", proveedorId=" + proveedorId + ", estadoId="
+				+ estadoId + ", detalles=" + detalles + "]";
 	}
+
+	
 
 }

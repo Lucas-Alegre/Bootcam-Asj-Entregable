@@ -182,6 +182,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       }
 
       let objectEnviar = {
+        numeroOrden:"123456",
         ordenDireccion: this.direccion,
         ordenInformacionRecepcion: this.informacionRecepcion,
         total: suma,
@@ -199,6 +200,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
         console.log(data)
         this.route.navigate(['/', 'orden-compra'])
+        
       }, (error => {
         console.log("Fijate igual xd")
         this.route.navigate(['/', 'orden-compra'])
