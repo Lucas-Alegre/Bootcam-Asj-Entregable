@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compra.service';
 import { ProductosService } from 'src/app/services/producto/productos.service';
 import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
@@ -17,11 +18,22 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   producto = "";
   cantidad = "";
   arrayCantidad: any = [];
+
+  fechaInvalido: boolean = false;
+  proveedorInvalido: boolean = false;
+  productosInvalidos: boolean = false
+  informacionRecepcionInvalida: boolean = false;
+  cantidadInvalida: boolean = false;
+  botondisable:boolean=false;
+  botonAble:boolean=false;
+
   idProveedor: any = 0;
   listProductTable: any = [];
   noContieneProductos: boolean = true
   detalles: any = []
   suma = 0;
+  private modalService = inject(NgbModal);
+  
   listadoProductos: any = []
   listadoProductosNombre: any = []
   listadoProveedores: any = []
@@ -45,6 +57,10 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.fechaEnvio = new Date()
   }
 
+  openScrollableContent(longContent: TemplateRef<any>) {
+    console.log("Estoy haciendo notificacion")
+    this.modalService.open(longContent, { scrollable: true });
+  }
 
   getListadProveedores() {
     this.serviceProveedor.get().subscribe((data: any) => {
@@ -60,9 +76,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     })
   }
 
-
   proveedorChange(valor: any) {
-
     this.listProductTable = []
     this.listadoProductos = []
     this.arrayCantidad = []
@@ -88,71 +102,6 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     }
   }
 
-
-  private validarFormulario(): boolean {
-    return true;
-  }
-
-  enviar(form: any) {
-    this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
-    let suma = 0;
-
-    for (let i = 0; i < this.listProductTable.length; i++) {
-      suma += this.listProductTable[i].precio * parseInt(this.arrayCantidad[i]);
-      let detalle = {
-        detalleCantidad: parseInt(this.arrayCantidad[i]),
-        productosId: {
-          id: this.listProductTable[i].id
-        }
-      }
-      this.detalles.push(detalle)
-    }
-
-    let objectEnviar = {
-      ordenDireccion: this.informacionRecepcion,
-      ordenInformacionRecepcion: this.informacionRecepcion,
-      total: suma,
-      habilitado: true,
-      fechaDeEntrega: this.fechaEntrega,
-      proveedorId: {
-        id: this.idProveedor[0].id
-      },
-      estadoId: {
-        id: 2
-      },
-      detalles: this.detalles
-    }
-
-    this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
-      console.log(data)
-      this.route.navigate(['/', 'orden-compra'])
-    }, (error => {
-      console.log("Fijate igual xd")
-      this.route.navigate(['/', 'orden-compra'])
-    }))
-    // console.log(objectEnviar)
-
-    /*if (this.validarFormulario()) {
-      this.serviceOrdenCompra.get().subscribe((data: any) => {
-        this.idNuevo = data.length
-      });
-      let ordenAdd = {
-        id: this.idNuevo + 2,
-        fechaEntrega: this.fechaEntrega,
-        proveedor: this.proveedor,
-        producto: this.producto,
-        cantidad: this.cantidad,
-        total: this.precioPrueba,
-        status: "pending"
-      }
-      this.serviceOrdenCompra.post(ordenAdd).subscribe(res => {
-        console.log(res)
-        alert("Se agregó una orden correctamente")
-        this.route.navigate(['/', 'orden-compra'])
-      });
-    }*/
-  }
-
   limpiar() {
     this.fechaEntrega = ""
     this.proveedor = ""
@@ -168,5 +117,81 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.proveedor = "";
     this.suma = 0;
     this.listadoProductos = []
+  }
+
+  formularioValidado(): boolean {
+
+    if (!this.fechaEntrega || this.fechaEntrega < this.fechaEnvio) {
+      this.fechaInvalido = true;
+      return false;
+    }
+    if (!this.proveedor) {
+      this.botondisable=true;
+      this.fechaInvalido = false;
+      this.proveedorInvalido = true;
+      return false;
+    }
+    if (parseInt(this.cantidad)==0 ) {
+      this.proveedorInvalido = false;
+      this.cantidadInvalida = true;
+      return false;
+    }
+    if (this.listProductTable.length < 1) {
+      this.cantidadInvalida = false;
+      this.productosInvalidos = true;
+      return false;
+    }
+    if (!this.informacionRecepcion || this.informacionRecepcion.length < 20) {
+      this.productosInvalidos = false;
+      this.informacionRecepcionInvalida = true
+      return false;
+    }
+    this.informacionRecepcionInvalida = false
+    return true;
+  }
+
+
+  enviar(form: any, longContent: TemplateRef<any>) {
+    if (this.formularioValidado()) {
+      this.botondisable=false;
+      this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
+      let suma = 0;
+
+      for (let i = 0; i < this.listProductTable.length; i++) {
+        suma += this.listProductTable[i].precio * parseInt(this.arrayCantidad[i]);
+        let detalle = {
+          detalleCantidad: parseInt(this.arrayCantidad[i]),
+          productosId: {
+            id: this.listProductTable[i].id
+          }
+        }
+        this.detalles.push(detalle)
+      }
+
+      let objectEnviar = {
+        ordenDireccion: this.informacionRecepcion,
+        ordenInformacionRecepcion: this.informacionRecepcion,
+        total: suma,
+        habilitado: true,
+        fechaDeEntrega: this.fechaEntrega,
+        proveedorId: {
+          id: this.idProveedor[0].id
+        },
+        estadoId: {
+          id: 2
+        },
+        detalles: this.detalles
+      }
+      this.openScrollableContent(longContent)
+      this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
+        console.log(data)
+        this.route.navigate(['/', 'orden-compra'])
+      }, (error => {
+        console.log("Fijate igual xd")
+        this.route.navigate(['/', 'orden-compra'])
+      }))
+    }
+    this.botondisable=true;
+    console.log("No se envia, falta datos ")
   }
 }

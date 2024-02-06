@@ -4,7 +4,23 @@
     <button routerLink="/orden-compra"
         class="buttonAdd btn btn-primary buttonAgregar">Volver</button>
     <br>
-    <form #myForm="ngForm" (ngSubmit)="enviar(myForm)">
+    <ng-template #longContent let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Se dio de alta correctamente una orden de Compra </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+    <form #myForm="ngForm" (ngSubmit)="enviar(myForm,longContent)">
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -26,6 +42,9 @@
                         name="fechaEntrega"
                         [(ngModel)]="fechaEntrega"
                         placeholder="Fecha De Entrega">
+                    <small class="text-danger"
+                        *ngIf="fechaInvalido">La fecha es requerida, y debe ser
+                        luego del dia actual.</small>
                 </div>
             </div>
         </div>
@@ -45,6 +64,9 @@
                         <option value={{item.nombreProveedor}}
                             *ngFor="let item of listadoProveedores">{{item.nombreProveedor}}</option>
                     </select>
+                    <small class="text-danger"
+                        *ngIf="proveedorInvalido">Debe seleccionar un
+                        proveedor.</small>
                     <div class="logo">
 
                     </div>
@@ -63,7 +85,11 @@
                         [(ngModel)]="informacionRecepcion">
                         
                     </textarea>
+                    <small class="text-danger"
+                        *ngIf="informacionRecepcionInvalida">Debe agregar una
+                        descripcion de su ubicación.</small>
                 </div>
+
             </div>
 
         </div>
@@ -85,12 +111,15 @@
 
             </div>
             <div class="col">
-                <input type="text"
+                <input type="number"
                     class="form-control"
                     id="cantidad"
                     name="cantidad"
                     [(ngModel)]="cantidad"
                     placeholder="Cantidad">
+                <small class="text-danger"
+                    *ngIf="cantidadInvalida">Debe agregar una
+                    cantidad.</small>
             </div>
             <div class="col text-center">
                 <button type="button" (click)="AgregarProducto()"
@@ -99,7 +128,8 @@
                     class="btn btn-danger">Limpiar</button>
             </div><br><br><br>
             <table class="table table-hover">
-
+                <small class="text-danger"
+                    *ngIf="productosInvalidos">Debe agregar un producto.</small>
                 <thead>
                     <tr>
                         <th>Codigo sku</th>
@@ -132,8 +162,12 @@
         </div>
         <br>
         <br><hr>
+        <p *ngIf="botondisable" class="text-danger mt-3">No se agregar una orden
+            si no realiza ningún cambio</p>
+        <br>
         <div class="input-group col-md-8">
-            <button type="submit"
+            <button
+                type="submit"
                 class="btn btn-outline-primary mr-2">
                 Enviar
             </button>
@@ -141,8 +175,10 @@
                 class="btn btn-outline-danger"
                 (click)="limpiar()">
                 Limpiar
-            </button>
+            </button> <br>
+
         </div>
+
         <!-- Otros campos del formulario -->
     </form>
 </div>
