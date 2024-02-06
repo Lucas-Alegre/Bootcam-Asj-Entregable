@@ -14,23 +14,23 @@
                 type="text"
                 (keyup)="onKeyUp($event)">
         </div>
-        <!--
+
         <select class="form-select w-25"
-            (change)="filtrarCategoria($event)">
+            (change)="filtrarProveedores($event)">
             <option value="todos">Todos</option>
-            <option [value]="cat.nombre"
-                *ngFor="let cat of listaCategorias">{{cat.nombre}}</option>
+            <option [value]="prove.nombreProveedor"
+                *ngFor="let prove of listaProveedores">{{prove.nombreProveedor}}</option>
         </select>
 
         <div *ngIf="estaEnAltas">
             <button class="btn btn-success" type="submit"
-                (click)="productosAlta()">Ver dados de Alta</button>
+                (click)="getOrdenesDeAlta()">Ver dados de Alta</button>
         </div>
         <div *ngIf="estaEnBajas">
             <button class="btn btn-danger" type="submit"
-                (click)="productosbaja()">Ver dados de Baja</button>
+                (click)="getOrdenesDeBaja()">Ver dados de Baja</button>
 
-        </div> -->
+        </div>
     </div>
     <ng-template #longContent let-modal>
 
@@ -91,7 +91,40 @@
         </div>
 
     </ng-template>
+    <ng-template #longContentBaja let-modal>
 
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Una orden de compra, fue dada de baja correctamente </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+    <ng-template #longContentAlta let-modal>
+
+        <div class="modal-header">
+            <h4 class="modal-title">Notificación</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <p><b>Una orden de compra, fue dada de alta correctamente. </b></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="modal.close('Close click')">Close</button>
+        </div>
+
+    </ng-template>
+    <br>
+    <br>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -112,7 +145,8 @@
                 <td>{{ orden.ordenDireccion }}</td>
                 <td>{{ orden.proveedorId.razonSocial }}</td>
                 <td>${{ orden.total }}</td>
-                <td class="editarEliminar">
+                <td *ngIf="estaEnBajas"
+                    class="editarEliminar">
                     <button
                         class="btn button  btn-outline-primary mb-2 me-2"
                         (click)="openScrollableContent(longContent,orden.id)">Ver
@@ -123,15 +157,25 @@
                             class="bi bi-pencil-fill"></i></button>
                     <button
                         class="btn button btn-danger"
-                        (click)="eliminar(orden)"><i
+                        (click)="eliminar(orden,longContentBaja)"><i
                             class="bi bi-trash3-fill"></i></button>
+                </td>
+
+                <td *ngIf="estaEnAltas"
+                    class="editarEliminar">
+                    <button
+                        class="btn button btn-success"
+                        (click)="darDeAlta(orden,longContentAlta)">Dar de
+                        alta</button>
+
                 </td>
             </tr>
         </tbody>
 
     </table>
 
-    <div *ngIf="existenOrdenes" class="alert alert-primary" role="alert">
-        No hay ordenes creadas, por favor agregue una.
+    <div *ngIf="existenOrdenes" class="alert alert-primary text-center"
+        role="alert">
+        No hay ordenes.
     </div>
 </div>

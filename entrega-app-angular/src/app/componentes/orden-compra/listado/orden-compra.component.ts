@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrdenCompraService } from 'src/app/services/orden-de-compra/orden-compra.service';
+import { ProveedoresService } from 'src/app/services/proveedores/proveedores.service';
 
 @Component({
   selector: 'app-orden-compra',
@@ -12,20 +13,24 @@ export class OrdenCompraComponent implements OnInit {
   ordenDeCompra: any = [];
   ordenDeCompra2: any = [];
   ordenesFechasCreadas: any = []
+  listaProveedores: any = []
   ordenDetail: any = {}
   ordenDetailTotal = 0;
   ordenDetailSuma = 0;
   seElimino: boolean = false
   existenOrdenes: boolean = false;
+  estaEnAltas: boolean = false;
+  estaEnBajas: boolean = true;
   textoDeInput = "";
   private modalService = inject(NgbModal);
 
   constructor(private ordenService: OrdenCompraService,
+    private proveedoresService: ProveedoresService,
     private route: Router) { }
 
   ngOnInit(): void {
-
     this.getOrdenCompra()
+    this.getListaProveedores()
   }
 
   onKeyUp(event: any) {
@@ -47,7 +52,28 @@ export class OrdenCompraComponent implements OnInit {
     this.modalService.open(longContent, { scrollable: true });
   }
 
+  openScrollableContentBaja(longContent: TemplateRef<any>) {
+    this.modalService.open(longContent, { scrollable: true });
+  }
+
+  filtrarProveedores(evento: any) {
+    if (evento.target.value == "todos") {
+      this.ordenDeCompra2 = this.ordenDeCompra;
+    } else {
+      this.ordenDeCompra2 = this.ordenDeCompra.filter((e: any) => e.proveedorId.nombreProveedor == evento.target.value);
+    }
+
+  }
+
+  getOrdenesDeAlta() {
+    this.estaEnBajas = true;
+    this.estaEnAltas = false;
+    this.existenOrdenes = false;
+    this.getOrdenCompra()
+  }
+
   getOrdenCompra() {
+
     this.ordenService.get().subscribe((data: any) => {
       this.ordenDeCompra = data;
       this.ordenDeCompra = this.ordenDeCompra.filter((ord: any) => ord.estadoId.nombre == "aceptada")
@@ -58,22 +84,64 @@ export class OrdenCompraComponent implements OnInit {
     });
   }
 
-  eliminar(orden: any) {
-    let obj = {
-      id: orden.id,
-      fechaEntrega: orden.fechaEntrega,
-      direccion: orden.direccion,
-      proveedor: orden.proveedor,
-      producto: orden.producto,
-      cantidad: orden.cantidad,
-      total: orden.total,
-      status: "baja"
-    }
-    this.seElimino = true
-    this.ordenService.put(obj, orden.id).subscribe((data: any) => {
+  getOrdenesDeBaja() {
+    this.estaEnAltas = true;
+    this.estaEnBajas = false;
+    this.existenOrdenes = false;
+    this.ordenService.get().subscribe((data: any) => {
+      this.ordenDeCompra = data;
+      this.ordenDeCompra = this.ordenDeCompra.filter((ord: any) => ord.estadoId.nombre == "rechazada")
+      if (this.ordenDeCompra.length < 1) {
+        this.existenOrdenes = true;
+      }
+      this.ordenDeCompra2 = this.ordenDeCompra;
+    });
+  }
 
-      alert("Se dio de baja la orden")
+  getListaProveedores() {
+    this.proveedoresService.get().subscribe((data) => {
+      this.listaProveedores = data;
+      console.log(this.listaProveedores)
+    })
+  }
+
+  
+  eliminar(orden: any, longContent: TemplateRef<any>) {
+    //borrado logico editando el habilitado=false
+    const ordenEditado = {
+      ordenDireccion: orden.ordenDireccion,
+      ordenInformacionRecepcion: orden.ordenInformacionRecepcion,
+      total: orden.total,
+      habilitado: true,
+      fechaDeEntrega: orden.fechaDeEntrega,
+      proveedorId: orden.proveedorId,
+      estadoId: { id: 3 }
+    }
+     this.openScrollableContentBaja(longContent)
+    this.ordenService.put(ordenEditado, orden.id).subscribe(res => {
+      alert("Se Dio de Baja a una orden correctamente")
+    }, (error) => {
       this.getOrdenCompra()
+    })
+  }
+
+  darDeAlta(orden: any, longContent: TemplateRef<any>) {
+    const ordenEditado = {
+      ordenDireccion: orden.ordenDireccion,
+      ordenInformacionRecepcion: orden.ordenInformacionRecepcion,
+      total: orden.total,
+      habilitado: true,
+      fechaDeEntrega: orden.fechaDeEntrega,
+      proveedorId: orden.proveedorId,
+      estadoId: { id: 2 }
+    }
+    console.log("Soy editado")
+    console.log(ordenEditado);
+    this.openScrollableContentBaja(longContent)
+    this.ordenService.put(ordenEditado, orden.id).subscribe(res => {
+      alert("Se Dio de Alta a una orden correctamente")
+    }, (error) => {
+      this.getOrdenesDeBaja()
     })
   }
 }
