@@ -89,13 +89,7 @@
                         *ngIf="proveedorInvalido">Debe seleccionar un
                         proveedor.</small>
                     <div class="logo">
-                        <div *ngIf="loader"
-                            class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                        <div *ngIf="logo">
+                        <div>
                             <img src="{{imagenLogo}}"
                                 alt="Imagen producto"
                                 class="align-center"
@@ -128,7 +122,7 @@
             </div>
 
         </div>
-        <br>
+        <br><br>
         <br><hr>
         <div class="row m-5">
             <div class="col">
@@ -195,9 +189,7 @@
                 role="alert">
                 No hay productos en la orden. Por favor, agrege uno.
             </div>
-        </div>
-        <br>
-        <br><hr>
+        </div><hr>
         <p *ngIf="botondisable" class="text-danger mt-3">No se agregar una orden
             si no realiza ningún cambio</p>
         <br>
@@ -212,9 +204,9 @@
                 (click)="limpiar()">
                 Limpiar
             </button> <br>
-
         </div>
 
         <!-- Otros campos del formulario -->
     </form>
 </div>
+<br><br>

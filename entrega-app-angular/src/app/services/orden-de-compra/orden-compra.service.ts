@@ -24,8 +24,8 @@ export class OrdenCompraService {
     return this.http.post(this.url, orden);
   }
 
-  put(producto: any, id: any): Observable<any> {
-    return this.http.put(this.url + "/" + id, producto);
+  put(orden: any, id: any): Observable<any> {
+    return this.http.put(this.url + "/" + id, orden);
   }
 
   delete(id: any): Observable<any> {

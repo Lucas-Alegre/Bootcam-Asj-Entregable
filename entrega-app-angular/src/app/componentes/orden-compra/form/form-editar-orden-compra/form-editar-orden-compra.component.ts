@@ -38,12 +38,12 @@ export class FormEditarOrdenCompraComponent implements OnInit {
 
   idProveedor: any = 0;
   listProductTable: any = [];
-  noContieneProductos: boolean = true
+  noContieneProductos: boolean = false
   detalles: any = []
   suma = 0;
   sumaPorProducto = 0;
   private modalService = inject(NgbModal);
-
+  listaAlldetail: any = []
   listProductTableDetalles: any = []
   ordenDeCompras: any = []
   listadoProductos: any = []
@@ -84,11 +84,41 @@ export class FormEditarOrdenCompraComponent implements OnInit {
       // this.cantidad = this.orden.cantidad;
       // this.arrayCantidad = this.orden.arrayCantidad;
       this.imagenLogo = this.orden.proveedorId.imagen
-      this.listProductTable = this.orden.detalles
+      this.listProductTable = this.orden.detalles;
+      //console.log(this.listProductTable)
+      //-------------------------------------------------------
+      for (let i = 0; i < this.orden.detalles.length; i++) {
+        let detalle = {
+          detalleCantidad: parseInt(this.orden.detalles[i].detalleCantidad),
+          productosId: this.orden.detalles[i].productosId.id
+        }
+        this.detalles.push(detalle)
+      }
+
       this.suma = this.orden.total
-      console.log(this.orden.detalles)
     })
   }
+  AgregarProducto() {
+    let product = this.listadoProductos.filter((prod: any) => prod.nombreProducto == this.producto)
+    this.listProductTableDetalles.push(product[0])
+
+    this.listProductTable.push({
+      detalleCantidad: parseInt(this.cantidad),
+      productosId: product[0]
+    })
+
+    if (this.listProductTable.length > 0) {
+      this.noContieneProductos = false
+    }
+
+
+    this.detalles.push({
+      detalleCantidad: this.cantidad,
+      productosId: product[0].id
+    })
+
+  }
+
 
 
   openScrollableContent(longContent: TemplateRef<any>) {
@@ -116,6 +146,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     })
   }
   proveedorChange(valor: any) {
+    this.detalles = []
     this.listProductTable = []
     this.listadoProductos = []
     this.arrayCantidad = []
@@ -124,10 +155,10 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     this.producto = "";
     this.loader = false;
     this.logo = true;
+    this.suma = 0;
     this.getListadProductos()
   }
   numeroOrdenChange(evento: any) {
-    console.log(evento)
     if (evento.length < 3) {
       this.numeroOrdenInvalido = true;
     }
@@ -161,28 +192,9 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     }
   }
 
-  AgregarProducto() {
-    let product = this.listadoProductos.filter((prod: any) => prod.nombreProducto == this.producto)
-    this.listProductTableDetalles.push(product[0])
-
-    if (this.listProductTable.length > 0) {
-      this.noContieneProductos = false
-    }
-
-    this.arrayCantidad.push(this.cantidad)
-
-    for (let i = 0; i < this.listProductTableDetalles.length; i++) {
-      this.suma += this.listProductTableDetalles[i].precio * parseInt(this.arrayCantidad[i]);
-    }
-
-    this.listProductTable.push({
-      detalleCantidad: this.cantidad,
-      productosId: product[0]
-    })
-
-  }
 
   limpiar() {
+    this.detalles = []
     this.fechaEntrega = ""
     this.listProductTable = []
     this.arrayCantidad = []
@@ -191,6 +203,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     this.proveedor = "";
     this.suma = 0;
     this.listadoProductos = []
+    this.noContieneProductos = true
     this.imagenLogo = "";
     this.loader = true;
     this.logo = false;
@@ -200,17 +213,6 @@ export class FormEditarOrdenCompraComponent implements OnInit {
 
   formularioValidado(): boolean {
     //buscar nunmero de orden
-
-
-    if (!this.numeroOrden) {
-      this.numeroOrdenInvalido = true;
-      return false;
-    }
-
-    if (this.ordenDeCompras.includes(this.numeroOrden)) {
-      this.ordenRepetida = true;
-      return false;
-    }
 
     if (!this.fechaEntrega) {
       this.fechaInvalido = true;
@@ -252,24 +254,22 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     if (this.formularioValidado()) {
       this.botondisable = false;
       this.idProveedor = this.listadoProveedores.filter((prove: any) => prove.nombreProveedor == this.proveedor)
-      let suma = 0;
 
-      for (let i = 0; i < this.listProductTable.length; i++) {
-        suma += this.listProductTable[i].precio * parseInt(this.arrayCantidad[i]);
-        let detalle = {
-          detalleCantidad: parseInt(this.arrayCantidad[i]),
+      for (let j = 0; j < this.detalles.length; j++) {
+        let detalleEnvio = {
+          detalleCantidad: this.detalles[j].detalleCantidad,
           productosId: {
-            id: this.listProductTable[i].id
+            id: this.detalles[j].productosId
           }
         }
-        this.detalles.push(detalle)
+        this.listaAlldetail.push(detalleEnvio)
       }
 
+
       let objectEnviar = {
-        numeroOrden: this.numeroOrden,
         ordenDireccion: this.direccion,
         ordenInformacionRecepcion: this.informacionRecepcion,
-        total: suma,
+        total: this.suma,
         habilitado: true,
         fechaDeEntrega: this.fechaEntrega,
         proveedorId: {
@@ -278,21 +278,52 @@ export class FormEditarOrdenCompraComponent implements OnInit {
         estadoId: {
           id: 2
         },
-        detalles: this.detalles
+        detalles: this.listaAlldetail
       }
-      this.openScrollableContent(longContent)
-      this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
-        console.log(data)
-        this.route.navigate(['/', 'orden-compra'])
+      let objectCompare = {
+        ordenDireccion: this.orden.ordenDireccion,
+        ordenInformacionRecepcion: this.orden.ordenInformacionRecepcion,
+        total: this.orden.total,
+        habilitado: true,
+        fechaDeEntrega: this.orden.fechaDeEntrega,
+        proveedorId: {
+          id: this.orden.proveedorId.id
+        },
+        estadoId: {
+          id: this.orden.estadoId.id
+        },
+        detalles: this.listaAlldetail
+      }
 
+
+
+
+
+      console.log(this.listaAlldetail)
+      this.serviceOrdenCompra.put(objectEnviar, this.idNuevo).subscribe(data => {
+        this.route.navigate(['/', 'orden-compra'])
       }, (error => {
-        console.log("Fijate igual xd")
         this.route.navigate(['/', 'orden-compra'])
       }))
+      /*if (!(objectEnviar.proveedorId.id === objectCompare.proveedorId.id &&
+        objectEnviar.ordenDireccion == objectCompare.ordenDireccion &&
+        objectEnviar.ordenInformacionRecepcion === objectCompare.ordenInformacionRecepcion &&
+        objectEnviar.total == objectCompare.total &&
+        objectEnviar.fechaDeEntrega == objectCompare.fechaDeEntrega &&
+        objectEnviar.detalles == objectCompare.detalles)) {
+
+        //this.openScrollableContent(longContent)
+
+        this.serviceOrdenCompra.put(objectEnviar, this.idNuevo).subscribe(data => {
+          this.route.navigate(['/', 'orden-compra'])
+        }, (error => {
+          this.route.navigate(['/', 'orden-compra'])
+        }))
+
+      } else {
+        this.botondisable = true;
+      }*/
     }
     this.botondisable = true;
-    console.log("No se envia, falta datos ")
   }
-
-
 }

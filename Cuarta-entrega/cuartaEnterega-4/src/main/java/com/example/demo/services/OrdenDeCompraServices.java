@@ -39,6 +39,18 @@ public class OrdenDeCompraServices {
 	public String modificarOrdenDeCompra(Integer id, OrdenDeCompra orden) {
 		try {
 			OrdenDeCompra or = ordenDeCompraRepository.findById(id).get();
+			
+			//1- Eliminar todos los detalles que tiene, 
+			//2- Crear los nuevos detalles dela orden
+			
+			if(or.getDetalles().size()>0){
+				for (DetalleDeLaOrden detalleOrden : or.getDetalles()) {
+					detalleDeOrdenesServices.eliminarDetalleDeOrden(detalleOrden.getId());
+					
+				}
+			}
+			
+			
 			or.setFechaDeEntrega(orden.getFechaDeEntrega());
 			or.setOrdenDireccion(orden.getOrdenDireccion());
 			or.setOrdenInformacionRecepcion(orden.getOrdenInformacionRecepcion());
@@ -47,16 +59,21 @@ public class OrdenDeCompraServices {
 			or.setEstadoId(orden.getEstadoId());
 			or.setProveedorId(orden.getProveedorId());
 			
+			or.getDetalles().removeAll(or.getDetalles());
+			ordenDeCompraRepository.save(or);
+			
+			
 			for (DetalleDeLaOrden detalleOrden : orden.getDetalles()) {
-				detalleDeOrdenesServices.modificarDetalleOrden(detalleOrden);
+				//detalleDeOrdenesServices.modificarDetalleOrden(detalleOrden);
+				detalleOrden.setOrdenId(or);
+				detalleDeOrdenesServices.cearDetalleOrden(detalleOrden);
 			}
 			
 			
-			
-			ordenDeCompraRepository.save(or);
 			return "Orden de compra " + id + " modificada correctamente.";
 		} catch (Exception err) {
-			return "Error: La orden de compra no pudo ser modificada.";
+			
+			return "Error: ."+ err.getMessage();
 		}
 	}
 
