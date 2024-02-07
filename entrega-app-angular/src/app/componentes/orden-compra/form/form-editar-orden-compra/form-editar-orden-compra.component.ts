@@ -85,7 +85,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
       // this.arrayCantidad = this.orden.arrayCantidad;
       this.imagenLogo = this.orden.proveedorId.imagen
       this.listProductTable = this.orden.detalles;
-      //console.log(this.listProductTable)
+      console.log(this.orden)
       //-------------------------------------------------------
       for (let i = 0; i < this.orden.detalles.length; i++) {
         let detalle = {
@@ -99,6 +99,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
     })
   }
   AgregarProducto() {
+
     let product = this.listadoProductos.filter((prod: any) => prod.nombreProducto == this.producto)
     this.listProductTableDetalles.push(product[0])
 
@@ -117,6 +118,7 @@ export class FormEditarOrdenCompraComponent implements OnInit {
       productosId: product[0].id
     })
 
+    this.suma += product[0].precio * parseInt(this.cantidad);
   }
 
 
@@ -147,15 +149,28 @@ export class FormEditarOrdenCompraComponent implements OnInit {
   }
   proveedorChange(valor: any) {
     this.detalles = []
+    this.fechaEntrega = ""
+    this.listProductTable = []
+    this.arrayCantidad = []
+    this.cantidad = "0";
+    this.producto = ""
+    this.suma = 0;
+    this.listadoProductos = []
+    this.noContieneProductos = true
+    this.imagenLogo = "";
+    this.loader = true;
+    this.logo = false;
+    this.listProductTableDetalles = []
+
+
+    this.detalles = []
     this.listProductTable = []
     this.listadoProductos = []
     this.arrayCantidad = []
-    this.cantidad = "0"
     this.noContieneProductos = true
     this.producto = "";
     this.loader = false;
     this.logo = true;
-    this.suma = 0;
     this.getListadProductos()
   }
   numeroOrdenChange(evento: any) {
@@ -296,14 +311,12 @@ export class FormEditarOrdenCompraComponent implements OnInit {
       }
 
 
-
-
-
-      console.log(this.listaAlldetail)
+      console.log(objectEnviar)
       this.serviceOrdenCompra.put(objectEnviar, this.idNuevo).subscribe(data => {
         this.route.navigate(['/', 'orden-compra'])
       }, (error => {
         this.route.navigate(['/', 'orden-compra'])
+        console.log("-------------")
       }))
       /*if (!(objectEnviar.proveedorId.id === objectCompare.proveedorId.id &&
         objectEnviar.ordenDireccion == objectCompare.ordenDireccion &&
