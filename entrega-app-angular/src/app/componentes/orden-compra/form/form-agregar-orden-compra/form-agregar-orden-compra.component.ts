@@ -11,7 +11,7 @@ import { ProveedoresService } from 'src/app/services/proveedores/proveedores.ser
   styleUrls: ['./form-agregar-orden-compra.component.css']
 })
 export class FormAgregarOrdenCompraComponent implements OnInit {
-  fechaEnvio: any;
+  numeroOrden = ""
   fechaEntrega = "";
   direccion = "";
   proveedor = "";
@@ -31,6 +31,8 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   botonAble: boolean = false;
   loader: boolean = true;
   logo: boolean = false;
+  numeroOrdenInvalido: boolean = false;
+  ordenRepetida: boolean = false;
 
   idProveedor: any = 0;
   listProductTable: any = [];
@@ -39,6 +41,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   suma = 0;
   private modalService = inject(NgbModal);
 
+  ordenDeCompras: any = []
   listadoProductos: any = []
   listadoProductosNombre: any = []
   listadoProveedores: any = []
@@ -59,11 +62,11 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
   ngOnInit(): void {
     this.getListadProveedores()
     this.getListadProductos()
-    this.fechaEnvio = new Date()
+    this.getNumeroDeOrdenes()
   }
 
   openScrollableContent(longContent: TemplateRef<any>) {
-    console.log("Estoy haciendo notificacion")
+    //console.log("Estoy haciendo notificacion")
     this.modalService.open(longContent, { scrollable: true });
   }
 
@@ -81,7 +84,11 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       this.imagenLogo = this.listadoProductos[0].proveedorId.imagen;
     })
   }
-
+  getNumeroDeOrdenes() {
+    this.serviceOrdenCompra.get().subscribe((data) => {
+      this.ordenDeCompras = data.map((d: any) => d.numeroOrden)
+    })
+  }
   proveedorChange(valor: any) {
     this.listProductTable = []
     this.listadoProductos = []
@@ -92,7 +99,40 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
     this.loader = false;
     this.logo = true;
     this.getListadProductos()
-
+  }
+  numeroOrdenChange(evento: any) {
+    console.log(evento)
+    if (evento.length < 3) {
+      this.numeroOrdenInvalido = true;
+    }
+    if (this.ordenDeCompras.includes(evento)) {
+      this.ordenRepetida = true;
+    }
+    if (evento.length >= 3 && !this.ordenDeCompras.includes(evento)) {
+      this.numeroOrdenInvalido = false;
+      this.ordenRepetida = false;
+    }
+  }
+  direccionChange(evento: any) {
+    if (evento.length < 5) {
+      this.direccionInvalida = true
+    } else {
+      this.direccionInvalida = false
+    }
+  }
+  informacionDireccionChange(evento: any) {
+    if (evento.length < 15) {
+      this.informacionRecepcionInvalida = true
+    } else {
+      this.informacionRecepcionInvalida = false
+    }
+  }
+  cantidadChange(evento: any) {
+    if (!evento||parseInt(evento) < 1) {
+      this.cantidadInvalida = true;
+    } else {
+      this.cantidadInvalida = false;
+    }
   }
 
   AgregarProducto() {
@@ -127,8 +167,20 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
 
 
   formularioValidado(): boolean {
+    //buscar nunmero de orden
 
-    if (!this.fechaEntrega || this.fechaEntrega < this.fechaEnvio) {
+
+    if (!this.numeroOrden) {
+      this.numeroOrdenInvalido = true;
+      return false;
+    }
+
+    if (this.ordenDeCompras.includes(this.numeroOrden)) {
+      this.ordenRepetida = true;
+      return false;
+    }
+
+    if (!this.fechaEntrega) {
       this.fechaInvalido = true;
       return false;
     }
@@ -148,7 +200,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       this.productosInvalidos = true;
       return false;
     }
-    if (!this.informacionRecepcion || this.informacionRecepcion.length < 20) {
+    if (!this.informacionRecepcion || this.informacionRecepcion.length < 15) {
       this.productosInvalidos = false;
       this.informacionRecepcionInvalida = true
       return false;
@@ -182,7 +234,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       }
 
       let objectEnviar = {
-        numeroOrden:"123456",
+        numeroOrden: this.numeroOrden,
         ordenDireccion: this.direccion,
         ordenInformacionRecepcion: this.informacionRecepcion,
         total: suma,
@@ -200,7 +252,7 @@ export class FormAgregarOrdenCompraComponent implements OnInit {
       this.serviceOrdenCompra.post(objectEnviar).subscribe(data => {
         console.log(data)
         this.route.navigate(['/', 'orden-compra'])
-        
+
       }, (error => {
         console.log("Fijate igual xd")
         this.route.navigate(['/', 'orden-compra'])

@@ -24,13 +24,19 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>Fecha De Emision</label>
+                    <label>Numero de Orden</label>
                     <input type="text"
                         class="form-control"
-                        id="fechaEnvio"
-                        disabled
-                        value="{{fechaEnvio| date }}"
-                        placeholder="Fecha de Envio">
+                        id="numeroOrden"
+                        name="numeroOrden"
+                        [(ngModel)]="numeroOrden"
+                        (ngModelChange)="numeroOrdenChange($event)"
+                        placeholder="Numero de Orden">
+                    <small class="text-danger"
+                        *ngIf="numeroOrdenInvalido">El numero de orden es
+                        requerido y tiene un mínimo de 3 caracteres.</small>
+                    <small class="text-danger"
+                        *ngIf="ordenRepetida">Esta orden ya existe.</small>
                 </div>
             </div>
             <div class="col">
@@ -55,10 +61,11 @@
                         id="direccion"
                         name="direccion"
                         [(ngModel)]="direccion"
+                        (ngModelChange)="direccionChange($event)"
                         placeholder="Ingrese su direccion y numero de calle">
                     <small class="text-danger"
-                        *ngIf="direccionInvalida">La doreccion
-                        requerida.</small>
+                        *ngIf="direccionInvalida">La dirección
+                        requerida con un mínimo de 5 caracteres.</small>
                 </div>
             </div>
         </div>
@@ -100,7 +107,7 @@
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Informacion de
+                    <label for="exampleInputEmail1">Información de
                         recepción. Ubicación y dirección</label>
                     <textarea
                         id="w3review"
@@ -108,12 +115,14 @@
                         rows="4"
                         cols="75%"
                         placeholder="Ingrese su ubicación y direccion"
-                        [(ngModel)]="informacionRecepcion">
+                        [(ngModel)]="informacionRecepcion"
+                        (ngModelChange)="informacionDireccionChange($event)">
                         
                     </textarea>
                     <small class="text-danger"
                         *ngIf="informacionRecepcionInvalida">Debe agregar una
-                        descripcion de su ubicación.</small>
+                        descripción de su ubicación con un mínimo de 15
+                        caracteres.</small>
                 </div>
 
             </div>
@@ -142,10 +151,11 @@
                     id="cantidad"
                     name="cantidad"
                     [(ngModel)]="cantidad"
+                    (ngModelChange)="cantidadChange($event)"
                     placeholder="Cantidad">
                 <small class="text-danger"
                     *ngIf="cantidadInvalida">Debe agregar una
-                    cantidad.</small>
+                    cantidad mayor a 0.</small>
             </div>
             <div class="col text-center">
                 <button type="button" (click)="AgregarProducto()"

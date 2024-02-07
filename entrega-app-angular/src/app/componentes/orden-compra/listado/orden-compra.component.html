@@ -139,7 +139,7 @@
         </thead>
         <tbody *ngFor="let orden of ordenDeCompra2; index as i">
             <tr>
-                <td>{{ orden.id }}</td>
+                <td>{{ orden.numeroOrden }}</td>
                 <td>{{ orden.fechaCreacion |date:'medium' }}</td>
                 <td>{{ orden.fechaDeEntrega | date }}</td>
                 <td>{{ orden.ordenDireccion }}</td>
