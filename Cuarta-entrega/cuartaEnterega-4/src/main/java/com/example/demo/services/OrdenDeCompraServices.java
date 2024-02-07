@@ -45,6 +45,14 @@ public class OrdenDeCompraServices {
 			or.setTotal(orden.getTotal());
 			or.setHabilitado(orden.isHabilitado());
 			or.setEstadoId(orden.getEstadoId());
+			or.setProveedorId(orden.getProveedorId());
+			
+			for (DetalleDeLaOrden detalleOrden : orden.getDetalles()) {
+				detalleDeOrdenesServices.modificarDetalleOrden(detalleOrden);
+			}
+			
+			
+			
 			ordenDeCompraRepository.save(or);
 			return "Orden de compra " + id + " modificada correctamente.";
 		} catch (Exception err) {

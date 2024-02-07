@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.example.demo.models.DetalleDeLaOrden;
+import com.example.demo.models.OrdenDeCompra;
 import com.example.demo.repositories.DetalleDeLaOrdenRepository;
 
 @Service
@@ -27,6 +28,19 @@ public class DetalleDeOrdenesServices {
 		detalleDeLaOrdenRepository.save(detalleOrden);
 		return "Detalle de la orden creada correctamente";
 	}
+	
+	public String modificarDetalleOrden( DetalleDeLaOrden detalleOrden) {
+		try {
+			DetalleDeLaOrden or = detalleDeLaOrdenRepository.findById(detalleOrden.getId()).get();
+			or.setDetalleCantidad(detalleOrden.getDetalleCantidad());
+			or.setProductosId(detalleOrden.getProductosId());
+			detalleDeLaOrdenRepository.save(or);
+			return "detalle " + detalleOrden.getId() + " modificada correctamente.";
+		} catch (Exception err) {
+			return "Error: El detalle compra no pudo ser modificada.";
+		}
+	}
+
 
 	public DetalleDeLaOrden eliminarDetalleDeOrden(Integer id) {
 		try {
