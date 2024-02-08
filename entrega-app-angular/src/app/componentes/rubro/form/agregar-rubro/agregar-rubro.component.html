@@ -30,7 +30,11 @@
                         class="form-control"
                         name="nombre"
                         [(ngModel)]="nombre"
+                        (ngModelChange)="nombreChange($event)"
                         placeholder="Nombre del rubro">
+                    <small class="text-danger"
+                        *ngIf="nombreInvalido">El nombre de rubro debe ser mayor
+                        a 4 caracteres</small>
                 </div>
                 <br>
 
@@ -47,6 +51,9 @@
                             Limpiar
                         </button>
                     </div>
+                    <small class="text-danger"
+                        *ngIf="editarInvalido">¡Complete el campo nombre,
+                        para agregar un rubro correctamente!</small>
                     <!--<p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
             producto, si no realiza ningún cambio</p>-->
                 </div>
@@ -54,4 +61,3 @@
         </div>
     </form>
 </div>
-
