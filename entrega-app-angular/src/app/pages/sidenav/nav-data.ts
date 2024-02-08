@@ -11,22 +11,12 @@ export const navbarData = [
     },
     {
         routeLink: 'proveedores',
-        icon: 'fal fa-home',
+        icon: 'bi bi-exposure',
         label: 'Proveedores'
     },
     {
         routeLink: 'orden-compra',
         icon: 'fal fa-chart-bar',
         label: 'Orden de compras'
-    },
-    {
-        routeLink: 'categorias',
-        icon: 'fal fa-chart-bar',
-        label: 'Categorias'
-    },
-    {
-        routeLink: 'rubros',
-        icon: 'bi bi-bookmark-star-fill',
-        label: 'Rubros'
     }
 ];
