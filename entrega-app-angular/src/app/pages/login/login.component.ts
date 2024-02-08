@@ -14,14 +14,14 @@ interface SideNavToggle {
 export class LoginComponent implements OnInit {
   logeadoInicial = true;
   @Output()
-  enviar: EventEmitter<boolean>=new EventEmitter<boolean>()
-
+  enviar: EventEmitter<boolean> = new EventEmitter<boolean>()
+  usuarionoEncontrado = false;
   isSideNavCollapsed = false;
   screenWidth = 0;
   logeadoCorrecto: boolean = false
   signupUsers: any[] = [];
   signupObj: any = {
-    userName: '',
+    nameUser:'',
     email: '',
     password: ''
   }
@@ -43,23 +43,23 @@ export class LoginComponent implements OnInit {
     this.signupUsers.push(this.signupObj)
     localStorage.setItem('signUpUsers', JSON.stringify(this.signupUsers));
     this.signupObj = {
-      userName: '',
       email: '',
       password: ''
     }
   }
 
   onLogin() {
-    const isUserExist = this.signupUsers.find(m => m.userName == this.loginObj.userName && m.password == this.loginObj.password)
+    const isUserExist = this.signupUsers.find(m => m.email == this.loginObj.email && m.password == this.loginObj.password)
     if (isUserExist != undefined) {
-      alert('User correcto')
+      localStorage.setItem('userEncontrado', JSON.stringify(isUserExist));
       this.logeadoCorrecto = true
       this.logeadoInicial = false;
       this.enviar.emit(true)
+
       this.route.navigate(['/', 'dashboard'])
       //lanzar usuario no existe
     } else {
-      alert('User No permitido')
+      this.usuarionoEncontrado = true;
       //llamar al local y colocar un stado en habilitado
       this.logeadoCorrecto = true
       this.logeadoInicial = false;

@@ -1,105 +1,120 @@
 <div class="container">
     <ul class="nav">
-        <h2>Gestiona tu comercio, facil y rapido</h2>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
     </ul>
     <hr>
     <br><br>
-    <h3>Registros de Productos</h3>
+    <h1 class="h3 mb-0 text-gray-800">Hola {{localData.nameUser}} bienvenido a
+        tu gestión de comercio</h1>
     <br>
     <div class="d-flex justify-content-center align-items-center">
 
-        <div class="card border-success mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-success">
-                <h5 class="card-title">Dados de alta</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div
+                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Productos (Activos)</div>
+                                <div
+                                    class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                            </div>
+                            <div class="col-auto">
+                                <i
+                                    class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card border-danger mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-danger">
-                <h5 class="card-title">Dados de baja</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div
+                                    class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Proveedores (Activos)</div>
+                                <div
+                                    class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                            </div>
+                            <div class="col-auto">
+                                <i
+                                    class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div
+                                    class="text-xs font-weight-bold text-info text-uppercase mb-1">Ordenes
+                                    (Activas)
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div
+                                            class="h5 mb-0 mr-3 font-weight-bold text-gray-800">15</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info"
+                                                role="progressbar"
+                                                style="width: 50%"
+                                                aria-valuenow="50"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i
+                                    class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div
+                                    class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Tus notas</div>
+                                <div
+                                    class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                            </div>
+                            <div class="col-auto">
+                                <i
+                                    class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="card border-dark mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-dark">
-                <h5 class="card-title">Productos activos</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
+        <!-- Content Row -->
 
     </div>
-    <br>
-    <hr>
-    <h3>Registros de Proveedores</h3>
-    <br>
-    <div class="d-flex justify-content-center align-items-center">
 
-        <div class="card border-success mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"></div>
-            <div class="card-body text-success">
-                <h5 class="card-title">Dados de alta</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card border-danger mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-danger">
-                <h5 class="card-title">Dados de baja</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-
-        <div class="card border-dark mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"></div>
-            <div class="card-body text-dark">
-                <h5 class="card-title">Proveedores activos</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-
-    </div>
-    <br>
-    <hr>
-    <h3>Registros de Ordenes de compra</h3>
-    <br>
-    <div class="d-flex justify-content-center align-items-center">
-
-        <div class="card border-success mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-success">
-                <h5 class="card-title">Dadas de alta</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card border-danger mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"> </div>
-            <div class="card-body text-danger">
-                <h5 class="card-title">Dadas de baja</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-
-        <div class="card border-dark mb-3 m-5" style="max-width: 18rem;">
-            <div class="card-header"></div>
-            <div class="card-body text-dark">
-                <h5 class="card-title">Ordenes activas</h5>
-                <p class="card-text">Some quick example text to build on the
-                    card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-
-    </div>
     <br><br>
 </div>
