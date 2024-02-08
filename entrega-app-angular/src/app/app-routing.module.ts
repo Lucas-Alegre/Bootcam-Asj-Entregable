@@ -16,10 +16,10 @@ import { RubroComponent } from './componentes/rubro/listado/rubro/rubro.componen
 import { AgregarRubroComponent } from './componentes/rubro/form/agregar-rubro/agregar-rubro.component';
 import { EditarRubroComponent } from './componentes/rubro/form/editar-rubro/editar-rubro.component';
 import { DashboardComponent } from './componentes/dashboard/dashboard/dashboard.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'proveedores', component: ProveedoresComponent },

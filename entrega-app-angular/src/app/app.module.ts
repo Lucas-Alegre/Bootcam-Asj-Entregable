@@ -39,6 +39,7 @@ import { PaisService } from './services/pais/pais.service';
 import { ProvinciasService } from './services/provincias/provincias.service';
 import { DireccionService } from './services/direccion/direccion.service';
 import { ContactosService } from './services/contactos/contactos.service';
+import { LoginComponent } from './pages/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import { ContactosService } from './services/contactos/contactos.service';
     AgregarRubroComponent,
     EditarRubroComponent,
     DashboardComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
