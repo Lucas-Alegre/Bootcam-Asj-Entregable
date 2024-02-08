@@ -12,7 +12,7 @@
                 (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
-            <p><b>Se modifico correctamente un rubro </b></p>
+            <p><b>Un rubro ha sido modificado correctamente.</b></p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary"
@@ -29,7 +29,11 @@
                         class="form-control"
                         name="nombre"
                         [(ngModel)]="nombre"
+                        (ngModelChange)="nombreChange($event)"
                         placeholder="Nombre del rubro">
+                    <small class="text-danger"
+                        *ngIf="nombreInvalido">El nombre de rubro debe ser mayor
+                        a 4 caracteres</small>
                 </div>
                 <br>
 
@@ -45,6 +49,9 @@
                             (click)="limpiar()">
                             Limpiar
                         </button>
+                        <small class="text-danger"
+                            *ngIf="editarInvalido">¡Complete el campo nombre,
+                            para editar correctamente!</small>
                     </div>
                     <!--<p *ngIf="editarInvalido" class="text-danger mt-3">No se puede editar un
             producto, si no realiza ningún cambio</p>-->
@@ -53,5 +60,3 @@
         </div>
     </form>
 </div>
-
-

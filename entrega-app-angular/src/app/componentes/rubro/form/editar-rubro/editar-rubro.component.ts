@@ -13,6 +13,8 @@ export class EditarRubroComponent implements OnInit {
   private modalService = inject(NgbModal);
   rubroId: any;
   rubro: any = {}
+  nombreInvalido: boolean = false;
+  editarInvalido: boolean = false;
 
   constructor(private rubroServices: RubroService, private route: Router, private _activateRoute: ActivatedRoute) { }
 
@@ -23,7 +25,6 @@ export class EditarRubroComponent implements OnInit {
     this.rubroServices.getById(this.rubroId).subscribe(res => {
       this.rubro = res;
       this.nombre = this.rubro.nombre;
-
     })
   }
 
@@ -31,20 +32,34 @@ export class EditarRubroComponent implements OnInit {
     this.modalService.open(longContent, { scrollable: true });
   }
 
+  nombreChange(evento: any) {
+    if (evento.length < 4) {
+      this.nombreInvalido = true
+    } else {
+      this.nombreInvalido = false;
+      this.editarInvalido = false;
+    }
+  }
+
   enviar(form: any, longContent: TemplateRef<any>): void {
     const newRubro = {
       nombre: this.nombre,
       habilitado: 1,
     }
-    this.openScrollableContent(longContent)
-    this.rubroServices.put(newRubro, this.rubroId).subscribe((data: any) => {
-      console.log(data)
-    }, (error) => {
-      this.route.navigate(['/', 'rubros'])
-    });
+    if (!this.nombreInvalido) {
+      this.editarInvalido = false;
+      this.openScrollableContent(longContent)
+      this.rubroServices.put(newRubro, this.rubroId).subscribe((data: any) => {
+        this.route.navigate(['/', 'rubros'])
+      }, (error) => {
+        this.route.navigate(['/', 'rubros'])
+      });
+    }
+    this.editarInvalido = true;
   }
 
   limpiar() {
     this.nombre = "";
+    this.editarInvalido = false;
   }
 }
