@@ -16,7 +16,7 @@ export const navbarData = [
     },
     {
         routeLink: 'orden-compra',
-        icon: 'fal fa-chart-bar',
+        icon: 'fal fa-clipboard-list',
         label: 'Orden de compras'
     }
 ];
