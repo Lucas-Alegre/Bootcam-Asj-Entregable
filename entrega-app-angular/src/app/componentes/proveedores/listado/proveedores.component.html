@@ -55,32 +55,21 @@
                 width="130"
                 height="150px">
             <br>
-            <h4>Codigo del proveedor</h4>
-            <p> {{proveedorDetail.codigo}}
-            </p><br>
-            <h4>Rubro al cual pertenece</h4>
-            <p>
-                {{proveedorDetail.rubro.nombre}}
-            </p><br>
-            <h4>Sitio Web</h4>
-            <p>
-                <a
-                    href="{{proveedorDetail.sitioWeb}}">{{proveedorDetail.sitioWeb}}</a>
-            </p>
-            <h4>Condicion de Iva</h4>
-            <p>
-                {{proveedorDetail.condIva.condNombre}}
-            </p><br>
-            <h4>Email</h4>
-            <p>
-                <a
-                    href="mailto:{{proveedorDetail.contactos.email}}">{{proveedorDetail.contactos.email}}</a>
-
-            </p><br>
-            <h4>Telefono</h4>
-            <p>
-                {{proveedorDetail.telefono}}
-            </p>
+            <p><b>Codigo del proveedor</b>: {{proveedorDetail.codigo}}</p>
+            <br>
+            <p><b>Rubro al cual pertenece</b>:
+                {{proveedorDetail.rubro.nombre}}</p>
+            <br>
+            <p><b>Sitio Web</b>: <a
+                    href="{{proveedorDetail.sitioWeb}}">{{proveedorDetail.sitioWeb}}</a></p>
+            <br>
+            <p> <b>Condicion de
+                    Iva</b>:{{proveedorDetail.condIva.condNombre}}</p>
+            <br>
+            <p> <b>Email</b>: <a
+                    href="mailto:{{proveedorDetail.contactos.email}}">{{proveedorDetail.contactos.email}}</a></p><br>
+            <br>
+            <p> <b>Telefono</b>: {{proveedorDetail.telefono}}</p>
 
         </div>
         <div class="modal-footer">
