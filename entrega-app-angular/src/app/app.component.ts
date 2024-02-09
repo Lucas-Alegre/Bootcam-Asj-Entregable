@@ -12,17 +12,26 @@ interface SideNavToggle {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    //localStorage.clear()
-  }
 
+  existeUnUser: any;;
   logeadoCorrecto = false
   logeadoInCorrecto = true
+  estoyLogueado: boolean = false;
   valorUpdata = localStorage.getItem('signUpHabilitado');
   update: any;
   title = 'entrega-app-angular';
   isSideNavCollapsed = false;
   screenWidth = 0;
+
+  ngOnInit(): void {
+    //localStorage.clear()
+    this.existeUnUser = localStorage.getItem('userEncontrado');
+    if (this.existeUnUser.length > 0) {
+      this.estoyLogueado = true;
+      this.logeadoInCorrecto = false;
+      this.logeadoCorrecto = true
+    }
+  }
 
   recibirMensaje(bool: boolean) {
     console.log("Valido login")
@@ -36,6 +45,8 @@ export class AppComponent implements OnInit {
   }
   salir(bool: boolean) {
     if (bool) {
+      localStorage.setItem('userEncontrado', '');
+      this.estoyLogueado = false
       this.logeadoCorrecto = false
       this.logeadoInCorrecto = true
     }
