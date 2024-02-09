@@ -11,7 +11,10 @@ interface SideNavToggle {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    //localStorage.clear()
+  }
 
   logeadoCorrecto = false
   logeadoInCorrecto = true
@@ -22,9 +25,13 @@ export class AppComponent {
   screenWidth = 0;
 
   recibirMensaje(bool: boolean) {
-    if (bool) {
+    console.log("Valido login")
+    console.log(bool)
+    if (bool == true) {
       this.logeadoCorrecto = true
       this.logeadoInCorrecto = false
+    } else {
+      console.log("No puedo entrar")
     }
   }
   salir(bool: boolean) {

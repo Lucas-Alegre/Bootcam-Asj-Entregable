@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   logeadoCorrecto: boolean = false
   signupUsers: any[] = [];
   signupObj: any = {
-    nameUser:'',
+    nameUser: '',
     email: '',
     password: ''
   }
@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
     this.signupUsers.push(this.signupObj)
     localStorage.setItem('signUpUsers', JSON.stringify(this.signupUsers));
     this.signupObj = {
+      nameUser: '',
       email: '',
       password: ''
     }
@@ -50,20 +51,22 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     const isUserExist = this.signupUsers.find(m => m.email == this.loginObj.email && m.password == this.loginObj.password)
-    if (isUserExist != undefined) {
+    console.log("Encontre o no")
+    console.log(isUserExist)
+    if (isUserExist !== undefined) {
       localStorage.setItem('userEncontrado', JSON.stringify(isUserExist));
       this.logeadoCorrecto = true
       this.logeadoInicial = false;
       this.enviar.emit(true)
 
       this.route.navigate(['/', 'dashboard'])
-      //lanzar usuario no existe
     } else {
+      this.enviar.emit(false)
       this.usuarionoEncontrado = true;
       //llamar al local y colocar un stado en habilitado
-      this.logeadoCorrecto = true
-      this.logeadoInicial = false;
-      localStorage.setItem('signUpHabilitado', "true");
+      //this.logeadoCorrecto = false
+      //this.logeadoInicial = false;
+      //localStorage.setItem('signUpHabilitado', "true");
 
     }
 
