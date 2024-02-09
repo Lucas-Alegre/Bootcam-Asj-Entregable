@@ -6,7 +6,7 @@
 
 
 
-##Pasos a seguir:
+## Pasos a seguir:
 
 - 1 - Crear una DataBase en Sql Server : COMERCIO;
 
@@ -15,7 +15,7 @@
 - 3 - Levantar el servidor de Angular: npm start.
 
 
-###Accediendo a la app. 
+### Accediendo a la app. 
 
 - 1 - Crearse una cuenta en "Sign-up" con  (nombreUser, email, password).
 
