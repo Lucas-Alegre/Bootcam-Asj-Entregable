@@ -106,10 +106,10 @@ export class ProveedoresComponent {
   }
 
   sortFunc(a: any, b: any) {
-    if (a.nombreProveedor < b.nombreProveedor) {
+    if (a.razonSocial < b.razonSocial) {
       return -1;
     }
-    if (a.nombreProveedor > b.nombreProveedor) {
+    if (a.razonSocial > b.razonSocial) {
       return 1;
     }
     return 0;
