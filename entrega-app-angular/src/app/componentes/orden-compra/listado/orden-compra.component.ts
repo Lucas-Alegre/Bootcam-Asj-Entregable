@@ -105,7 +105,7 @@ export class OrdenCompraComponent implements OnInit {
     })
   }
 
-  
+
   eliminar(orden: any, longContent: TemplateRef<any>) {
     //borrado logico editando el habilitado=false
     const ordenEditado = {
@@ -113,11 +113,12 @@ export class OrdenCompraComponent implements OnInit {
       ordenInformacionRecepcion: orden.ordenInformacionRecepcion,
       total: orden.total,
       habilitado: true,
+      detalles: orden.detalles,
       fechaDeEntrega: orden.fechaDeEntrega,
       proveedorId: orden.proveedorId,
       estadoId: { id: 3 }
     }
-     this.openScrollableContentBaja(longContent)
+    this.openScrollableContentBaja(longContent)
     this.ordenService.put(ordenEditado, orden.id).subscribe(res => {
       alert("Se Dio de Baja a una orden correctamente")
     }, (error) => {
@@ -131,6 +132,7 @@ export class OrdenCompraComponent implements OnInit {
       ordenInformacionRecepcion: orden.ordenInformacionRecepcion,
       total: orden.total,
       habilitado: true,
+      detalles: orden.detalles,
       fechaDeEntrega: orden.fechaDeEntrega,
       proveedorId: orden.proveedorId,
       estadoId: { id: 2 }
