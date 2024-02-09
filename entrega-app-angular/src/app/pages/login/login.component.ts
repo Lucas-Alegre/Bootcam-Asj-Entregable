@@ -58,16 +58,10 @@ export class LoginComponent implements OnInit {
       this.logeadoCorrecto = true
       this.logeadoInicial = false;
       this.enviar.emit(true)
-
       this.route.navigate(['/', 'dashboard'])
     } else {
       this.enviar.emit(false)
       this.usuarionoEncontrado = true;
-      //llamar al local y colocar un stado en habilitado
-      //this.logeadoCorrecto = false
-      //this.logeadoInicial = false;
-      //localStorage.setItem('signUpHabilitado', "true");
-
     }
 
   }
